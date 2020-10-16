@@ -1,0 +1,14 @@
+.hmsLogo {
+	width: 120px;
+	height: 120px;
+	
+	display: inline-block;
+	float: left;
+	position: relative;
+	border: 5px solid rgb(231, 231, 231);
+	background-color: rgb(231, 231, 231);
+}
+
+.navBarDiv {
+	overflow: auto;
+}

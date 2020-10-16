@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.view.JstlView;
 //Add to read the database config
 @PropertySource("classpath:database.properties")
 
-public class SpringMVCConfig extends WebMvcConfigurationSupport {
+public class SpringMVCConfig implements WebMvcConfigurer {
 
 	@Autowired
 	Environment environment;
