@@ -1,7 +1,6 @@
 .hmsLogo {
-	width: 120px;
-	height: 120px;
-	
+	width: 110px;
+	height: 110px;
 	display: inline-block;
 	float: left;
 	position: relative;
@@ -11,4 +10,19 @@
 
 .navBarDiv {
 	overflow: auto;
+}
+
+.dataManagement {
+	background-color: rgb(250, 250, 250);
+}
+
+.userNavActive {
+	box-shadow:inset 0px 0px 0px 1px rgb(214, 225, 242);
+}
+
+.subNavActive {
+	background-color: rgb(214, 225, 242);
+}
+.navbar-default {
+	margin-bottom:0px;
 }

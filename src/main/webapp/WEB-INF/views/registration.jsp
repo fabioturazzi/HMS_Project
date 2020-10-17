@@ -31,8 +31,7 @@
 						href="${pageContext.request.contextPath}/registration/">Login/Registration</a></li>
 					<li><a href="">Room Search (under development)</a></li>
 					<li><a href="">My Reservations (under development)</a></li>
-					<li><a href="">Staff - Manage System Data (under
-							development)</a></li>
+					<li><a href="${pageContext.request.contextPath}/userManagement/customer">Manage System Data</a></li>
 				</ul>
 			</nav>
 		</div>
