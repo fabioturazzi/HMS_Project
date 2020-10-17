@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.csis3275.dao.CustomerDAOImpl;
 import com.csis3275.dao.StaffDAOImpl;
@@ -33,6 +35,13 @@ public class StaffController {
 	@GetMapping("/deleteStaff")
 	public String deleteStaff(@RequestParam(required = true) int id, Model model) {
 
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		
 		// Get the staff
 		staffDAOImp.deleteStaff(id);
 
@@ -79,6 +88,13 @@ public class StaffController {
 		// Get a list of staffs from the database
 		List<Staff> staffs = staffDAOImp.getAllStaffs();
 
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		
 		// Add the list of staffs to the model to be returned to the view
 		model.addAttribute("staffList", staffs);
 
@@ -91,6 +107,13 @@ public class StaffController {
 	@GetMapping("/editStaff")
 	public String editStaff(@RequestParam(required = true) int id, Model model) {
 
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		
 		// Get the staff
 		Staff updatedStaff = staffDAOImp.getStaffById(id);
 		model.addAttribute("staff", updatedStaff);

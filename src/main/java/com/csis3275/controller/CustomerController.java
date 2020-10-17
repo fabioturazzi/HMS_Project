@@ -34,6 +34,14 @@ public class CustomerController {
 	@GetMapping("/registration")
 	public String showRegistration(HttpSession session, Model model) {
 
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+
+			
 		return "registration";
 	}
 
@@ -65,6 +73,13 @@ public class CustomerController {
 	@GetMapping("/deleteCustomer")
 	public String deleteCustomer(@RequestParam(required = true) int id, Model model) {
 
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		
 		// Get the customer
 		customerDAOImp.deleteCustomer(id);
 
@@ -108,6 +123,14 @@ public class CustomerController {
 	
 	@GetMapping("/userManagement/customer")
 	public String showCustomers(HttpSession session, Model model) {
+		
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		
 		// Get a list of customers from the database
 		List<Customer> customers = customerDAOImp.getAllCustomers();
 
@@ -123,6 +146,13 @@ public class CustomerController {
 	@GetMapping("/editCustomer")
 	public String editCustomer(@RequestParam(required = true) int id, Model model) {
 
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		
 		// Get the customer
 		Customer updatedCustomer = customerDAOImp.getCustomerById(id);
 		model.addAttribute("customer", updatedCustomer);
