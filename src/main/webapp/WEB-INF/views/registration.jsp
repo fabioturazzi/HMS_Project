@@ -84,7 +84,7 @@
 					Password:</label>
 				<div class="col-md-9">
 					<input type="password" id="confPassword"
-						cssClass="form-control form-control-static" required="required" />
+						class="form-control form-control-static" required="required" />
 				</div>
 			</div>
 			<div class="form-group">

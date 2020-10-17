@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Registration Success</title>
 
-<script src="<c:url value="/static/js/jquery-1.11.1.min.js" />"></script>
+<script src="<c:url value="/static/js/jquery-3.5.1.min.js" />"></script>
 <link href="<c:url value="/static/css/bootstrap.min.css" />"
 	rel="stylesheet">
 <link href="<c:url value="/static/css/hackermenHMS.css" />"

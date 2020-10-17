@@ -17,12 +17,17 @@
 }
 
 .userNavActive {
-	box-shadow:inset 0px 0px 0px 1px rgb(214, 225, 242);
+	box-shadow: inset 0px 0px 0px 1px rgb(214, 225, 242);
 }
 
 .subNavActive {
 	background-color: rgb(214, 225, 242);
 }
+
 .navbar-default {
-	margin-bottom:0px;
+	margin-bottom: 0px;
+}
+
+.searchBar {
+	margin-bottom: 70px;
 }

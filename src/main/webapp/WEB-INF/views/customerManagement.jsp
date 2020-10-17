@@ -9,13 +9,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Customer Registration</title>
 
-<script src="<c:url value="/static/js/jquery-1.11.1.min.js" />"></script>
+<script src="<c:url value="/static/js/jquery-3.5.1.min.js" />"></script>
 <link href="<c:url value="/static/css/bootstrap.min.css" />"
 	rel="stylesheet">
 <link href="<c:url value="/static/css/hackermenHMS.css" />"
 	rel="stylesheet">
 <script src="<c:url value="/static/js/bootstrap.min.js" />"></script>
-<script src="<c:url value="/static/js/customerPage.js" />"></script>
+
+<script src="<c:url value="/static/js/searchFilters.js" />"></script>
 
 
 </head>
@@ -39,7 +40,9 @@
 		<div class="navBarUsers">
 			<nav class="navbar navbar-light">
 				<ul class="nav navbar-nav">
-					<li class="dataManagement subNavActive"><a href="${pageContext.request.contextPath}/userManagement/customer">Manage Users</a></li>
+					<li class="dataManagement subNavActive"><a
+						href="${pageContext.request.contextPath}/userManagement/customer">Manage
+							Users</a></li>
 					<li class="userNavActive"><a
 						href="${pageContext.request.contextPath}/userManagement/customer">Manage
 							Users: Customers</a></li>
@@ -61,12 +64,22 @@
 	<div class="container">
 		<h1>Manage Customers</h1>
 		<hr />
+		<div class="form-group searchBar form-horizontal">
+			<label for="fName" class="col-md-3 control-label">Search
+				Entries:</label>
+			<div class="col-md-9">
+				<input class="form-control searchInput" id="searchInput"
+					required="required" value="" />
+			</div>
+		</div>
+
+
 		<c:if test="${ message != null }">
 			<div class="alert alert-success" role="alert">${message}</div>
 		</c:if>
 		<table class="table table-striped table-bordered">
 
-			<tr>
+			<tr class="dataHeader">
 				<td>Customer Id</td>
 				<td>First Name</td>
 				<td>Last Name</td>
@@ -74,11 +87,11 @@
 				<td>Email</td>
 				<td>Phone number</td>
 				<td>Address</td>
-				<td>Edit</td>
-				<td>Delete</td>
+				<td></td>
+				<td></td>
 			</tr>
 			<c:forEach var="customer" items="${customerList}">
-				<tr>
+				<tr class="dataRows">
 					<td>${customer.id}</td>
 					<td>${customer.fName}</td>
 					<td>${customer.lName}</td>
@@ -103,14 +116,16 @@
 			<div class="form-group">
 				<label for="fName" class="col-md-3 control-label">First Name</label>
 				<div class="col-md-9">
-					<form:input path="fName" cssClass="form-control" required="required" value ="" />
+					<form:input path="fName" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="lName" class="col-md-3 control-label">Last Name</label>
 				<div class="col-md-9">
-					<form:input path="lName" cssClass="form-control" required="required" value ="" />
+					<form:input path="lName" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 			<c:if test="${ errorMessage !=null }">
@@ -120,19 +135,22 @@
 			<div class="form-group">
 				<label for="username" class="col-md-3 control-label">Username</label>
 				<div class="col-md-9">
-					<form:input path="username" cssClass="form-control" required="required" value ="" />
+					<form:input path="username" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="password" class="col-md-3 control-label">Password</label>
 				<div class="col-md-9">
-					<form:input path="password" type="password" cssClass="form-control" required="required" value ="" />
+					<form:input path="password" type="password" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="email" class="col-md-3 control-label">Email</label>
 				<div class="col-md-9">
-					<form:input path="email" type="email" cssClass="form-control" required="required" value ="" />
+					<form:input path="email" type="email" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 
@@ -141,7 +159,8 @@
 				<label for="phoneNumber" class="col-md-3 control-label">Phone
 					number</label>
 				<div class="col-md-9">
-					<form:input path="phoneNumber" cssClass="form-control" required="required" value ="" />
+					<form:input path="phoneNumber" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 
@@ -149,7 +168,8 @@
 			<div class="form-group">
 				<label for="address" class="col-md-3 control-label">Address</label>
 				<div class="col-md-9">
-					<form:input path="address" cssClass="form-control" required="required" value ="" />
+					<form:input path="address" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 
