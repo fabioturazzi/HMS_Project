@@ -1,5 +1,7 @@
 package com.csis3275.model;
 
+import java.util.Date;
+
 //import java.util.Base64;
 
 public class User {
@@ -9,6 +11,8 @@ public class User {
 	private String fName;
 	private String lName;
 	private String userType;
+	private Date registrationDate;
+	private Date profileUpdated;
 
 	public User() {
 		
