@@ -1,6 +1,8 @@
 package com.csis3275.model;
 
-//import java.util.Base64;
+import java.util.Base64;
+
+import java.util.Base64;
 
 public class User {
 	private int id;
@@ -9,6 +11,27 @@ public class User {
 	private String fName;
 	private String lName;
 	private String userType;
+	private String usernameForm;
+	private String passwordForm;
+
+	public String getUsernameForm() {
+		return usernameForm;
+	}
+
+	public void setUsernameForm(String usernameForm) {
+		this.usernameForm = usernameForm;
+	}
+
+	public String getPasswordForm() {
+		if (this.passwordForm != null)
+			this.passwordForm = Base64.getEncoder().encodeToString(this.passwordForm.getBytes());
+		
+		return passwordForm;
+	}
+
+	public void setPasswordForm(String passwordForm) {
+		this.passwordForm = Base64.getEncoder().encodeToString(passwordForm.getBytes());
+	}
 
 	public User() {
 		
@@ -23,7 +46,7 @@ public class User {
 
 		this.username = username;
 		this.password = password;
-//		this.password = Base64.getEncoder().encodeToString(password.getBytes());
+		this.password = Base64.getEncoder().encodeToString(password.getBytes());
 		this.fName = fName;
 		this.lName = lName;
 		this.userType = userType;
@@ -50,7 +73,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = Base64.getEncoder().encodeToString(password.getBytes());
 	}
 
 	public String getfName() {

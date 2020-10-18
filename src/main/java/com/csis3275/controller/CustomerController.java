@@ -32,16 +32,8 @@ public class CustomerController {
 	}
 
 	@GetMapping("/registration")
-	public String showRegistration(HttpSession session, Model model) {
+	public String showRegistration(Model model) {
 
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
-
-			
 		return "registration";
 	}
 
@@ -58,12 +50,14 @@ public class CustomerController {
 		if(!(usernameCheckCustomer.isEmpty() && usernameCheckStaff.isEmpty()))
 		{
 			model.addAttribute("errorMessage", "Username already in use");
+			
 			return "registration";
 		}
 		else {
 			// Create the customer pass the object in.
 			customerDAOImp.createCustomer(createCustomer);
 			model.addAttribute("customer", createCustomer);
+			
 			return "registrationSuccess";
 		}
 
@@ -73,13 +67,6 @@ public class CustomerController {
 	@GetMapping("/deleteCustomer")
 	public String deleteCustomer(@RequestParam(required = true) int id, Model model) {
 
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
-		
 		// Get the customer
 		customerDAOImp.deleteCustomer(id);
 
@@ -89,7 +76,17 @@ public class CustomerController {
 
 		model.addAttribute("message", "Deleted Customer: " + id);
 
-		return "customerManagement";
+		/*
+		 * creating object to get session data
+		 */
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpSession session = attr.getRequest().getSession(false);
+
+		//checking if user has a valid session hash
+		if (session.getAttribute("sessionHash") != session)
+			return "redirect:/login";
+		else
+			return "customerManagement";
 	}
 	
 	/**
@@ -116,20 +113,24 @@ public class CustomerController {
 		// Get a list of customers from the controller
 		List<Customer> customers = customerDAOImp.getAllCustomers();
 		model.addAttribute("customerList", customers);
-		return "customerManagement";
+
+		/*
+		 * creating object to get session data
+		 */
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpSession session = attr.getRequest().getSession(false);
+
+		//checking if user has a valid session hash
+		if (session.getAttribute("sessionHash") != session)
+			return "redirect:/login";
+		else
+			return "customerManagement";
 		
 	}
 	
 	
 	@GetMapping("/userManagement/customer")
-	public String showCustomers(HttpSession session, Model model) {
-		
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
+	public String showCustomers(Model model) {
 		
 		// Get a list of customers from the database
 		List<Customer> customers = customerDAOImp.getAllCustomers();
@@ -137,7 +138,17 @@ public class CustomerController {
 		// Add the list of customers to the model to be returned to the view
 		model.addAttribute("customerList", customers);
 
-		return "customerManagement";
+		/*
+		 * creating object to get session data
+		 */
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpSession session = attr.getRequest().getSession(false);
+
+		//checking if user has a valid session hash
+		if (session.getAttribute("sessionHash") != session)
+			return "redirect:/login";
+		else
+			return "customerManagement";
 	}
 
 	/**
@@ -146,18 +157,21 @@ public class CustomerController {
 	@GetMapping("/editCustomer")
 	public String editCustomer(@RequestParam(required = true) int id, Model model) {
 
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
-		
 		// Get the customer
 		Customer updatedCustomer = customerDAOImp.getCustomerById(id);
 		model.addAttribute("customer", updatedCustomer);
 
-		return "customerManagementEdit";
+		/*
+		 * creating object to get session data
+		 */
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		HttpSession session = attr.getRequest().getSession(false);
+
+		//checking if user has a valid session hash
+		if (session.getAttribute("sessionHash") != session)
+			return "redirect:/login";
+		else
+			return "customerManagementEdit";
 	}
 
 	/**
@@ -173,7 +187,17 @@ public class CustomerController {
 		if(!(usernameCheckCustomer.isEmpty() && usernameCheckStaff.isEmpty()))
 		{
 			model.addAttribute("errorMessage", "Username already in use");
-			return "customerManagementEdit";
+			/*
+			 * creating object to get session data
+			 */
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpSession session = attr.getRequest().getSession(false);
+
+			//checking if user has a valid session hash
+			if (session.getAttribute("sessionHash") != session)
+				return "redirect:/login";
+			else
+				return "customerManagementEdit";
 		}
 		else {
 			customerDAOImp.updateCustomer(updatedCustomer);
@@ -182,7 +206,17 @@ public class CustomerController {
 			model.addAttribute("customerList", customers);
 			model.addAttribute("message", "Updated Customer " + updatedCustomer.getUsername());
 			
-			return "customerManagement";
+			/*
+			 * creating object to get session data
+			 */
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpSession session = attr.getRequest().getSession(false);
+
+			//checking if user has a valid session hash
+			if (session.getAttribute("sessionHash") != session)
+				return "redirect:/login";
+			else
+				return "customerManagement";
 		}
 
 	}

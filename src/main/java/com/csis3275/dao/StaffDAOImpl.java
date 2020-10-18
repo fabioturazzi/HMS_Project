@@ -24,6 +24,11 @@ public class StaffDAOImpl {
 	private final String SQL_UPDATE_STAFF = "UPDATE staffs set fName = ?, lName = ?, username = ?, position = ? WHERE id = ?";
 	private final String SQL_FIND_STAFF = "SELECT * FROM staffs WHERE id = ?";
 	
+	/*
+	 * SQL to check username and password on Database
+	 */
+	private final String SQL_GET_USERNAME_AND_PASSWORD = "SELECT * FROM staffs WHERE username = ?";
+	
 	@Autowired
 	public StaffDAOImpl(DataSource dataSource)	{
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -53,6 +58,13 @@ public class StaffDAOImpl {
 	public Staff getStaffById(int id) {
 		/**@return an entry by its id */
 		return jdbcTemplate.queryForObject(SQL_FIND_STAFF, new Object[] { id }, new StaffMapper());
+	}
+	
+	/*
+	 * Check username and password on Database
+	 */
+	public List<Staff> getUsernamePassword(String username)	{
+		return jdbcTemplate.query(SQL_GET_USERNAME_AND_PASSWORD, new StaffMapper(), username);	
 	}
 
 }
