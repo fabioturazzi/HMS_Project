@@ -39,10 +39,16 @@ public class UserController {
 //		HttpSession mySession = attr.getRequest().getSession(false);
 //		//checking if user has a valid session hash
 //		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
+//			return "login";\
+		
+		/*
+		 * 
+		 * DELETE THIS BEFORE RELEASE
+		 */
 		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
 		user.setRegistrationDate();
 		user.setProfileUpdated();
+		user.setId(999);
 		model.addAttribute("user", user);
 		return "profileView";
 	}
@@ -61,5 +67,36 @@ public class UserController {
 		model.addAttribute("user", updatedUser);
 		
 		return "profileView";
+	}
+	
+	@GetMapping("/deleteProfile")
+	public String deleteProfile(HttpSession session, Model model) {
+
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
+		user.setId(999);
+		model.addAttribute("user", user);
+		
+		return "deleteProfile";
+	}
+	
+	@PostMapping("/deleteProfile")
+	public String deleteProfile(HttpSession session, @RequestParam(required = true) int id, Model model) {
+
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+		
+		customerDAOImp.deleteCustomer(id);
+		
+		return "registration";
 	}
 }

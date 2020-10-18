@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Customer Registration</title>
+<title>${user.username }'s Profile</title>
 
 <script src="<c:url value="/static/js/jquery-3.5.1.min.js" />"></script>
 <link href="<c:url value="/static/css/bootstrap.min.css" />"
@@ -39,16 +39,12 @@
 	</div>
 
 	<div class="container bootstrap snippet">
+	<br>
 		<div class="row">
-			<div class="col-sm-10">
-				<h1>${user.username}</h1>
-			</div>
-		</div>
-		<div class="row">
-
 			<div class="text-center">
 				<img class="avatar img-circle img-thumbnail"
 					src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar">
+					<h1>${user.username}</h1>
 				<form method="post" action="" enctype="multipart/form-data">
 					<input type="file" id="avatarImage" name="avatar">
 					<h6>
@@ -68,7 +64,7 @@
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Updated
 					</strong></span> ${ user.profileUpdated }</li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong><a
-							href='${pageContext.request.contextPath}/seebooking'
+							href='${pageContext.request.contextPath}/seebooking/?id=${user.id}'
 							style="text-decoration: underline;">Your Bookings</a> </strong></span>0</li>
 			</ul>
 
@@ -78,9 +74,8 @@
 				value="edit" data-toggle="modal" data-target="#staticBackdrop"
 				onclick="">Edit</button>
 
-			<label class="btn btn-danger" for="deleteBtn">Delete Profile</label>
-			<a id="deleteBtn"
-				href="${pageContext.request.contextPath}/deleteProfile/?id=${user.id}"></a>
+			
+			<a id="deleteBtn" href="${pageContext.request.contextPath}/deleteProfile"><label class="btn btn-danger">Delete Profile</label></a>
 			<!--  <button type="submit" id="deleteBtn" class="btn btn-danger" name="action" value="deleteAccount">Delete</button> -->
 			<div class="tab-content">
 				<div class="tab-pane active" id="home">
