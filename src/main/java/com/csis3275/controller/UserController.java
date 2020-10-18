@@ -32,7 +32,7 @@ public class UserController {
 	}
 
 	@GetMapping("/profile")
-	public String showRegistration(HttpSession session, Model model) {
+	public String showProfile(HttpSession session, Model model) {
 
 //		//create object to get session data
 //		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -45,5 +45,21 @@ public class UserController {
 		user.setProfileUpdated();
 		model.addAttribute("user", user);
 		return "profileView";
-	}	
+	}
+	
+	@PostMapping("/profile")
+	public String showEditProfile(@ModelAttribute("user") Customer updatedUser, Model model) {
+
+//		//create object to get session data
+//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//		HttpSession mySession = attr.getRequest().getSession(false);
+//		//checking if user has a valid session hash
+//		if (mySession.getAttribute("sessionHash") != mySession)
+//			return "login";
+
+		updatedUser.setProfileUpdated();
+		model.addAttribute("user", updatedUser);
+		
+		return "profileView";
+	}
 }

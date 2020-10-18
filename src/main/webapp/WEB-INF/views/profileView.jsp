@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -46,7 +45,7 @@
 			</div>
 		</div>
 		<div class="row">
-		
+
 			<div class="text-center">
 				<img class="avatar img-circle img-thumbnail"
 					src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar">
@@ -65,44 +64,49 @@
 				<li class="list-group-item text-muted">Activity <i
 					class="fa fa-dashboard fa-1x"></i></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Created
-					</strong>00/00/0000</span>${ user.registrationDate } </li>
+					</strong></span>${ user.registrationDate }</li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Updated
-					</strong></span> ${ user.profileUpdated } </li>
+					</strong></span> ${ user.profileUpdated }</li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong><a
 							href='${pageContext.request.contextPath}/seebooking'
 							style="text-decoration: underline;">Your Bookings</a> </strong></span>0</li>
 			</ul>
 
 			<h5>Profile Information</h5>
-			
+
 			<button type="submit" class="btn btn-primary" name="action"
 				value="edit" data-toggle="modal" data-target="#staticBackdrop"
 				onclick="">Edit</button>
+
+			<label class="btn btn-danger" for="deleteBtn">Delete Profile</label>
+			<a id="deleteBtn"
+				href="${pageContext.request.contextPath}/deleteProfile/?id=${user.id}"></a>
+			<!--  <button type="submit" id="deleteBtn" class="btn btn-danger" name="action" value="deleteAccount">Delete</button> -->
 			<div class="tab-content">
 				<div class="tab-pane active" id="home">
 					<hr>
 					<div class="form-group">
 
 						<div class="col-xs-6">
-							<label for="first_name"><h4>First name</h4></label> <input
-								type="text" class="form-control"
-								value="${ user.fName }" disabled>
+							<h4>First name</h4>
+							<input type="text" class="form-control" value="${ user.fName }"
+								disabled>
 						</div>
 					</div>
 					<div class="form-group">
 
 						<div class="col-xs-6">
-							<label for="last_name"><h4>Last name</h4></label> <input
-								type="text" class="form-control"
-								value="${ user.lName }" disabled>
+							<h4>Last name</h4>
+							<input type="text" class="form-control" value="${ user.lName }"
+								disabled>
 						</div>
 					</div>
 
 					<div class="form-group">
 
 						<div class="col-xs-6">
-							<label for="phone"><h4>Phone Number</h4></label> <input
-								type="text" class="form-control"
+							<h4>Phone Number</h4>
+							<input type="text" class="form-control"
 								value="${ user.phoneNumber }" disabled>
 						</div>
 					</div>
@@ -110,21 +114,21 @@
 					<div class="form-group">
 
 						<div class="col-xs-6">
-							<label for="email"><h4>Email</h4></label> <input type="email"
-								class="form-control" value="${user.email }"
+							<h4>Email</h4>
+							<input type="email" class="form-control" value="${user.email }"
 								disabled>
 						</div>
 					</div>
-					
+
 					<div class="form-group">
 
 						<div class="col-xs-6">
-							<label for="email"><h4>Address</h4></label> <input type="email"
-								class="form-control" value="${user.address }"
+							<h4>Address</h4>
+							<input type="email" class="form-control" value="${user.address }"
 								disabled>
 						</div>
 					</div>
-					
+
 					<hr>
 				</div>
 			</div>
@@ -132,7 +136,8 @@
 	</div>
 
 	<!-- Modal with Edit form -->
-	<form class="form" action="" method="POST" id="editAccountForm">
+	<form:form action="${pageContext.request.contextPath}/profile"
+		cssClass="form-horizontal" method="post" modelAttribute="user">
 		<div class="modal fade" id="staticBackdrop" data-backdrop="static"
 			tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
 			aria-hidden="true">
@@ -149,58 +154,53 @@
 
 						<div class="form-group">
 							<div class="col-xs-6">
-								<label for="first_name"><h4>Username</h4></label> <input
-									type="text" class="form-control" name="username" id="username"
-									value="test" min="2"> <input type="text"
-									class="form-control" name="userId" id="userId" value="test"
-									hidden>
+								<h4>Username</h4>
+								<form:input path="username" type="text" class="form-control"
+									value="${user.username }" min="2" />
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-xs-6">
-								<label for="first_name"><h4>First name</h4></label> <input
-									type="text" class="form-control" name="fName" id="firstName"
-									value="" min="2">
+								<h4>First name</h4>
+								<form:input path="fName" type="text" class="form-control"
+									id="firstName" value="${user.fName }" min="2" />
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-xs-6">
-								<label for="last_name"><h4>Last name</h4></label> <input
-									type="text" class="form-control" name="lName" id="lastName"
-									value="" min="2">
+								<h4>Last name</h4>
+								<form:input path="lName" type="text" class="form-control"
+									id="lastName" value="${user.lName }" min="2" />
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-xs-6">
-								<label for="phone"><h4>Phone Number</h4></label> <input
-									type="text" class="form-control" name="phoneNum" id="phoneNum"
-									value=" ${user.email }">
+								<h4>Phone Number</h4>
+								<form:input path="phoneNumber" type="text" class="form-control"
+									id="phoneNumber" value="${user.phoneNumber }" min="2" />
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-xs-6">
-								<label for="email"><h4>Email</h4></label> <input type="text"
-									class="form-control" name="email" id="email"
-									value=" ${user.email }" disabled>
+								<h4>Email</h4>
+								<form:input path="email" type="text" class="form-control"
+									id="email" value="${user.email }" min="2" />
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-xs-6">
-								<label for="password"><h4>Password</h4></label><br> <input
-									type="password" class="form-control" name="password"
-									id="password" min="8"> <label><input
-									type="checkbox" name="resetPass">Reset Password</label>
+								<h4>Password</h4>
+								<form:input path="address" type="text" class="form-control"
+									id="address" value="${user.address }" min="2" />
 							</div>
 						</div>
 
 						<div class="modal-footer">
-							<button type="submit" id="deleteBtn" class="btn btn-danger"
-								name="action" value="deleteAccount">Delete</button>
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">Close</button>
 							<button type="submit" class="btn btn-primary" name="action"
@@ -210,8 +210,6 @@
 				</div>
 			</div>
 		</div>
-	</form>
-	</div>
-
+	</form:form>
 </body>
 </html>
