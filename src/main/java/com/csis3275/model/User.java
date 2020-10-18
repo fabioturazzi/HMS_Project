@@ -1,5 +1,6 @@
 package com.csis3275.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 //import java.util.Base64;
@@ -11,8 +12,28 @@ public class User {
 	private String fName;
 	private String lName;
 	private String userType;
-	private Date registrationDate;
-	private Date profileUpdated;
+	private String registrationDate;
+	private String profileUpdated;
+
+	public String getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String formatted = df.format(new Date());
+		this.registrationDate = formatted;
+	}
+
+	public String getProfileUpdated() {
+		return profileUpdated;
+	}
+
+	public void setProfileUpdated() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String formatted = df.format(new Date());
+		this.profileUpdated = formatted;
+	}
 
 	public User() {
 		

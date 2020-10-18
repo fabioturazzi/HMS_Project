@@ -26,7 +26,7 @@ public class UserController {
 	@Autowired
 	StaffDAOImpl staffDAOImp;
 
-	@ModelAttribute("customer")
+	@ModelAttribute("user")
 	public Customer setupAddForm() {
 		return new Customer();
 	}
@@ -40,8 +40,10 @@ public class UserController {
 //		//checking if user has a valid session hash
 //		if (mySession.getAttribute("sessionHash") != mySession)
 //			return "login";
-
-			
+		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
+		user.setRegistrationDate();
+		user.setProfileUpdated();
+		model.addAttribute("user", user);
 		return "profileView";
 	}	
 }
