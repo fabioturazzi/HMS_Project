@@ -76,6 +76,10 @@ public class UserController {
 				
 				model.addAttribute("message", "Hello " + authCustomer.get(0).getfName());
 				session.setAttribute("sessionHash", session);
+				
+				//Check if user has management access
+				hasManageAccess(session, authCustomer.get(0).getUserType());
+				
 				return "roomsearch";
 			} else {
 				model.addAttribute("message", "Username and/or Password does not match");
@@ -90,6 +94,10 @@ public class UserController {
 				
 				model.addAttribute("message", "Hello " + authStaff.get(0).getfName());
 				session.setAttribute("sessionHash", session);
+				
+				//Check if user has management access
+				hasManageAccess(session, authStaff.get(0).getUserType());
+				
 				return "roomsearch";
 			} else {
 				model.addAttribute("message", "Username and/or Password does not match");
@@ -114,6 +122,9 @@ public class UserController {
 		return isAuth;
 	}
 	
+	/*
+	 * This method check if the session is valid based on User Authentication.
+	 */
 	public boolean hasValidSession(HttpSession session) {
 		boolean isValid = false;
 		
@@ -125,5 +136,15 @@ public class UserController {
 		
 		return isValid;
 	}
-
+	
+	/*
+	 * Check management Access
+	 */
+	public void hasManageAccess(HttpSession session, String userType) {
+		if (userType.equals("Staff")) {
+			session.setAttribute("manage", "yes");
+		} else {
+			session.setAttribute("manage", "no");
+		}
+	}
 }

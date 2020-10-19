@@ -69,6 +69,10 @@ public class CustomerController {
 	// Get the customer and display the form
 	@GetMapping("/deleteCustomer")
 	public String deleteCustomer(@RequestParam(required = true) int id, HttpSession session, Model model) {
+		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
 
 		// Get the customer
 		customerDAOImp.deleteCustomer(id);
@@ -79,11 +83,7 @@ public class CustomerController {
 
 		model.addAttribute("message", "Deleted Customer: " + id);
 
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "customerManagement";
+		return "customerManagement";
 	}
 	
 	/**
@@ -92,6 +92,10 @@ public class CustomerController {
 	// Handle Form Post
 	@PostMapping("/createCustomer")
 	public String createCustomer(@ModelAttribute("customer") Customer createCustomer, HttpSession session, Model model) {
+		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
 
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(createCustomer.getUsername());
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(createCustomer.getUsername());
@@ -111,11 +115,7 @@ public class CustomerController {
 		List<Customer> customers = customerDAOImp.getAllCustomers();
 		model.addAttribute("customerList", customers);
 
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "customerManagement";
+		return "customerManagement";
 		
 	}
 	
@@ -123,17 +123,17 @@ public class CustomerController {
 	@GetMapping("/userManagement/customer")
 	public String showCustomers(HttpSession session, Model model) {
 		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+		
 		// Get a list of customers from the database
 		List<Customer> customers = customerDAOImp.getAllCustomers();
 
 		// Add the list of customers to the model to be returned to the view
 		model.addAttribute("customerList", customers);
 
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "customerManagement";
+		return "customerManagement";
 	}
 
 	/**
@@ -141,16 +141,16 @@ public class CustomerController {
 	 */
 	@GetMapping("/editCustomer")
 	public String editCustomer(@RequestParam(required = true) int id, HttpSession session, Model model) {
+		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
 
 		// Get the customer
 		Customer updatedCustomer = customerDAOImp.getCustomerById(id);
 		model.addAttribute("customer", updatedCustomer);
 
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "customerManagementEdit";
+		return "customerManagementEdit";
 	}
 
 	/**
@@ -158,6 +158,10 @@ public class CustomerController {
 	 */
 	@PostMapping("/editCustomer")
 	public String updateCustomer(@ModelAttribute("customer") Customer updatedCustomer, HttpSession session, Model model) {
+		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
 
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(updatedCustomer.getUsername(), updatedCustomer.getId());
 		
@@ -167,11 +171,7 @@ public class CustomerController {
 		{
 			model.addAttribute("errorMessage", "Username already in use");
 			
-			//checking if user has a valid session hash
-			if (!user.hasValidSession(session))
-				return "redirect:/login";
-			else
-				return "customerManagementEdit";
+			return "customerManagementEdit";
 		}
 		else {
 			customerDAOImp.updateCustomer(updatedCustomer);
@@ -180,11 +180,7 @@ public class CustomerController {
 			model.addAttribute("customerList", customers);
 			model.addAttribute("message", "Updated Customer " + updatedCustomer.getUsername());
 
-			//checking if user has a valid session hash
-			if (!user.hasValidSession(session))
-				return "redirect:/login";
-			else
-				return "customerManagement";
+			return "customerManagement";
 		}
 	}
 }

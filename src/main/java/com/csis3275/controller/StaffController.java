@@ -38,6 +38,10 @@ public class StaffController {
 	@GetMapping("/deleteStaff")
 	public String deleteStaff(@RequestParam(required = true) int id, HttpSession session, Model model) {
 		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+		
 		// Get the staff
 		staffDAOImp.deleteStaff(id);
 
@@ -46,14 +50,8 @@ public class StaffController {
 		model.addAttribute("staffList", staffs);
 
 		model.addAttribute("message", "Deleted Staff: " + id);
-		
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "staffManagement";
-		
 
+		return "staffManagement";
 	}
 	
 	/**
@@ -62,6 +60,10 @@ public class StaffController {
 	// Handle Form Post
 	@PostMapping("/createStaff")
 	public String createStaff(@ModelAttribute("staff") Staff createStaff, HttpSession session, Model model) {
+		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
 
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(createStaff.getUsername());
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(createStaff.getUsername());
@@ -81,30 +83,24 @@ public class StaffController {
 		List<Staff> staffs = staffDAOImp.getAllStaffs();
 		model.addAttribute("staffList", staffs);
 		
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "staffManagement";
-		
+		return "staffManagement";
 	}
 	
 	
 	@GetMapping("/userManagement/staff")
 	public String showStaffs(HttpSession session, Model model) {
+		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+		
 		// Get a list of staffs from the database
 		List<Staff> staffs = staffDAOImp.getAllStaffs();
-
 	
 		// Add the list of staffs to the model to be returned to the view
 		model.addAttribute("staffList", staffs);
-
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "staffManagement";
-
+		
+		return "staffManagement";
 	}
 
 	/**
@@ -113,15 +109,15 @@ public class StaffController {
 	@GetMapping("/editStaff")
 	public String editStaff(@RequestParam(required = true) int id, HttpSession session, Model model) {
 		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+		
 		// Get the staff
 		Staff updatedStaff = staffDAOImp.getStaffById(id);
 		model.addAttribute("staff", updatedStaff);
 		
-		//checking if user has a valid session hash
-		if (!user.hasValidSession(session))
-			return "redirect:/login";
-		else
-			return "staffManagementEdit";
+		return "staffManagementEdit";
 	}
 
 	/**
@@ -129,6 +125,10 @@ public class StaffController {
 	 */
 	@PostMapping("/editStaff")
 	public String updateStaff(@ModelAttribute("staff") Staff updatedStaff, HttpSession session, Model model) {
+		
+		//checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
 
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(updatedStaff.getUsername(), updatedStaff.getId());
 		
@@ -138,12 +138,7 @@ public class StaffController {
 		{
 			model.addAttribute("errorMessage", "Username already in use");
 			
-			//checking if user has a valid session hash
-			if (!user.hasValidSession(session))
-				return "redirect:/login";
-			else
-				return "staffManagementEdit";
-
+			return "staffManagementEdit";
 		}
 		else {
 			staffDAOImp.updateStaff(updatedStaff);
@@ -152,12 +147,7 @@ public class StaffController {
 			model.addAttribute("staffList", staffs);
 			model.addAttribute("message", "Updated Staff " + updatedStaff.getUsername());
 			
-			//checking if user has a valid session hash
-			if (!user.hasValidSession(session))
-				return "redirect:/login";
-			else
-				return "staffManagement";
+			return "staffManagement";
 		}
-
 	}
 }
