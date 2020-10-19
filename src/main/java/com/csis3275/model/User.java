@@ -18,8 +18,12 @@ public class User {
 	public String getRegistrationDate() {
 		return registrationDate;
 	}
+	
+	public void setRegistrationDate(String reg) {
+		this.registrationDate = reg;
+	}
 
-	public void setRegistrationDate() {
+	public void putRegistrationDate() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = df.format(new Date());
 		this.registrationDate = formatted;
@@ -28,8 +32,12 @@ public class User {
 	public String getProfileUpdated() {
 		return profileUpdated;
 	}
+	
+	public void setProfileUpdated(String upd) {
+		this.profileUpdated = upd;
+	}
 
-	public void setProfileUpdated() {
+	public void putProfileUpdated() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = df.format(new Date());
 		this.profileUpdated = formatted;

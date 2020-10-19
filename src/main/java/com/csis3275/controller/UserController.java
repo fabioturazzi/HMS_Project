@@ -45,10 +45,15 @@ public class UserController {
 		 * 
 		 * DELETE THIS BEFORE RELEASE
 		 */
-		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
-		user.setRegistrationDate();
-		user.setProfileUpdated();
-		user.setId(999);
+//		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
+//		
+//		user.setId(999);
+		
+		Customer user = customerDAOImp.getCustomerById(1);
+		
+		// put this when profile is created
+//		user.putRegistrationDate();
+//		user.putProfileUpdated();
 		model.addAttribute("user", user);
 		return "profileView";
 	}
@@ -63,14 +68,16 @@ public class UserController {
 //		if (mySession.getAttribute("sessionHash") != mySession)
 //			return "login";
 
-		updatedUser.setProfileUpdated();
-		model.addAttribute("user", updatedUser);
+		updatedUser.putProfileUpdated();
+		customerDAOImp.updateCustomer(updatedUser);
+		Customer customer = customerDAOImp.getCustomerById(updatedUser.getId());
+		model.addAttribute("user", customer);
 		
 		return "profileView";
 	}
 	
 	@GetMapping("/deleteProfile")
-	public String deleteProfile(HttpSession session, Model model) {
+	public String deleteProfile(@ModelAttribute("user") Customer customerToDelete, HttpSession session, Model model) {
 
 //		//create object to get session data
 //		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -78,9 +85,10 @@ public class UserController {
 //		//checking if user has a valid session hash
 //		if (mySession.getAttribute("sessionHash") != mySession)
 //			return "login";
-		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
-		user.setId(999);
-		model.addAttribute("user", user);
+//		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
+//		user.setId(999);
+		
+		model.addAttribute("user", customerToDelete);
 		
 		return "deleteProfile";
 	}

@@ -19,6 +19,8 @@ public class CustomerMapper implements RowMapper<Customer>{
 		customer.setPhoneNumber(resultSet.getString("phoneNumber"));
 		customer.setUsername(resultSet.getString("username"));
 		customer.setUserType(resultSet.getString("userType"));
+		customer.setRegistrationDate(resultSet.getString("registrationDate"));
+		customer.setProfileUpdated(resultSet.getString("profileUpdated"));
 		
 		return customer;
 		
