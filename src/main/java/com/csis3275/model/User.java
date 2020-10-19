@@ -1,15 +1,13 @@
 package com.csis3275.model;
 
-<<<<<<< HEAD
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//import java.util.Base64;
-=======
 import java.util.Base64;
 
 import java.util.Base64;
->>>>>>> authentication_FEATURE_fsi_68
+
 
 public class User {
 	private int id;
@@ -18,10 +16,22 @@ public class User {
 	private String fName;
 	private String lName;
 	private String userType;
-<<<<<<< HEAD
+	private String usernameForm;
+	private String passwordForm;
 	private String registrationDate;
 	private String profileUpdated;
 
+	
+	public User(String username, String password, String fName, String lName, String userType) {
+
+		this.username = username;
+		this.password = password;
+		this.password = Base64.getEncoder().encodeToString(password.getBytes());
+		this.fName = fName;
+		this.lName = lName;
+		this.userType = userType;
+	}
+	
 	public String getRegistrationDate() {
 		return registrationDate;
 	}
@@ -48,9 +58,8 @@ public class User {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = df.format(new Date());
 		this.profileUpdated = formatted;
-=======
-	private String usernameForm;
-	private String passwordForm;
+	}
+
 
 	public String getUsernameForm() {
 		return usernameForm;
@@ -69,7 +78,6 @@ public class User {
 
 	public void setPasswordForm(String passwordForm) {
 		this.passwordForm = Base64.getEncoder().encodeToString(passwordForm.getBytes());
->>>>>>> authentication_FEATURE_fsi_68
 	}
 
 	public User() {
@@ -79,18 +87,7 @@ public class User {
 	public User(String userType) {
 		this.userType = userType;
 	}
-	
-	
-	public User(String username, String password, String fName, String lName, String userType) {
-
-		this.username = username;
-		this.password = password;
-		this.password = Base64.getEncoder().encodeToString(password.getBytes());
-		this.fName = fName;
-		this.lName = lName;
-		this.userType = userType;
-	}
-	
+		
 	public int getId() {
 		return id;
 	}

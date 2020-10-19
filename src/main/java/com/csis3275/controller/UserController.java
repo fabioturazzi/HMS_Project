@@ -1,6 +1,4 @@
 package com.csis3275.controller;
-
-<<<<<<< HEAD
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-=======
-import javax.servlet.http.HttpSession;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
->>>>>>> authentication_FEATURE_fsi_68
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -29,21 +16,19 @@ import com.csis3275.dao.CustomerDAOImpl;
 import com.csis3275.dao.StaffDAOImpl;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Staff;
-<<<<<<< HEAD
-=======
+
 import com.csis3275.model.User;
 
 /*
  * @author: Hackermen
  * This Controller is responsible to deal requests and responses regarding Login tasks.
  */
->>>>>>> authentication_FEATURE_fsi_68
+
 
 @Controller
 public class UserController {
 
 	@Autowired
-<<<<<<< HEAD
 	CustomerDAOImpl customerDAOImp;
 	
 	@Autowired
@@ -122,11 +107,7 @@ public class UserController {
 		customerDAOImp.deleteCustomer(id);
 		
 		return "login";
-=======
-	StaffDAOImpl staffDAOImp;
-
-	@Autowired
-	CustomerDAOImpl customerDAOImp;
+	}
 
 	@ModelAttribute("staff")
 	public Staff setupAddFormStaff() {
@@ -141,7 +122,7 @@ public class UserController {
 	/*
 	 * This method will serve GET handler to "/login" requests
 	 */
-	@GetMapping("/login")
+	@GetMapping("/")
 	public String login(ModelMap model) {
 
 		User user = new User();
@@ -153,7 +134,7 @@ public class UserController {
 	/*
 	 * This method will serve POST handler to "/login" requests
 	 */
-	@PostMapping("/login")
+	@PostMapping("/")
 	public String checkCredentials(HttpSession session, User user, ModelMap model) {
 
 		session.removeAttribute("sessionHash");
@@ -241,6 +222,5 @@ public class UserController {
 		} else {
 			session.setAttribute("manage", "no");
 		}
->>>>>>> authentication_FEATURE_fsi_68
 	}
 }
