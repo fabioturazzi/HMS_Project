@@ -41,19 +41,12 @@ public class UserController {
 //		if (mySession.getAttribute("sessionHash") != mySession)
 //			return "login";\
 		
-		/*
-		 * 
-		 * DELETE THIS BEFORE RELEASE
-		 */
-//		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
-//		
-//		user.setId(999);
-		
+		// Get customer by id form the session
 		Customer user = customerDAOImp.getCustomerById(1);
-		
+		System.out.println(user.getRegistrationDate());
 		// put this when profile is created
-//		user.putRegistrationDate();
-//		user.putProfileUpdated();
+		// user.putRegistrationDate();
+		// user.putProfileUpdated();
 		model.addAttribute("user", user);
 		return "profileView";
 	}
@@ -67,11 +60,11 @@ public class UserController {
 //		//checking if user has a valid session hash
 //		if (mySession.getAttribute("sessionHash") != mySession)
 //			return "login";
-
+		System.out.println(updatedUser.getRegistrationDate());
 		updatedUser.putProfileUpdated();
 		customerDAOImp.updateCustomer(updatedUser);
 		Customer customer = customerDAOImp.getCustomerById(updatedUser.getId());
-		model.addAttribute("user", customer);
+		model.addAttribute("user", updatedUser);
 		
 		return "profileView";
 	}

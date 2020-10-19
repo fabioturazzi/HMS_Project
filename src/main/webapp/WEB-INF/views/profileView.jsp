@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>${user.username }'s Profile</title>
+<title>${user.username }'sProfile</title>
 
 <script src="<c:url value="/static/js/jquery-3.5.1.min.js" />"></script>
 <link href="<c:url value="/static/css/bootstrap.min.css" />"
@@ -39,12 +39,12 @@
 	</div>
 
 	<div class="container bootstrap snippet">
-	<br>
+		<br>
 		<div class="row">
 			<div class="text-center">
 				<img class="avatar img-circle img-thumbnail"
 					src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar">
-					<h1>${user.username}</h1>
+				<h1>${user.username}</h1>
 				<form method="post" action="" enctype="multipart/form-data">
 					<input type="file" id="avatarImage" name="avatar">
 					<h6>
@@ -74,12 +74,24 @@
 				value="edit" data-toggle="modal" data-target="#staticBackdrop"
 				onclick="">Edit</button>
 
-			
-			<a id="deleteBtn" href="${pageContext.request.contextPath}/deleteProfile"><label class="btn btn-danger">Delete Profile</label></a>
+
+			<a id="deleteBtn"
+				href="${pageContext.request.contextPath}/deleteProfile"><label
+				class="btn btn-danger">Delete Profile</label></a>
 			<!--  <button type="submit" id="deleteBtn" class="btn btn-danger" name="action" value="deleteAccount">Delete</button> -->
 			<div class="tab-content">
 				<div class="tab-pane active" id="home">
 					<hr>
+					<div class="form-group" hidden>
+
+						<div class="col-xs-6">
+							<h4>User ID</h4>
+							<input type="text" class="form-control" value="${ user.id }"
+								disabled> 
+							<input type="text" class="form-control"	value="${user.registrationDate }" min="2" />
+
+						</div>
+					</div>
 					<div class="form-group">
 
 						<div class="col-xs-6">
@@ -139,13 +151,33 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Edit Account</h5>
+						<h4 class="modal-title" id="staticBackdropLabel">
+							Edit <b>${user.username }</b> Account
+						</h4>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
+
+						<div class="form-group" hidden>
+							<div class="col-xs-6">
+								<h4>User ID</h4>
+								<form:input path="id" type="text" class="form-control"
+									value="${user.id }" min="2" />
+								
+							</div>
+						</div>
+						
+						<div class="form-group" hidden>
+							<div class="col-xs-6" >
+								<h4>Registration Date</h4>
+								<form:input path="registrationDate" type="text"
+									class="form-control" value="${ user.registrationDate }" />
+								
+							</div>
+						</div>
 
 						<div class="form-group">
 							<div class="col-xs-6">
