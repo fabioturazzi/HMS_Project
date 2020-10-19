@@ -59,12 +59,8 @@ public class UserController {
 	 * This method will serve POST handler to "/login" requests
 	 */
 	@PostMapping("/login")
-	public String checkCredentials(User user, ModelMap model) {
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession();
+	public String checkCredentials(HttpSession session, User user, ModelMap model) {
+
 		session.removeAttribute("sessionHash");
 
 		List<Customer> authCustomer = customerDAOImp.getUsernamePassword(user.getUsernameForm());
@@ -117,4 +113,17 @@ public class UserController {
 		}
 		return isAuth;
 	}
+	
+	public boolean hasValidSession(HttpSession session) {
+		boolean isValid = false;
+		
+		if (session.getAttribute("sessionHash") == session) {
+			isValid = true;
+		} else {
+			isValid = false;
+		}
+		
+		return isValid;
+	}
+
 }

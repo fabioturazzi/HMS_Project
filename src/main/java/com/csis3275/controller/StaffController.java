@@ -30,10 +30,13 @@ public class StaffController {
 	public Staff setupAddForm() {
 		return new Staff();
 	}
+	
+	//Create object for the UserController
+	UserController user = new UserController();
 
 	// Get the staff and display the form
 	@GetMapping("/deleteStaff")
-	public String deleteStaff(@RequestParam(required = true) int id, Model model) {
+	public String deleteStaff(@RequestParam(required = true) int id, HttpSession session, Model model) {
 		
 		// Get the staff
 		staffDAOImp.deleteStaff(id);
@@ -44,17 +47,12 @@ public class StaffController {
 
 		model.addAttribute("message", "Deleted Staff: " + id);
 		
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
-
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "staffManagement";
+		
 
 	}
 	
@@ -63,7 +61,7 @@ public class StaffController {
 	 */
 	// Handle Form Post
 	@PostMapping("/createStaff")
-	public String createStaff(@ModelAttribute("staff") Staff createStaff, Model model) {
+	public String createStaff(@ModelAttribute("staff") Staff createStaff, HttpSession session, Model model) {
 
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(createStaff.getUsername());
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(createStaff.getUsername());
@@ -83,14 +81,8 @@ public class StaffController {
 		List<Staff> staffs = staffDAOImp.getAllStaffs();
 		model.addAttribute("staffList", staffs);
 		
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
-
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "staffManagement";
@@ -99,22 +91,16 @@ public class StaffController {
 	
 	
 	@GetMapping("/userManagement/staff")
-	public String showStaffs(Model model) {
+	public String showStaffs(HttpSession session, Model model) {
 		// Get a list of staffs from the database
 		List<Staff> staffs = staffDAOImp.getAllStaffs();
 
 	
 		// Add the list of staffs to the model to be returned to the view
 		model.addAttribute("staffList", staffs);
-		
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
 
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "staffManagement";
@@ -125,20 +111,14 @@ public class StaffController {
 	 * Get request to get entry to be edited from database
 	 */
 	@GetMapping("/editStaff")
-	public String editStaff(@RequestParam(required = true) int id, Model model) {
+	public String editStaff(@RequestParam(required = true) int id, HttpSession session, Model model) {
 		
 		// Get the staff
 		Staff updatedStaff = staffDAOImp.getStaffById(id);
 		model.addAttribute("staff", updatedStaff);
 		
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
-
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "staffManagementEdit";
@@ -148,7 +128,7 @@ public class StaffController {
 	 * Post request to edit entry from database
 	 */
 	@PostMapping("/editStaff")
-	public String updateStaff(@ModelAttribute("staff") Staff updatedStaff, Model model) {
+	public String updateStaff(@ModelAttribute("staff") Staff updatedStaff, HttpSession session, Model model) {
 
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(updatedStaff.getUsername(), updatedStaff.getId());
 		
@@ -158,14 +138,8 @@ public class StaffController {
 		{
 			model.addAttribute("errorMessage", "Username already in use");
 			
-			/*
-			 * creating object to get session data
-			 */
-			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-			HttpSession session = attr.getRequest().getSession(false);
-
 			//checking if user has a valid session hash
-			if (session.getAttribute("sessionHash") != session)
+			if (!user.hasValidSession(session))
 				return "redirect:/login";
 			else
 				return "staffManagementEdit";
@@ -178,19 +152,12 @@ public class StaffController {
 			model.addAttribute("staffList", staffs);
 			model.addAttribute("message", "Updated Staff " + updatedStaff.getUsername());
 			
-			/*
-			 * creating object to get session data
-			 */
-			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-			HttpSession session = attr.getRequest().getSession(false);
-
 			//checking if user has a valid session hash
-			if (session.getAttribute("sessionHash") != session)
+			if (!user.hasValidSession(session))
 				return "redirect:/login";
 			else
 				return "staffManagement";
 		}
 
 	}
-	
 }

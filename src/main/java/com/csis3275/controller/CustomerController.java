@@ -30,6 +30,9 @@ public class CustomerController {
 	public Customer setupAddForm() {
 		return new Customer();
 	}
+	
+	//Create object for the UserController
+	UserController user = new UserController();
 
 	@GetMapping("/registration")
 	public String showRegistration(Model model) {
@@ -65,7 +68,7 @@ public class CustomerController {
 
 	// Get the customer and display the form
 	@GetMapping("/deleteCustomer")
-	public String deleteCustomer(@RequestParam(required = true) int id, Model model) {
+	public String deleteCustomer(@RequestParam(required = true) int id, HttpSession session, Model model) {
 
 		// Get the customer
 		customerDAOImp.deleteCustomer(id);
@@ -76,14 +79,8 @@ public class CustomerController {
 
 		model.addAttribute("message", "Deleted Customer: " + id);
 
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
-
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "customerManagement";
@@ -94,7 +91,7 @@ public class CustomerController {
 	 */
 	// Handle Form Post
 	@PostMapping("/createCustomer")
-	public String createCustomer(@ModelAttribute("customer") Customer createCustomer, Model model) {
+	public String createCustomer(@ModelAttribute("customer") Customer createCustomer, HttpSession session, Model model) {
 
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(createCustomer.getUsername());
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(createCustomer.getUsername());
@@ -114,14 +111,8 @@ public class CustomerController {
 		List<Customer> customers = customerDAOImp.getAllCustomers();
 		model.addAttribute("customerList", customers);
 
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
-
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "customerManagement";
@@ -130,7 +121,7 @@ public class CustomerController {
 	
 	
 	@GetMapping("/userManagement/customer")
-	public String showCustomers(Model model) {
+	public String showCustomers(HttpSession session, Model model) {
 		
 		// Get a list of customers from the database
 		List<Customer> customers = customerDAOImp.getAllCustomers();
@@ -138,14 +129,8 @@ public class CustomerController {
 		// Add the list of customers to the model to be returned to the view
 		model.addAttribute("customerList", customers);
 
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
-
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "customerManagement";
@@ -155,20 +140,14 @@ public class CustomerController {
 	 * Get request to get entry to be edited from database
 	 */
 	@GetMapping("/editCustomer")
-	public String editCustomer(@RequestParam(required = true) int id, Model model) {
+	public String editCustomer(@RequestParam(required = true) int id, HttpSession session, Model model) {
 
 		// Get the customer
 		Customer updatedCustomer = customerDAOImp.getCustomerById(id);
 		model.addAttribute("customer", updatedCustomer);
 
-		/*
-		 * creating object to get session data
-		 */
-		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		HttpSession session = attr.getRequest().getSession(false);
-
 		//checking if user has a valid session hash
-		if (session.getAttribute("sessionHash") != session)
+		if (!user.hasValidSession(session))
 			return "redirect:/login";
 		else
 			return "customerManagementEdit";
@@ -178,7 +157,7 @@ public class CustomerController {
 	 * Post request to edit entry from database
 	 */
 	@PostMapping("/editCustomer")
-	public String updateCustomer(@ModelAttribute("customer") Customer updatedCustomer, Model model) {
+	public String updateCustomer(@ModelAttribute("customer") Customer updatedCustomer, HttpSession session, Model model) {
 
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(updatedCustomer.getUsername(), updatedCustomer.getId());
 		
@@ -187,14 +166,9 @@ public class CustomerController {
 		if(!(usernameCheckCustomer.isEmpty() && usernameCheckStaff.isEmpty()))
 		{
 			model.addAttribute("errorMessage", "Username already in use");
-			/*
-			 * creating object to get session data
-			 */
-			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-			HttpSession session = attr.getRequest().getSession(false);
-
+			
 			//checking if user has a valid session hash
-			if (session.getAttribute("sessionHash") != session)
+			if (!user.hasValidSession(session))
 				return "redirect:/login";
 			else
 				return "customerManagementEdit";
@@ -205,21 +179,12 @@ public class CustomerController {
 			List<Customer> customers = customerDAOImp.getAllCustomers();
 			model.addAttribute("customerList", customers);
 			model.addAttribute("message", "Updated Customer " + updatedCustomer.getUsername());
-			
-			/*
-			 * creating object to get session data
-			 */
-			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-			HttpSession session = attr.getRequest().getSession(false);
 
 			//checking if user has a valid session hash
-			if (session.getAttribute("sessionHash") != session)
+			if (!user.hasValidSession(session))
 				return "redirect:/login";
 			else
 				return "customerManagement";
 		}
-
 	}
-	
-	
 }
