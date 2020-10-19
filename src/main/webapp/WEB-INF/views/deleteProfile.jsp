@@ -47,14 +47,14 @@
 					<div class="text-center">
 
 						<div class="form-group">
-							<h1>Delete User <span hidden>${user.id}</span></h1>
+							<h1>Delete Account<span hidden>${user.id}</span></h1>
 							<p>
 								Are you sure you want to delete <strong>${user.username}</strong>'s
 								account?
 							</p>
 
 							<div class="row">
-								<a href="${pageContext.request.contextPath}/deleteProfile/?id=${user.id}">
+								<a href="${pageContext.request.contextPath}/deleteProfileCompletely/?id=${user.id}">
 								<label class="btn btn-danger">Delete</label></a>
 								<a href="${pageContext.request.contextPath}/profile"><label class="btn btn-primary">Discard</label></a>
 							</div>

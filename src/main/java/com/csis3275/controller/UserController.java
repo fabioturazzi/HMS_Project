@@ -43,7 +43,6 @@ public class UserController {
 		
 		// Get customer by id form the session
 		Customer user = customerDAOImp.getCustomerById(1);
-		System.out.println(user.getRegistrationDate());
 		// put this when profile is created
 		// user.putRegistrationDate();
 		// user.putProfileUpdated();
@@ -60,17 +59,17 @@ public class UserController {
 //		//checking if user has a valid session hash
 //		if (mySession.getAttribute("sessionHash") != mySession)
 //			return "login";
-		System.out.println(updatedUser.getRegistrationDate());
+
 		updatedUser.putProfileUpdated();
 		customerDAOImp.updateCustomer(updatedUser);
 		Customer customer = customerDAOImp.getCustomerById(updatedUser.getId());
-		model.addAttribute("user", updatedUser);
+		model.addAttribute("user", customer);
 		
 		return "profileView";
 	}
 	
 	@GetMapping("/deleteProfile")
-	public String deleteProfile(@ModelAttribute("user") Customer customerToDelete, HttpSession session, Model model) {
+	public String deleteProfile(HttpSession session, Model model) {
 
 //		//create object to get session data
 //		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -81,13 +80,14 @@ public class UserController {
 //		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
 //		user.setId(999);
 		
-		model.addAttribute("user", customerToDelete);
+		Customer userToDelete = customerDAOImp.getCustomerById(1);
+		model.addAttribute("user", userToDelete);
 		
 		return "deleteProfile";
 	}
 	
-	@PostMapping("/deleteProfile")
-	public String deleteProfile(HttpSession session, @RequestParam(required = true) int id, Model model) {
+	@GetMapping("/deleteProfileCompletely")
+	public String deleteProfile(@RequestParam(required = true) int id, Model model) {
 
 //		//create object to get session data
 //		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
