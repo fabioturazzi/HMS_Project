@@ -98,6 +98,6 @@ public class UserController {
 		
 		customerDAOImp.deleteCustomer(id);
 		
-		return "registration";
+		return "login";
 	}
 }
