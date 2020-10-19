@@ -22,6 +22,12 @@ public class CustomerDAOImpl {
 	private final String SQL_UPDATE_CUSTOMER = "UPDATE customers set fName = ?, lName = ?, email = ?, address = ?, phoneNumber = ?, username = ?, registrationDate = ?, profileUpdated = ? WHERE id = ?";
 	private final String SQL_FIND_CUSTOMER = "SELECT * FROM customers WHERE id = ?";
 	
+	/*
+	 * SQL to check username and password on Database
+	 */
+	private final String SQL_GET_USERNAME_AND_PASSWORD = "SELECT * FROM customers WHERE username = ?";
+	
+	
 	@Autowired
 	public CustomerDAOImpl(DataSource dataSource)	{
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -53,6 +59,13 @@ public class CustomerDAOImpl {
 	public Customer getCustomerById(int id) {
 		/**@return an entry by its id */
 		return jdbcTemplate.queryForObject(SQL_FIND_CUSTOMER, new Object[] { id }, new CustomerMapper());
+	}
+	
+	/*
+	 * Check username and password on Database
+	 */
+	public List<Customer> getUsernamePassword(String username)	{
+		return jdbcTemplate.query(SQL_GET_USERNAME_AND_PASSWORD, new CustomerMapper(), username);	
 	}
 
 }

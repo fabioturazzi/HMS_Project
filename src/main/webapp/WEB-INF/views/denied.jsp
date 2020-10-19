@@ -41,33 +41,8 @@
 
 	<div class="container">
 
-		<h1>Welcome to Hackermen Hotel Management System</h1>
-		<h3>Please input your login and password</h3>
-		<c:if test="${ message != null }">
-			<h4 style="color: red">${message}</h4>
-		</c:if>
+		<h3>DENIED</h3>
 		<hr></hr>
-		<form:form cssClass="form-horizontal" method="POST"
-			modelAttribute="user">
-			<table class="form-group">
-				<tr>
-					<td class="col-md-3 controllabel"><label>User Name</label></td>
-					<td class="col-md-9"><form:input type="text"
-							path="usernameForm" id="usernameForm" /> <form:errors
-							path="usernameForm" style="color:red" /></td>
-				</tr>
-				<tr>
-					<td class="col-md-3 controllabel"><label>Password:</label></td>
-					<td class="col-md-9"><form:password path="passwordForm"
-							id="passwordForm" /> <form:errors path="passwordForm"
-							style="color:red" /></td>
-				</tr>
-				<tr>
-					<td><input cssClass="btn btnprimary" type="submit"
-						value="Submit"></td>
-				</tr>
-			</table>
-		</form:form>
 	</div>
 </body>
 </html>
