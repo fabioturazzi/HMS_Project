@@ -24,7 +24,6 @@ import com.csis3275.model.User;
  * This Controller is responsible to deal requests and responses regarding Login tasks.
  */
 
-
 @Controller
 public class UserController {
 
@@ -34,80 +33,6 @@ public class UserController {
 	@Autowired
 	StaffDAOImpl staffDAOImp;
 
-	@ModelAttribute("user")
-	public Customer setupAddForm() {
-		return new Customer();
-	}
-
-	@GetMapping("/profile")
-	public String showProfile(HttpSession session, Model model) {
-
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";\
-		
-		// Get customer by id form the session
-		Customer user = customerDAOImp.getCustomerById(1);
-		// put this when profile is created
-		// user.putRegistrationDate();
-		// user.putProfileUpdated();
-		model.addAttribute("user", user);
-		return "profileView";
-	}
-	
-	@PostMapping("/profile")
-	public String showEditProfile(@ModelAttribute("user") Customer updatedUser, Model model) {
-
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
-
-		updatedUser.putProfileUpdated();
-		customerDAOImp.updateCustomer(updatedUser);
-		Customer customer = customerDAOImp.getCustomerById(updatedUser.getId());
-		model.addAttribute("user", customer);
-		
-		return "profileView";
-	}
-	
-	@GetMapping("/deleteProfile")
-	public String deleteProfile(HttpSession session, Model model) {
-
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
-//		Customer user = new Customer("denngall", "user123", "Daniil", "Volovik", "customer", "0000000000", "!23 ABC", "abc@gmail.com");
-//		user.setId(999);
-		
-		Customer userToDelete = customerDAOImp.getCustomerById(1);
-		model.addAttribute("user", userToDelete);
-		
-		return "deleteProfile";
-	}
-	
-	@GetMapping("/deleteProfileCompletely")
-	public String deleteProfile(@RequestParam(required = true) int id, Model model) {
-
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
-		
-		customerDAOImp.deleteCustomer(id);
-		
-		return "login";
-	}
 
 	@ModelAttribute("staff")
 	public Staff setupAddFormStaff() {
@@ -123,11 +48,18 @@ public class UserController {
 	 * This method will serve GET handler to "/login" requests
 	 */
 	@GetMapping("/")
-	public String login(ModelMap model) {
+	public String login(HttpSession session, ModelMap model) {
 
 		User user = new User();
 		model.addAttribute("user", user);
 
+		session.removeAttribute("sessionHash");
+		session.removeAttribute("userType");
+		session.removeAttribute("manage");
+		session.removeAttribute("username");
+
+		session.invalidate();
+		
 		return "login";
 	}
 
@@ -137,8 +69,7 @@ public class UserController {
 	@PostMapping("/")
 	public String checkCredentials(HttpSession session, User user, ModelMap model) {
 
-		session.removeAttribute("sessionHash");
-
+		
 		List<Customer> authCustomer = customerDAOImp.getUsernamePassword(user.getUsernameForm());
 		List<Staff> authStaff = staffDAOImp.getUsernamePassword(user.getUsernameForm());
 		
@@ -153,12 +84,15 @@ public class UserController {
 				model.addAttribute("message", "Hello " + authCustomer.get(0).getfName());
 				session.setAttribute("sessionHash", session);
 				
+				//testing
+				session.setAttribute("username", authCustomer.get(0).getUsername());
+				
 				//Check if user has management access
 				hasManageAccess(session, authCustomer.get(0).getUserType());
 				
-				return "roomsearch";
+				return "roomSearch";
 			} else {
-				model.addAttribute("message", "Username and/or Password does not match");
+				model.addAttribute("message", "Username and/or Password do not match");
 				session.removeAttribute("sessionHash");
 				return "login";
 			}
@@ -171,16 +105,26 @@ public class UserController {
 				model.addAttribute("message", "Hello " + authStaff.get(0).getfName());
 				session.setAttribute("sessionHash", session);
 				
+				//testing
+				session.setAttribute("username", authStaff.get(0).getUsername());
+				
 				//Check if user has management access
 				hasManageAccess(session, authStaff.get(0).getUserType());
 				
-				return "roomsearch";
+				// Get a list of customers from the database
+				List<Customer> customers = customerDAOImp.getAllCustomers();
+
+				// Add the list of customers to the model to be returned to the view
+				model.addAttribute("customerList", customers);
+				
+				return "customerManagement";
 			} else {
 				model.addAttribute("message", "Username and/or Password does not match");
 				session.removeAttribute("sessionHash");
 				return "login";
 			}
 		}
+		model.addAttribute("message", "Username and/or Password do not match");
 		return "login";
 	}
 	
@@ -219,8 +163,10 @@ public class UserController {
 	public void hasManageAccess(HttpSession session, String userType) {
 		if (userType.equals("Staff")) {
 			session.setAttribute("manage", "yes");
+			session.setAttribute("userType", userType);
 		} else {
 			session.setAttribute("manage", "no");
+			session.setAttribute("userType", userType);
 		}
 	}
 }

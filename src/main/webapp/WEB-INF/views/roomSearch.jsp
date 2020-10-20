@@ -19,9 +19,14 @@
 	</div>
 
 	<div class="container">
-
-		<h3>DENIED</h3>
+		<h1 id="pageTitle">Room Search</h1>
+		<h3>ROOM SEARCH PAGE UNDER DEVELOPMENT</h3>
+		<c:if test="${ message != null }">
+			<h4>${message}</h4>
+		</c:if>
 		<hr></hr>
+		
+
 	</div>
 </body>
 </html>

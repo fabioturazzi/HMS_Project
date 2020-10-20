@@ -8,34 +8,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>${user.username }'sProfile</title>
 
-<script src="<c:url value="/static/js/jquery-3.5.1.min.js" />"></script>
-<link href="<c:url value="/static/css/bootstrap.min.css" />"
-	rel="stylesheet">
-<link href="<c:url value="/static/css/hackermenHMS.css" />"
-	rel="stylesheet">
-<script src="<c:url value="/static/js/bootstrap.min.js" />"></script>
-
-<script src="<c:url value="/static/js/searchFilters.js" />"></script>
-
+<%@ include file="/WEB-INF/views/imports.jspf"%>
 
 </head>
 <body>
 
 	<div class="pageHeader">
-		<img src="<c:url value="/static/images/HMS Logo.png" />"
-			alt="HMS Hackermen logo" class="hmsLogo" id="hmsLogo" />
-		<div class="navBarDiv">
-			<nav class="navbar navbar-default">
-				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}/registration/">Login/Registration</a></li>
-					<li><a href="">Room Search (under development)</a></li>
-					<li><a href="">My Reservations (under development)</a></li>
-					<li class="active"><a
-						href="${pageContext.request.contextPath}/userManagement/customer">Manage
-							System Data</a></li>
-				</ul>
-			</nav>
-		</div>
+		<%@ include file="/WEB-INF/views/navBar.jspf"%>
 	</div>
 
 	<div class="container bootstrap snippet">
@@ -43,9 +22,11 @@
 		<div class="row">
 			<div class="text-center">
 				<img class="avatar img-circle img-thumbnail"
-					src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar">
-				<h1>${user.username}</h1>
-				<form method="post" action="" enctype="multipart/form-data">
+					src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar"
+					hidden style="display: none">
+				<h1 id="pageTitle">View Profile</h1>
+				<h2>${user.username}</h2>
+				<form method="post" action="" enctype="multipart/form-data" hidden>
 					<input type="file" id="avatarImage" name="avatar">
 					<h6>
 						New Avatar
@@ -69,11 +50,9 @@
 			</ul>
 
 			<h5>Profile Information</h5>
-
 			<button type="submit" class="btn btn-primary" name="action"
 				value="edit" data-toggle="modal" data-target="#staticBackdrop"
 				onclick="">Edit</button>
-
 
 			<a id="deleteBtn"
 				href="${pageContext.request.contextPath}/deleteProfile"><label
@@ -83,17 +62,14 @@
 				<div class="tab-pane active" id="home">
 					<hr>
 					<div class="form-group" hidden>
-
 						<div class="col-xs-6">
 							<h4>User ID</h4>
 							<input type="text" class="form-control" value="${ user.id }"
-								disabled> 
-							<input type="text" class="form-control"	value="${user.registrationDate }" min="2" />
-
+								disabled> <input type="text" class="form-control"
+								value="${user.registrationDate }" min="2" />
 						</div>
 					</div>
 					<div class="form-group">
-
 						<div class="col-xs-6">
 							<h4>First name</h4>
 							<input type="text" class="form-control" value="${ user.fName }"
@@ -101,42 +77,33 @@
 						</div>
 					</div>
 					<div class="form-group">
-
 						<div class="col-xs-6">
 							<h4>Last name</h4>
 							<input type="text" class="form-control" value="${ user.lName }"
 								disabled>
 						</div>
 					</div>
-
 					<div class="form-group">
-
 						<div class="col-xs-6">
 							<h4>Phone Number</h4>
 							<input type="text" class="form-control"
 								value="${ user.phoneNumber }" disabled>
 						</div>
 					</div>
-
 					<div class="form-group">
-
 						<div class="col-xs-6">
 							<h4>Email</h4>
 							<input type="email" class="form-control" value="${user.email }"
 								disabled>
 						</div>
 					</div>
-
 					<div class="form-group">
-
 						<div class="col-xs-6">
 							<h4>Address</h4>
 							<input type="email" class="form-control" value="${user.address }"
 								disabled>
 						</div>
 					</div>
-
-					<hr>
 				</div>
 			</div>
 		</div>
@@ -166,16 +133,16 @@
 								<h4>User ID</h4>
 								<form:input path="id" type="text" class="form-control"
 									value="${user.id }" min="2" />
-								
+
 							</div>
 						</div>
-						
+
 						<div class="form-group" hidden>
-							<div class="col-xs-6" >
+							<div class="col-xs-6">
 								<h4>Registration Date</h4>
 								<form:input path="registrationDate" type="text"
 									class="form-control" value="${ user.registrationDate }" />
-								
+
 							</div>
 						</div>
 

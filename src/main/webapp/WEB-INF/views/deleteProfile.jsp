@@ -8,33 +8,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Delete User</title>
 
-<script src="<c:url value="/static/js/jquery-3.5.1.min.js" />"></script>
-<link href="<c:url value="/static/css/bootstrap.min.css" />"
-	rel="stylesheet">
-<link href="<c:url value="/static/css/hackermenHMS.css" />"
-	rel="stylesheet">
-<script src="<c:url value="/static/js/bootstrap.min.js" />"></script>
-
-<script src="<c:url value="/static/js/searchFilters.js" />"></script>
-
+<%@ include file="/WEB-INF/views/imports.jspf"%>
 
 </head>
 <body>
 	<div class="pageHeader">
-		<img src="<c:url value="/static/images/HMS Logo.png" />"
-			alt="HMS Hackermen logo" class="hmsLogo" id="hmsLogo" />
-		<div class="navBarDiv">
-			<nav class="navbar navbar-default">
-				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}/registration/">Login/Registration</a></li>
-					<li><a href="">Room Search (under development)</a></li>
-					<li><a href="">My Reservations (under development)</a></li>
-					<li class="active"><a
-						href="${pageContext.request.contextPath}/userManagement/customer">Manage
-							System Data</a></li>
-				</ul>
-			</nav>
-		</div>
+		<%@ include file="/WEB-INF/views/navBar.jspf"%>
 	</div>
 	<div class="container">
 		<div class="container bootstrap snippet">
@@ -47,7 +26,7 @@
 					<div class="text-center">
 
 						<div class="form-group">
-							<h1>Delete Account<span hidden>${user.id}</span></h1>
+							<h1 id="pageTitle">Delete Account<span hidden>${user.id}</span></h1>
 							<p>
 								Are you sure you want to delete <strong>${user.username}</strong>'s
 								account?

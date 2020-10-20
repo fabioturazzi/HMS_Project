@@ -9,65 +9,59 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Page</title>
 
-<script src="<c:url value="/static/js/jquery-1.11.1.min.js" />"></script>
-<link href="<c:url value="/static/css/bootstrap.min.css" />"
-	rel="stylesheet">
-<link href="<c:url value="/static/css/hackermenHMS.css" />"
-	rel="stylesheet">
-<script src="<c:url value="/static/js/bootstrap.min.js" />"></script>
-<script src="<c:url value="/static/js/customerPage.js" />"></script>
-
+<%@ include file="/WEB-INF/views/imports.jspf"%>
 
 </head>
 <body>
 
 	<div class="pageHeader">
-		<img src="<c:url value="/static/images/HMS Logo.png" />"
-			alt="HMS Hackermen logo" class="hmsLogo" id="hmsLogo" />
-		<div class="navBarDiv">
-			<nav class="navbar navbar-default">
-				<ul class="nav navbar-nav">
-					<li class="active"><a
-						href="${pageContext.request.contextPath}/registration/">Login/Registration</a></li>
-					<li><a href="">Room Search (under development)</a></li>
-					<li><a href="">My Reservations (under development)</a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/userManagement/customer">Manage
-							System Data</a></li>
-				</ul>
-			</nav>
-		</div>
+		<%@ include file="/WEB-INF/views/navBar.jspf"%>
 	</div>
 
 	<div class="container">
 
-		<h1>Welcome to Hackermen Hotel Management System</h1>
+		<h1 id="pageTitle">Welcome to Hackermen Hotel Management System</h1>
 		<h3>Please input your login and password</h3>
-		<c:if test="${ message != null }">
-			<h4 style="color: red">${message}</h4>
-		</c:if>
+
 		<hr></hr>
-		<form:form cssClass="form-horizontal" method="POST"
+		<form:form cssClass="form-horizontal registerForm" method="POST"
 			modelAttribute="user">
-			<table class="form-group">
-				<tr>
-					<td class="col-md-3 controllabel"><label>User Name</label></td>
-					<td class="col-md-9"><form:input type="text"
-							path="usernameForm" id="usernameForm" /> <form:errors
-							path="usernameForm" style="color:red" /></td>
-				</tr>
-				<tr>
-					<td class="col-md-3 controllabel"><label>Password:</label></td>
-					<td class="col-md-9"><form:password path="passwordForm"
-							id="passwordForm" /> <form:errors path="passwordForm"
-							style="color:red" /></td>
-				</tr>
-				<tr>
-					<td><input cssClass="btn btnprimary" type="submit"
-						value="Submit"></td>
-				</tr>
-			</table>
+			<h3>Registration</h3>
+			<hr></hr>
+			<c:if test="${ message != null }">
+				<h4 class="alert alert-danger">${message}</h4>
+			</c:if>
+			<div class="form-group">
+				<label for="usernameForm" class="col-md-3 controllabel">Username</label>
+				<div class="col-md-9">
+					<form:input path="usernameForm" id="usernameForm"
+						cssClass="form-control" required="required" />
+					<form:errors path="usernameForm" style="color:red" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="usernameForm" class="col-md-3 controllabel">Password</label>
+				<div class="col-md-9">
+					<form:password path="passwordForm" id="passwordForm"
+						cssClass="form-control" required="required" />
+					<form:errors path="passwordForm" style="color:red" />
+				</div>
+			</div>
+			<div class="form-group">
+				<!-- Button -->
+				<div class="col-md-offset-3 col-md-9">
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<a class="col-md-offset-3 col-md-9 signUpSign"
+					href="${pageContext.request.contextPath}/registration">Don't
+					have an account? Sign up!</a>
+			</div>
+
+
 		</form:form>
 	</div>
 </body>
+<script src="<c:url value="/static/js/navBar.js" />"></script>
 </html>

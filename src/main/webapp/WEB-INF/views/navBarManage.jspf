@@ -1,0 +1,23 @@
+
+<div class="navBarUsers">
+	<nav class="navbar navbar-light">
+		<ul class="nav navbar-nav">
+			<li class="dataManagement dataNav1"><a
+				href="${pageContext.request.contextPath}/userManagement/customer">Manage
+					Users</a></li>
+			<li class="userNav1"><a
+				href="${pageContext.request.contextPath}/userManagement/customer">Manage
+					Users: Customers</a></li>
+			<li class="userNav2"><a
+				href="${pageContext.request.contextPath}/userManagement/staff">Manage
+					Users: Staff</a></li>
+
+			<li class="dataManagement dataNav2"><a>Manage Rooms
+					(und.dev.)</a></li>
+			<li class="dataManagement dataNav3"><a>Manage Facilities
+					(und.dev.)</a></li>
+			<li class="dataManagement dataNav4"><a>Manage Amenities
+					(und.dev.)</a></li>
+		</ul>
+	</nav>
+</div>
