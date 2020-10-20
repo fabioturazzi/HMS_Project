@@ -22,7 +22,7 @@ public class CustomerDAOImpl {
 	private final String SQL_GET_USERNAME_AND_ID = "SELECT * FROM customers WHERE username = ? AND id != ?";
 	private final String SQL_CREATE_CUSTOMER = "INSERT INTO customers (fName, lName, email, address, password, phoneNumber, username, userType, registrationDate, profileUpdated) VALUES (?,?,?,?,?,?,?,?,?,?)";
 	private final String SQL_DELETE_CUSTOMER = "DELETE FROM customers WHERE id = ?";
-	private final String SQL_UPDATE_CUSTOMER = "UPDATE customers set fName = ?, lName = ?, email = ?, address = ?, phoneNumber = ?, username = ?, profileUpdated = ? WHERE id = ?";
+	private final String SQL_UPDATE_CUSTOMER = "UPDATE customers set fName = ?, lName = ?, email = ?, address = ?, phoneNumber = ?, username = ?, registrationDate = ?, profileUpdated = ? WHERE id = ?";
 	private final String SQL_FIND_CUSTOMER = "SELECT * FROM customers WHERE id = ?";
 	
 	/*
@@ -49,7 +49,7 @@ public class CustomerDAOImpl {
 	}
 	
 	public boolean createCustomer(Customer newCustomer) {
-		return jdbcTemplate.update(SQL_CREATE_CUSTOMER, newCustomer.getfName(), newCustomer.getlName(), newCustomer.getEmail(), newCustomer.getAddress(), newCustomer.getPassword(), newCustomer.getPhoneNumber(), newCustomer.getUsername(), newCustomer.getUserType(), Calendar.getInstance().getTime(), Calendar.getInstance().getTime()) > 0;
+		return jdbcTemplate.update(SQL_CREATE_CUSTOMER, newCustomer.getfName(), newCustomer.getlName(), newCustomer.getEmail(), newCustomer.getAddress(), newCustomer.getPassword(), newCustomer.getPhoneNumber(), newCustomer.getUsername(), newCustomer.getUserType(), newCustomer.getRegistrationDate(), newCustomer.getProfileUpdated()) > 0;
 	}
 	
 	public boolean deleteCustomer(int idToDelete) {
@@ -57,7 +57,7 @@ public class CustomerDAOImpl {
 	}
 	public boolean updateCustomer(Customer customer) {
 		/**@return boolean indicating changes have been made to database */
-		return jdbcTemplate.update(SQL_UPDATE_CUSTOMER, customer.getfName(), customer.getlName(), customer.getEmail(), customer.getAddress(), customer.getPhoneNumber(), customer.getUsername(), Calendar.getInstance().getTime(), customer.getId()) > 0;
+		return jdbcTemplate.update(SQL_UPDATE_CUSTOMER, customer.getfName(), customer.getlName(), customer.getEmail(), customer.getAddress(), customer.getPhoneNumber(), customer.getUsername(), customer.getRegistrationDate(), customer.getProfileUpdated(), customer.getId()) > 0;
 	}
 	public Customer getCustomerById(int id) {
 		/**@return an entry by its id */

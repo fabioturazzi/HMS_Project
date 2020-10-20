@@ -188,7 +188,7 @@
 
 						<div class="form-group">
 							<div class="col-xs-6">
-								<h4>Password</h4>
+								<h4>Address</h4>
 								<form:input path="address" type="text" class="form-control"
 									id="address" value="${user.address }" min="2" />
 							</div>

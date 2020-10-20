@@ -40,6 +40,7 @@ public class User {
 		this.registrationDate = reg;
 	}
 
+	// Method to set the registration date (current day)
 	public void putRegistrationDate() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = df.format(new Date());
@@ -54,6 +55,7 @@ public class User {
 		this.profileUpdated = upd;
 	}
 
+	// Method to set the date when profile was updated (current day)
 	public void putProfileUpdated() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = df.format(new Date());

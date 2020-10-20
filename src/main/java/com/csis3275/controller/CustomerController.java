@@ -46,11 +46,15 @@ public class CustomerController {
 	public String registerCustomer(@ModelAttribute("customer") Customer createCustomer, Model model, HttpSession session) {
 
 		createCustomer.setUserType("Customer");
+		// Set the date of account creation and initial "Update"
+		createCustomer.putRegistrationDate();
+		createCustomer.putProfileUpdated();
 
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(createCustomer.getUsername());
 
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(createCustomer.getUsername());
 
+		// Checks if the username is occupied
 		if (!(usernameCheckCustomer.isEmpty() && usernameCheckStaff.isEmpty())) {
 			model.addAttribute("errorMessage", "Username already in use");
 
@@ -108,6 +112,8 @@ public class CustomerController {
 			model.addAttribute("errorMessage", "Username already in use");
 		} else {
 			// Create the customer pass the object in.
+			createCustomer.putRegistrationDate();
+			createCustomer.getProfileUpdated();
 			customerDAOImp.createCustomer(createCustomer);
 			model.addAttribute("customer", createCustomer);
 			model.addAttribute("message", "User created: " + createCustomer.getUsername());
@@ -175,6 +181,7 @@ public class CustomerController {
 
 			return "customerManagementEdit";
 		} else {
+			updatedCustomer.putProfileUpdated();
 			customerDAOImp.updateCustomer(updatedCustomer);
 
 			List<Customer> customers = customerDAOImp.getAllCustomers();
@@ -185,23 +192,28 @@ public class CustomerController {
 		}
 	}
 
+	/**
+	 * Get request to show customer's profile information
+	 */
 	@GetMapping("/profile")
 	public String showProfile(HttpSession session, Model model) {
 
 		String username = session.getAttribute("username").toString();
 		
+		// Get our customer and show his profile
 		List<Customer> customerData = customerDAOImp.getCustomer(username);
-		
-		// put this when profile is created
-		// user.putRegistrationDate();
-		// user.putProfileUpdated();
+
 		model.addAttribute("user", customerData.get(0));
 		return "profileView";
 	}
 
+	/**
+	 * Post request to accept changes to customer's profile information
+	 */
 	@PostMapping("/profile")
 	public String showEditProfile(@ModelAttribute("user") Customer updatedUser, Model model, HttpSession session) {
 
+		// Get updated user, set update profile date, and save changes to the DB
 		updatedUser.putProfileUpdated();
 		customerDAOImp.updateCustomer(updatedUser);
 		Customer customer = customerDAOImp.getCustomerById(updatedUser.getId());
@@ -211,11 +223,15 @@ public class CustomerController {
 		return "profileView";
 	}
 
+	/**
+	 * Get request to show customer to delete
+	 */
 	@GetMapping("/deleteProfile")
 	public String deleteProfile(HttpSession session, Model model) {
 
 		String username = session.getAttribute("username").toString();
 		
+		// Get a customer to delete and redirect to delete confirmation page
 		List<Customer> userToDelete = customerDAOImp.getCustomer(username);
 
 		model.addAttribute("user", userToDelete.get(0));
@@ -223,28 +239,22 @@ public class CustomerController {
 		return "deleteProfile";
 	}
 
+	/**
+	 * Get request to delete customer's profile
+	 */
 	@GetMapping("/deleteProfileCompletely")
 	public String deleteProfile(@RequestParam(required = true) int id, Model model, HttpSession session) {
 
-//		//create object to get session data
-//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-//		HttpSession mySession = attr.getRequest().getSession(false);
-//		//checking if user has a valid session hash
-//		if (mySession.getAttribute("sessionHash") != mySession)
-//			return "login";
-
+		// remove from the DB
 		customerDAOImp.deleteCustomer(id);
 		
 		User user = new User();
 		model.addAttribute("user", user);
 
-		session.removeAttribute("sessionHash");
-		session.removeAttribute("userType");
-		session.removeAttribute("manage");
-		session.removeAttribute("username");
+		// remove session info and redirect to the registration page
+		session.invalidate();
 
-
-		return "login";
+		return "registration";
 	}
 
 }
