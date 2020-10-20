@@ -50,10 +50,6 @@
 				<td>${customer.address}</td>
 			</tr>
 			<tr>
-				<td><b>Password</b></td>
-				<td>${customer.password}</td>
-			</tr>
-			<tr>
 				<td><b>Phone Number</b></td>
 				<td>${customer.phoneNumber}</td>
 			</tr>
