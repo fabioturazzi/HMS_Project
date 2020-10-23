@@ -5,7 +5,7 @@ $(function() {
 
 	var title = $("#pageTitle").text();
 
-	if (title === "Welcome to Hackermen Hotel Management System") {
+	if (title === "Welcome to Hackermen Hotel Management System" || title === "Password Reset") {
 		$(".nav1").addClass("active");
 	}
 	else if (title === "Customer Registration" || title === "Successful Registration") {

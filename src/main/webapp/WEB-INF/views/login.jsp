@@ -29,8 +29,12 @@
 			<h3>Registration</h3>
 			<hr></hr>
 			<c:if test="${ message != null }">
-				<h4 class="alert alert-danger">${message}</h4>
+				<h4 class="alert alert-danger" role="alert">${message}</h4>
 			</c:if>
+			<c:if test="${ changePassMessage != null }">
+				<h4 class="alert alert-success"  role="alert">${changePassMessage}</h4>
+			</c:if>
+
 			<div class="form-group">
 				<label for="usernameForm" class="col-md-3 controllabel">Username</label>
 				<div class="col-md-9">
@@ -58,10 +62,15 @@
 					href="${pageContext.request.contextPath}/registration">Don't
 					have an account? Sign up!</a>
 			</div>
+			<div class="form-group">
+				<a class="col-md-offset-3 col-md-9 signUpSign"
+					href="${pageContext.request.contextPath}/resetPassword">Forgot
+					your password?</a>
+			</div>
 
 
 		</form:form>
 	</div>
 </body>
-<script src="<c:url value="/static/js/navBar.js" />"></script>
+
 </html>

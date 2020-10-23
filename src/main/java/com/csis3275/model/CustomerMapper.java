@@ -5,10 +5,10 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class CustomerMapper implements RowMapper<Customer>{
+public class CustomerMapper implements RowMapper<Customer> {
 
-	public Customer mapRow(ResultSet resultSet, int i) throws SQLException	{
-		
+	public Customer mapRow(ResultSet resultSet, int i) throws SQLException {
+
 		Customer customer = new Customer();
 		customer.setId(resultSet.getInt("id"));
 		customer.setfName(resultSet.getString("fName"));
@@ -21,9 +21,11 @@ public class CustomerMapper implements RowMapper<Customer>{
 		customer.setUserType(resultSet.getString("userType"));
 		customer.setRegistrationDate(resultSet.getString("registrationDate"));
 		customer.setProfileUpdated(resultSet.getString("profileUpdated"));
-		
+		customer.setPassQuestion(resultSet.getString("passQuestion"));
+		customer.setPassAnswer(resultSet.getString("passAnswer"));
+
 		return customer;
-		
+
 	}
 
 }

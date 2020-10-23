@@ -21,7 +21,7 @@
 
 	<div class="container">
 		<h1 id="pageTitle">Successful Registration</h1>
-		<h3>${customer.fName}'s profile was successfully created</h3>
+		<h3>${customer.fName}'sprofilewas successfully created</h3>
 		<hr />
 
 		<table class="table table-striped table-bordered">
@@ -52,6 +52,14 @@
 			<tr>
 				<td><b>Phone Number</b></td>
 				<td>${customer.phoneNumber}</td>
+			</tr>
+			<tr>
+				<td><b>Password recovery question</b></td>
+				<td>${customer.passQuestion}</td>
+			</tr>
+			<tr>
+				<td><b>Password recovery answer</b></td>
+				<td>${customer.passAnswer}</td>
 			</tr>
 
 		</table>

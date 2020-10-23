@@ -5,12 +5,14 @@ public class Customer extends User {
 	private String phoneNumber;
 	private String address;
 	private String email;
+
 	
-	public Customer(String username, String password, String fName, String lName, String userType, String phoneNumber, String address, String email) {
-		super(username, password, fName, lName, "Customer");
+	public Customer(String username, String password, String fName, String lName, String userType, String phoneNumber, String address, String email, String passQuestion, String passAnswer) {
+		super(username, password, fName, lName, "Customer", passQuestion, passAnswer);
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.email = email;
+
 	}
 	
 	public Customer() {
@@ -46,5 +48,7 @@ public class Customer extends User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 }

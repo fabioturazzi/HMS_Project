@@ -1,4 +1,5 @@
 package com.csis3275.controller;
+
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.csis3275.dao.CustomerDAOImpl;
 import com.csis3275.dao.StaffDAOImpl;
@@ -29,10 +31,9 @@ public class UserController {
 
 	@Autowired
 	CustomerDAOImpl customerDAOImp;
-	
+
 	@Autowired
 	StaffDAOImpl staffDAOImp;
-
 
 	@ModelAttribute("staff")
 	public Staff setupAddFormStaff() {
@@ -53,13 +54,16 @@ public class UserController {
 		User user = new User();
 		model.addAttribute("user", user);
 
+		model.addAttribute("changePassMessage", session.getAttribute("changePassMessage"));
+		session.removeAttribute("changePassMessage");
+		
 		session.removeAttribute("sessionHash");
 		session.removeAttribute("userType");
 		session.removeAttribute("manage");
 		session.removeAttribute("username");
 
 		session.invalidate();
-		
+
 		return "login";
 	}
 
@@ -69,27 +73,26 @@ public class UserController {
 	@PostMapping("/")
 	public String checkCredentials(HttpSession session, User user, ModelMap model) {
 
-		
 		List<Customer> authCustomer = customerDAOImp.getUsernamePassword(user.getUsernameForm());
 		List<Staff> authStaff = staffDAOImp.getUsernamePassword(user.getUsernameForm());
-		
+
 		/*
 		 * Checking and searching for a user in the database (Customer and Staff)
 		 */
-		
+
 		if (authCustomer.size() > 0) {
-			if (isAuthenticated(authCustomer.get(0).getUsername(), authCustomer.get(0).getPassword()
-					, user.getUsernameForm(), user.getPasswordForm())) {
-				
+			if (isAuthenticated(authCustomer.get(0).getUsername(), authCustomer.get(0).getPassword(),
+					user.getUsernameForm(), user.getPasswordForm())) {
+
 				model.addAttribute("message", "Hello " + authCustomer.get(0).getfName());
 				session.setAttribute("sessionHash", session);
-				
-				//testing
+
+				// testing
 				session.setAttribute("username", authCustomer.get(0).getUsername());
-				
-				//Check if user has management access
+
+				// Check if user has management access
 				hasManageAccess(session, authCustomer.get(0).getUserType());
-				
+
 				return "roomSearch";
 			} else {
 				model.addAttribute("message", "Username and/or Password do not match");
@@ -97,26 +100,26 @@ public class UserController {
 				return "login";
 			}
 		}
-		
+
 		if (authStaff.size() > 0) {
-			if (isAuthenticated(authStaff.get(0).getUsername(), authStaff.get(0).getPassword()
-					, user.getUsernameForm(), user.getPasswordForm())) {
-				
+			if (isAuthenticated(authStaff.get(0).getUsername(), authStaff.get(0).getPassword(), user.getUsernameForm(),
+					user.getPasswordForm())) {
+
 				model.addAttribute("message", "Hello " + authStaff.get(0).getfName());
 				session.setAttribute("sessionHash", session);
-				
-				//testing
+
+				// testing
 				session.setAttribute("username", authStaff.get(0).getUsername());
-				
-				//Check if user has management access
+
+				// Check if user has management access
 				hasManageAccess(session, authStaff.get(0).getUserType());
-				
+
 				// Get a list of customers from the database
 				List<Customer> customers = customerDAOImp.getAllCustomers();
 
 				// Add the list of customers to the model to be returned to the view
 				model.addAttribute("customerList", customers);
-				
+
 				return "customerManagement";
 			} else {
 				model.addAttribute("message", "Username and/or Password does not match");
@@ -127,13 +130,97 @@ public class UserController {
 		model.addAttribute("message", "Username and/or Password do not match");
 		return "login";
 	}
-	
+
+	@GetMapping("/resetPassword")
+	public String resetPassword(HttpSession session, ModelMap model) {
+
+		User user = new User();
+		model.addAttribute("user", user);
+
+		return "resetPassword";
+	}
+
+	@PostMapping("/resetPassword")
+	public String resetPassword(HttpSession session, User user, ModelMap model) {
+
+		List<Customer> resetCustomer = customerDAOImp.getCustomer(user.getUsername());
+		List<Staff> resetStaff = staffDAOImp.getStaff(user.getUsername());
+
+		/*
+		 * Checking and searching for a user in the database (Customer and Staff)
+		 */
+
+		if (!resetCustomer.isEmpty()) {
+
+			session.setAttribute("user", resetCustomer.get(0));
+			return "redirect:/resetPasswordConfirm";
+		} else if (!resetStaff.isEmpty()) {
+
+			session.setAttribute("user", resetStaff.get(0));
+			return "redirect:/resetPasswordConfirm";
+		} else {
+			model.addAttribute("message", "Username doesn't exist");
+			return "resetPassword";
+		}
+
+	}
+
+	@GetMapping("/resetPasswordConfirm")
+	public String resetPasswordConfirm(HttpSession session, ModelMap model) {
+
+		User user = (User) session.getAttribute("user");
+
+		model.addAttribute("message", session.getAttribute("message"));
+		session.removeAttribute("message");
+
+		user.setPassword("");
+		user.setPassAnswer("");
+
+		model.addAttribute("user", user);
+
+		return "resetPasswordConfirm";
+	}
+
+	@PostMapping("/resetPasswordConfirm")
+	public String resetPasswordConfirm(HttpSession session, @ModelAttribute("user") User user, ModelMap model) {
+
+		List<Customer> resetCustomer = customerDAOImp.getPasswordQuestion(user.getUsername(), user.getPassQuestion(),
+				user.getPassAnswer());
+		List<Staff> resetStaff = staffDAOImp.getPasswordQuestion(user.getUsername(), user.getPassQuestion(),
+				user.getPassAnswer());
+
+		if (!resetCustomer.isEmpty()) {
+			// change password
+			customerDAOImp.updatePassword(user);
+
+			session.removeAttribute("user");
+			session.setAttribute("changePassMessage", "Password successfully changed for " + user.getUsername());
+
+			return "redirect:/";
+
+		} else if (!resetStaff.isEmpty()) {
+			// change password
+			staffDAOImp.updatePassword(user);
+
+			session.removeAttribute("user");
+			session.setAttribute("changePassMessage", "Password successfully changed for " + user.getUsername());
+
+			return "redirect:/";
+
+		} else {
+			session.setAttribute("message", "Answer incorrect");
+			return "redirect:/resetPasswordConfirm";
+		}
+
+	}
+
 	/*
-	 * This method check if the username and password provided matches the one stored inside the DB
+	 * This method check if the username and password provided matches the one
+	 * stored inside the DB
 	 */
 	private boolean isAuthenticated(String userDb, String passDb, String username, String password) {
 		boolean isAuth = false;
-		
+
 		if (userDb.equals(username) && passDb.equals(password)) {
 			isAuth = true;
 		} else {
@@ -141,22 +228,22 @@ public class UserController {
 		}
 		return isAuth;
 	}
-	
+
 	/*
 	 * This method check if the session is valid based on User Authentication.
 	 */
 	public boolean hasValidSession(HttpSession session) {
 		boolean isValid = false;
-		
+
 		if (session.getAttribute("sessionHash") == session) {
 			isValid = true;
 		} else {
 			isValid = false;
 		}
-		
+
 		return isValid;
 	}
-	
+
 	/*
 	 * Check management Access
 	 */

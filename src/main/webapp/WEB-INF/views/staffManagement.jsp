@@ -42,6 +42,8 @@
 				<td>Last Name</td>
 				<td>Username</td>
 				<td>Position</td>
+				<td>Recovery Question</td>
+				<td>Recovery Answer</td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -52,6 +54,8 @@
 					<td>${staff.lName}</td>
 					<td>${staff.username}</td>
 					<td>${staff.position}</td>
+					<td>${staff.passQuestion}</td>
+					<td>${staff.passAnswer}</td>
 					<td><a
 						href="${pageContext.request.contextPath}/editStaff/?id=${staff.id}">Edit</a></td>
 					<td><a
@@ -96,7 +100,8 @@
 				<label for="password" class="col-md-3 control-label">Password</label>
 				<div class="col-md-9">
 					<form:input path="password" type="password" cssClass="form-control"
-						required="required" value="" pattern=".{8,}" title="Password must have 8 characters"/>
+						required="required" value="" pattern=".{8,}"
+						title="Password must have 8 characters" />
 				</div>
 			</div>
 
@@ -104,6 +109,22 @@
 				<label for="position" class="col-md-3 control-label">Position</label>
 				<div class="col-md-9">
 					<form:input path="position" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passQuestion" class="col-md-3 control-label">Password
+					Recovery Question</label>
+				<div class="col-md-9">
+					<form:input path="passQuestion" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passAnswer" class="col-md-3 control-label">Password
+					Recovery Answer</label>
+				<div class="col-md-9">
+					<form:input path="passAnswer" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>

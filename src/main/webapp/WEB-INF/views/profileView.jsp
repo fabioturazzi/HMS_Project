@@ -100,8 +100,22 @@
 					<div class="form-group">
 						<div class="col-xs-6">
 							<h4>Address</h4>
-							<input type="email" class="form-control" value="${user.address }"
+							<input type="text" class="form-control" value="${user.address }"
 								disabled>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-6">
+							<h4>Password Question</h4>
+							<input type="text" class="form-control"
+								value="${user.passQuestion }" disabled>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-6">
+							<h4>Password Answer</h4>
+							<input type="text" class="form-control"
+								value="${user.passAnswer }" disabled>
 						</div>
 					</div>
 				</div>
@@ -191,6 +205,20 @@
 								<h4>Address</h4>
 								<form:input path="address" type="text" class="form-control"
 									id="address" value="${user.address }" min="2" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-6">
+								<h4>Password Question</h4>
+								<form:input path="passQuestion" type="text" class="form-control"
+									id="passQuestion" value="${user.passQuestion }" min="2" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-6">
+								<h4>Password Answer</h4>
+								<form:input path="passAnswer" type="text" class="form-control"
+									id="passAnswer" value="${user.passAnswer }" min="2" />
 							</div>
 						</div>
 

@@ -17,6 +17,9 @@ public class StaffMapper implements RowMapper<Staff>{
 		staff.setPassword(resultSet.getString("password"));
 		staff.setUsername(resultSet.getString("username"));
 		staff.setUserType(resultSet.getString("userType"));
+		staff.setPassQuestion(resultSet.getString("passQuestion"));
+		staff.setPassAnswer(resultSet.getString("passAnswer"));
+
 		
 		return staff;
 		

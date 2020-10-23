@@ -20,9 +20,10 @@ public class User {
 	private String passwordForm;
 	private String registrationDate;
 	private String profileUpdated;
-
+	private String passQuestion;
+	private String passAnswer;
 	
-	public User(String username, String password, String fName, String lName, String userType) {
+	public User(String username, String password, String fName, String lName, String userType, String passQuestion, String passAnswer) {
 
 		this.username = username;
 		this.password = password;
@@ -30,6 +31,8 @@ public class User {
 		this.fName = fName;
 		this.lName = lName;
 		this.userType = userType;
+		this.passQuestion = passQuestion;
+		this.passAnswer = passAnswer;
 	}
 	
 	public String getRegistrationDate() {
@@ -136,6 +139,21 @@ public class User {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+	public String getPassQuestion() {
+		return passQuestion;
+	}
+
+	public void setPassQuestion(String passQuestion) {
+		this.passQuestion = passQuestion;
+	}
+
+	public String getPassAnswer() {
+		return passAnswer;
+	}
+
+	public void setPassAnswer(String passAnswer) {
+		this.passAnswer = passAnswer;
 	}
 
 }

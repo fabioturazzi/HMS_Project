@@ -57,7 +57,8 @@
 				<label for="password" class="col-md-3 controllabel">Password:</label>
 				<div class="col-md-9">
 					<form:input type="password" id="password" path="password"
-						cssClass="form-control" required="required" pattern=".{8,}" title="Password must have 8 characters" />
+						cssClass="form-control" required="required" pattern=".{8,}"
+						title="Password must have 8 characters" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -65,7 +66,8 @@
 					Password:</label>
 				<div class="col-md-9">
 					<input type="password" id="confPassword"
-						class="form-control form-control-static" required="required" pattern=".{8,}" title="Password must have 8 characters" />
+						class="form-control form-control-static" required="required"
+						pattern=".{8,}" title="Password must have 8 characters" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -87,6 +89,20 @@
 					Number:</label>
 				<div class="col-md-9">
 					<form:input type="tel" path="phoneNumber" cssClass="form-control"
+						required="required" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passQuestion" class="col-md-3 controllabel">Password recovery - question:</label>
+				<div class="col-md-9">
+					<form:input path="passQuestion" cssClass="form-control"
+						required="required" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passAnswer" class="col-md-3 controllabel">Password recovery - answer:</label>
+				<div class="col-md-9">
+					<form:input path="passAnswer" cssClass="form-control"
 						required="required" />
 				</div>
 			</div>

@@ -23,12 +23,12 @@
 		<hr />
 		<form:form action="${pageContext.request.contextPath}/editCustomer/"
 			cssClass="form-horizontal" method="post" modelAttribute="customer">
-			
+
 			<div class="form-group">
 				<label for="id" class="col-md-3 control-label">Id</label>
 				<div class="col-md-9">
-					<form:input path="id" value="${customer.id}" cssClass="form-control"
-						readonly="true" />
+					<form:input path="id" value="${customer.id}"
+						cssClass="form-control" readonly="true" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -83,6 +83,22 @@
 						required="required" value="" />
 				</div>
 			</div>
+			<div class="form-group">
+				<label for="passQuestion" class="col-md-3 control-label">Password
+					Recovery Question</label>
+				<div class="col-md-9">
+					<form:input path="passQuestion" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passAnswer" class="col-md-3 control-label">Password
+					Recovery Answer</label>
+				<div class="col-md-9">
+					<form:input path="passAnswer" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
 
 			<div class="form-group">
 				<!-- Button -->
@@ -91,6 +107,7 @@
 
 				</div>
 			</div>
+
 		</form:form>
 
 	</div>

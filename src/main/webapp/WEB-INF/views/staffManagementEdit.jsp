@@ -15,7 +15,7 @@
 <body>
 
 	<div class="pageHeader">
-			<%@ include file="/WEB-INF/views/navBar.jspf"%>
+		<%@ include file="/WEB-INF/views/navBar.jspf"%>
 		<%@ include file="/WEB-INF/views/navBarManage.jspf"%>
 	</div>
 
@@ -62,6 +62,22 @@
 				<label for="position" class="col-md-3 control-label">Position</label>
 				<div class="col-md-9">
 					<form:input path="position" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passQuestion" class="col-md-3 control-label">Password
+					Recovery Question</label>
+				<div class="col-md-9">
+					<form:input path="passQuestion" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passAnswer" class="col-md-3 control-label">Password
+					Recovery Answer</label>
+				<div class="col-md-9">
+					<form:input path="passAnswer" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>

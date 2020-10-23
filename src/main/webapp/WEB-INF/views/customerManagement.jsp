@@ -45,6 +45,8 @@
 				<td>Email</td>
 				<td>Phone number</td>
 				<td>Address</td>
+				<td>Recovery Question</td>
+				<td>Recovery Answer</td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -57,6 +59,8 @@
 					<td>${customer.email}</td>
 					<td>${customer.phoneNumber}</td>
 					<td>${customer.address}</td>
+					<td>${customer.passQuestion}</td>
+					<td>${customer.passAnswer}</td>
 					<td><a
 						href="${pageContext.request.contextPath}/editCustomer/?id=${customer.id}">Edit</a></td>
 					<td><a
@@ -101,7 +105,8 @@
 				<label for="password" class="col-md-3 control-label">Password</label>
 				<div class="col-md-9">
 					<form:input path="password" type="password" cssClass="form-control"
-						required="required" value="" pattern=".{8,}" title="Password must have 8 characters" />
+						required="required" value="" pattern=".{8,}"
+						title="Password must have 8 characters" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -127,6 +132,20 @@
 				<label for="address" class="col-md-3 control-label">Address</label>
 				<div class="col-md-9">
 					<form:input path="address" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passQuestion" class="col-md-3 control-label">Password Recovery Question</label>
+				<div class="col-md-9">
+					<form:input path="passQuestion" cssClass="form-control"
+						required="required" value="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="passAnswer" class="col-md-3 control-label">Password Recovery Answer</label>
+				<div class="col-md-9">
+					<form:input path="passAnswer" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>
