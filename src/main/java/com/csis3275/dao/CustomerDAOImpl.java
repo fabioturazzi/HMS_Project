@@ -27,6 +27,8 @@ public class CustomerDAOImpl {
 	private final String SQL_FIND_CUSTOMER = "SELECT * FROM customers WHERE id = ?";
 	private final String SQL_FIND_PASSQUESTION = "SELECT * FROM customers WHERE username = ? AND passQuestion = ? AND passAnswer = ?";
 	private final String SQL_UPDATE_PASSWORD = "UPDATE customers set password = ? WHERE username = ? AND passQuestion = ? AND passAnswer = ?";
+	private final String SQL_UPDATE_PASSWORDNOQ = "UPDATE customers set password = ? WHERE username = ?";
+	private final String SQL_GET_USERWITHPASS = "SELECT * FROM customers WHERE username = ? AND password = ?";
 	
 	
 	/*
@@ -46,6 +48,10 @@ public class CustomerDAOImpl {
 	
 	public List<Customer> getCustomer(String username)	{
 		return jdbcTemplate.query(SQL_GET_USERNAME, new CustomerMapper(), username);	
+	}
+	
+	public List<Customer> getCustomerWithPass(String username, String pass)	{
+		return jdbcTemplate.query(SQL_GET_USERWITHPASS, new CustomerMapper(), username, pass);	
 	}
 	
 	public List<Customer> getPasswordQuestion(String username, String passQuestion, String passAnswer)	{
@@ -71,6 +77,11 @@ public class CustomerDAOImpl {
 	public boolean updatePassword(User customer) {
 		/**@return boolean indicating changes have been made to database */
 		return jdbcTemplate.update(SQL_UPDATE_PASSWORD, customer.getPassword(), customer.getUsername(), customer.getPassQuestion(), customer.getPassAnswer()) > 0;
+	}
+	
+	public boolean updatePasswordNoQ(User customer) {
+		/**@return boolean indicating changes have been made to database */
+		return jdbcTemplate.update(SQL_UPDATE_PASSWORDNOQ, customer.getPassword(), customer.getUsername()) > 0;
 	}
 	public Customer getCustomerById(int id) {
 		/**@return an entry by its id */

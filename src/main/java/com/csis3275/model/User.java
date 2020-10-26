@@ -75,10 +75,10 @@ public class User {
 	}
 
 	public String getPasswordForm() {
-		if (this.passwordForm != null)
-			this.passwordForm = Base64.getEncoder().encodeToString(this.passwordForm.getBytes());
+//		if (this.passwordForm != null)
+//			this.passwordForm = Base64.getEncoder().encodeToString(this.passwordForm.getBytes());
 		
-		return passwordForm;
+		return this.passwordForm;
 	}
 
 	public void setPasswordForm(String passwordForm) {

@@ -50,13 +50,21 @@
 			</ul>
 
 			<h5>Profile Information</h5>
+
+			<c:if test="${ changePassMessageProfile != null }">
+				<h4 class="alert alert-success" role="alert">${changePassMessageProfile}</h4>
+			</c:if>
+
 			<button type="submit" class="btn btn-primary" name="action"
 				value="edit" data-toggle="modal" data-target="#staticBackdrop"
 				onclick="">Edit</button>
 
-			<a id="deleteBtn"
+			<a id="resetPass"
+				href="${pageContext.request.contextPath}/resetPassFromProf"><label
+				class="btn btn-info">Reset Password</label></a> <a id="deleteBtn"
 				href="${pageContext.request.contextPath}/deleteProfile"><label
 				class="btn btn-danger">Delete Profile</label></a>
+
 			<!--  <button type="submit" id="deleteBtn" class="btn btn-danger" name="action" value="deleteAccount">Delete</button> -->
 			<div class="tab-content">
 				<div class="tab-pane active" id="home">

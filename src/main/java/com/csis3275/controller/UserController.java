@@ -56,7 +56,7 @@ public class UserController {
 
 		model.addAttribute("changePassMessage", session.getAttribute("changePassMessage"));
 		session.removeAttribute("changePassMessage");
-		
+
 		session.removeAttribute("sessionHash");
 		session.removeAttribute("userType");
 		session.removeAttribute("manage");
@@ -75,12 +75,13 @@ public class UserController {
 
 		List<Customer> authCustomer = customerDAOImp.getUsernamePassword(user.getUsernameForm());
 		List<Staff> authStaff = staffDAOImp.getUsernamePassword(user.getUsernameForm());
-
+		user.setPasswordForm(user.getPasswordForm());
 		/*
 		 * Checking and searching for a user in the database (Customer and Staff)
 		 */
 
 		if (authCustomer.size() > 0) {
+
 			if (isAuthenticated(authCustomer.get(0).getUsername(), authCustomer.get(0).getPassword(),
 					user.getUsernameForm(), user.getPasswordForm())) {
 
@@ -145,7 +146,7 @@ public class UserController {
 
 		List<Customer> resetCustomer = customerDAOImp.getCustomer(user.getUsername());
 		List<Staff> resetStaff = staffDAOImp.getStaff(user.getUsername());
-
+		
 		/*
 		 * Checking and searching for a user in the database (Customer and Staff)
 		 */
@@ -173,8 +174,8 @@ public class UserController {
 		model.addAttribute("message", session.getAttribute("message"));
 		session.removeAttribute("message");
 
-		user.setPassword("");
-		user.setPassAnswer("");
+//		user.setPassword("");
+//		user.setPassAnswer("");
 
 		model.addAttribute("user", user);
 
@@ -210,6 +211,44 @@ public class UserController {
 		} else {
 			session.setAttribute("message", "Answer incorrect");
 			return "redirect:/resetPasswordConfirm";
+		}
+
+	}
+
+	@GetMapping("/resetPassFromProf")
+	public String resetPasswordFromProf(HttpSession session, ModelMap model) {
+
+			model.addAttribute("message", session.getAttribute("message"));
+
+		session.removeAttribute("message");
+
+		String username = session.getAttribute("username").toString();
+
+		// Get a customer to delete and redirect to delete confirmation page
+		List<Customer> userPassUpd = customerDAOImp.getCustomer(username);
+		userPassUpd.get(0).setPassword("");
+
+		model.addAttribute("user", userPassUpd.get(0));
+
+		return "resetPasswordInProfile";
+	}
+
+	@PostMapping("/resetPassFromProf")
+	public String resetPasswordFromProf(HttpSession session, @ModelAttribute("user") User user, ModelMap model) {
+
+		List<Customer> resetCustomer = customerDAOImp.getCustomerWithPass(user.getUsername(), user.getPasswordForm());
+
+		if (!resetCustomer.isEmpty()) {
+			// change password
+			customerDAOImp.updatePasswordNoQ(user);
+
+			session.setAttribute("changePassMessageProfile", "Password successfully changed for " + user.getUsername());
+
+			return "redirect:/profile";
+
+		} else {
+			session.setAttribute("message", "Old password does not match");
+			return "redirect:/resetPassFromProf";
 		}
 
 	}
