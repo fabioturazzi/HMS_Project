@@ -61,4 +61,4 @@ local.properties
 /target/
 
 #do not upload information regarding database connection
-./src/main/resources/database.properties
+/src/main/resources/
