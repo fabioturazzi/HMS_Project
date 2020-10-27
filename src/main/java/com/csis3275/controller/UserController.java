@@ -168,18 +168,23 @@ public class UserController {
 
 	@GetMapping("/resetPasswordConfirm")
 	public String resetPasswordConfirm(HttpSession session, ModelMap model) {
-
-		User user = (User) session.getAttribute("user");
-
-		model.addAttribute("message", session.getAttribute("message"));
-		session.removeAttribute("message");
-
-		user.setPassword("");
-		user.setPassAnswer("");
-
-		model.addAttribute("user", user);
-
-		return "resetPasswordConfirm";
+		
+		//check if user has a valid session
+		if (session.getAttribute("user") != null) {
+			User user = (User) session.getAttribute("user");
+	
+			model.addAttribute("message", session.getAttribute("message"));
+			session.removeAttribute("message");
+	
+			user.setPassword("");
+			user.setPassAnswer("");
+	
+			model.addAttribute("user", user);
+	
+			return "resetPasswordConfirm";
+		} else {
+			return "denied";
+		}
 	}
 
 	@PostMapping("/resetPasswordConfirm")
@@ -218,19 +223,25 @@ public class UserController {
 	@GetMapping("/resetPassFromProf")
 	public String resetPasswordFromProf(HttpSession session, ModelMap model) {
 
+		//check if user has a valid session
+		if (session.getAttribute("username") != null) {
+			
 			model.addAttribute("message", session.getAttribute("message"));
-
-		session.removeAttribute("message");
-
-		String username = session.getAttribute("username").toString();
-
-		// Get a customer to delete and redirect to delete confirmation page
-		List<Customer> userPassUpd = customerDAOImp.getCustomer(username);
-		userPassUpd.get(0).setPassword("");
-
-		model.addAttribute("user", userPassUpd.get(0));
-
-		return "resetPasswordInProfile";
+	
+			session.removeAttribute("message");
+	
+			String username = session.getAttribute("username").toString();
+	
+			// Get a customer to delete and redirect to delete confirmation page
+			List<Customer> userPassUpd = customerDAOImp.getCustomer(username);
+			userPassUpd.get(0).setPassword("");
+	
+			model.addAttribute("user", userPassUpd.get(0));
+	
+			return "resetPasswordInProfile";
+		} else {
+			return "denied";
+		}
 	}
 
 	@PostMapping("/resetPassFromProf")
