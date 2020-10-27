@@ -174,8 +174,8 @@ public class UserController {
 		model.addAttribute("message", session.getAttribute("message"));
 		session.removeAttribute("message");
 
-//		user.setPassword("");
-//		user.setPassAnswer("");
+		user.setPassword("");
+		user.setPassAnswer("");
 
 		model.addAttribute("user", user);
 
