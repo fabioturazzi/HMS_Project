@@ -198,13 +198,21 @@ public class CustomerController {
 	@GetMapping("/profile")
 	public String showProfile(HttpSession session, Model model) {
 
-		String username = session.getAttribute("username").toString();
+		//Check if user is logged in and if it is a Customer
+		if (session.getAttribute("username") != null && session.getAttribute("userType").equals("Customer")) {
+			
+			String username = session.getAttribute("username").toString();
 		
-		// Get our customer and show his profile
-		List<Customer> customerData = customerDAOImp.getCustomer(username);
+			// Get our customer and show his profile
+			List<Customer> customerData = customerDAOImp.getCustomer(username);
+	
+			model.addAttribute("user", customerData.get(0));
+			return "profileView";
+		
+		} else {
+			return "denied";
+		}
 
-		model.addAttribute("user", customerData.get(0));
-		return "profileView";
 	}
 
 	/**

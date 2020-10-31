@@ -59,3 +59,6 @@ local.properties
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
 /target/
+
+#do not upload information regarding database connection
+/src/main/resources/
