@@ -13,8 +13,8 @@ public class RoomTypeMapper implements RowMapper<RoomType> {
 		roomType.setRoomTypeId(resultSet.getInt("roomTypeId"));
 		roomType.setRoomType(resultSet.getString("roomType"));
 		roomType.setDailyPrice(resultSet.getDouble("dailyPrice"));
-		roomType.setPhotos(resultSet.getString("photos").replace("[", "").replace("]", "").split(","));
-		roomType.setAmenities(resultSet.getString("amenities").replace("[", "").replace("]", "").split(","));		
+		roomType.setPhotos(resultSet.getString("photos").replace("[", "").replace("]", "").split(", "));
+		roomType.setAmenities(resultSet.getString("amenities").replace("[", "").replace("]", "").split(", "));		
 		
 		return roomType;
 

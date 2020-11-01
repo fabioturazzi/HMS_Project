@@ -1,6 +1,7 @@
 package com.csis3275.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,10 +127,11 @@ public class RoomTypeController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 		
+		RoomType updatedRoomType = roomDAOImp.getRoomTypeById(id);
+
 		model.addAttribute("amenitiesList", getAmenities());
 		
 		// Get the roomType
-		RoomType updatedRoomType = roomDAOImp.getRoomTypeById(id);
 		model.addAttribute("roomType", updatedRoomType);
 		
 		return "roomTypeManagementEdit";

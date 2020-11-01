@@ -103,12 +103,8 @@
 			</div>
 			<div class="form-group">
 				<label for="amenities" class="col-md-3 control-label">Amenities</label>
-				<div class="">
-					<c:forEach items="${amenitiesList}" var="amenity" varStatus="loop">
-						<form:checkbox class="checkboxItems" value="${amenity}"
-							path="amenities" />
-						<label class="checkboxItems" for="${amenity}">${amenity}</label>
-					</c:forEach>
+				<div class="checkboxItems">
+					<form:checkboxes element="span class='checkboxItems'" cssClass="checkboxItems" checkedItems="${roomType.amenities}" items="${amenitiesList}" path="amenities" />
 				</div>
 			</div>
 

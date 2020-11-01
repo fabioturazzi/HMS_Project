@@ -66,21 +66,8 @@
 
 			<div class="form-group">
 				<label for="amenities" class="col-md-3 control-label">Amenities</label>
-				<div class="">
-					<c:forEach items="${amenitiesList}" var="amenity" varStatus="loop">
-						<c:choose>
-							<c:when
-								test="${Arrays.asList(roomType.amenities).contains(amenity)}">
-									<form:checkbox class="" value="${amenity}" path="amenities" />
-									<label class="checkboxItems" for="${amenity}">${amenity}test</label>
-							</c:when>
-							<c:otherwise>
-									<form:checkbox class="checkboxItems" value="${amenity}"
-										path="amenities" />
-									<label class="checkboxItems" for="${amenity}">${amenity}</label>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
+				<div class="checkboxItems">
+					<form:checkboxes element="span class='checkboxItems'" cssClass="checkboxItems" checkedItems="${roomType.amenities}" items="${amenitiesList}" path="amenities" />
 				</div>
 			</div>
 			<div class="form-group">
