@@ -120,13 +120,15 @@ public class BookingController {
 			// set some fields depending on the input
 			createBooking.setDateOfCreation(createBooking.setTodaysDate());
 			createBooking.setStatus("booked");
+			
+System.out.println(request.getParameter("room"));
 
-			createBooking.setRoomNumber(Integer.parseInt(request.getParameter("roomList")));
+			createBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
 			createBooking.setCustomerUsername(request.getParameter("customer"));
 
-			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("roomList")));
+			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("room")));
 			Room room = rooms.get(0);
-			RoomType roomType = roomDAOImpl.getRoomTypeById(room.getRoomId());
+			System.out.println(room.getRoomType());
 
 			createBooking.setRoomType(room.getRoomType());
 
@@ -137,6 +139,8 @@ public class BookingController {
 				noOfDaysBetween = 1;
 			}
 
+			RoomType roomType = roomDAOImpl.getRoomType(room.getRoomType()).get(0);
+			
 			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
 			createBooking.setTotalCost(totalCost);
 

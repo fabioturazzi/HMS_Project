@@ -25,21 +25,24 @@
 			cssClass="form-horizontal" method="post" modelAttribute="booking">
 
 			<div class="form-group">
-				<label for="bookingId" class="col-md-3 control-label">Id</label>
+				<label for="bookingId" class="col-md-3 control-label">Booking
+					Id</label>
 				<div class="col-md-9">
 					<form:input path="bookingId" value="${booking.bookingId}"
 						cssClass="form-control" readonly="true" />
 				</div>
 			</div>
-			
+
 			<div class="form-group" hidden="true">
-				<label for="customerUsername" class="col-md-3 control-label">Customer Username</label>
+				<label for="customerUsername" class="col-md-3 control-label">Customer
+					Username</label>
 				<div class="col-md-9">
-					<form:input path="customerUsername" value="${booking.customerUsername}"
-						cssClass="form-control" readonly="true" />
+					<form:input path="customerUsername"
+						value="${booking.customerUsername}" cssClass="form-control"
+						readonly="true" />
 				</div>
 			</div>
-			
+
 			<!--  
 			<div class="form-group" hidden="true">
 				<label for="dateOfCreation" class="col-md-3 control-label">Date Of Creation</label>
@@ -50,15 +53,31 @@
 			</div> -->
 
 			<div class="form-group">
-				<label for="roomNumber" class="col-md-3 control-label">Room
-					Number</label>
+				<label for="roomNumber" class="col-md-3 control-label">Room</label>
 				<div class="col-md-9">
 					<select name="roomList">
 						<c:forEach items="${roomList}" var="roomList">
-							<option value="${roomList.roomNumber }">${roomList.roomNumber }
-								Type: ${roomList.roomType }</option>
+							<c:choose>
+								<c:when test="${roomList.roomNumber == booking.roomNumber}">
+									<option value="${roomList.roomNumber }" selected>${roomList.roomNumber }
+										Type: ${roomList.roomType }</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${roomList.roomNumber }">${roomList.roomNumber }
+										Type: ${roomList.roomType }</option>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="numbOfPeople" class="col-md-3 control-label">Number
+					of People</label>
+				<div class="col-md-9">
+					<form:input path="numbOfPeople" type="number"
+						value="${booking.numbOfPeople}" cssClass="form-control" />
 				</div>
 			</div>
 

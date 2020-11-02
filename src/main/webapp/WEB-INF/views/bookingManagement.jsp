@@ -87,10 +87,10 @@
 				<label for="roomNumber" class="col-md-3 control-label">Room
 					Number</label>
 				<div class="col-md-9">
-					<select name="roomList">
-						<c:forEach items="${roomList}" var="roomList">
-							<option value="${roomList.roomNumber }">${roomList.roomNumber }
-								Type: ${roomList.roomType }</option>
+					<select name="room">
+						<c:forEach items="${roomList}" var="room">
+							<option value="${room.roomNumber }">${room.roomNumber }
+								Type: ${room.roomType }</option>
 						</c:forEach>
 					</select>
 				</div>
