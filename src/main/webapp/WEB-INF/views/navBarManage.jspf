@@ -3,13 +3,20 @@
 	<nav class="navbar navbar-light">
 		<ul class="nav navbar-nav">
 			<li class="userNav1"><a
-				href="${pageContext.request.contextPath}/userManagement/customer">Manage Customers</a></li>
+				href="${pageContext.request.contextPath}/userManagement/customer">Manage
+					Customers</a></li>
 			<li class="userNav2"><a
-				href="${pageContext.request.contextPath}/userManagement/staff">Manage Staff</a></li>
+				href="${pageContext.request.contextPath}/userManagement/staff">Manage
+					Staff</a></li>
 			<li class="roomNav1"><a
-				href="${pageContext.request.contextPath}/roomManagement/room">Manage Rooms</a></li>
+				href="${pageContext.request.contextPath}/roomManagement/room">Manage
+					Rooms</a></li>
 			<li class="roomNav2"><a
-				href="${pageContext.request.contextPath}/roomManagement/roomType">Manage Room Types</a></li>
+				href="${pageContext.request.contextPath}/roomManagement/roomType">Manage
+					Room Types</a></li>
+			<li class="roomNav2"><a
+				href="${pageContext.request.contextPath}/bookingManagement">Manage
+					Bookings</a></li>
 			<li class="dataManagement dataNav3"><a>Manage Facilities
 					(und.dev.)</a></li>
 
