@@ -3,6 +3,9 @@ package com.csis3275.controller;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -106,8 +109,6 @@ public class BookingController {
 
 		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(sd, new ParsePosition(0));
 		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(ed, new ParsePosition(0));
-		
-		System.out.println(startDate + " " + endDate);
 
 		if (endDate.compareTo(startDate) < 0) {
 			
@@ -122,14 +123,27 @@ public class BookingController {
 			createBooking.setRoomNumber(Integer.parseInt(request.getParameter("roomList")));
 			createBooking.setCustomerId(Integer.parseInt(request.getParameter("customer")));
 
-			List<Room> room = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("roomList")));
-			createBooking.setRoomType(room.get(0).getRoomType());
-
+			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("roomList")));
+			Room room = rooms.get(0);
+			RoomType roomType = roomDAOImpl.getRoomTypeById(room.getRoomId());
+			
+			createBooking.setRoomType(room.getRoomType());
+			
+			// Calculate price
+			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(sd), LocalDate.parse(ed));
+			
+			if (noOfDaysBetween == 0) {
+				noOfDaysBetween = 1;
+			}
+			
+			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
+			createBooking.setTotalCost(totalCost);
+			
 			// put new booking to the DB
 			bookingDAOImp.createBooking(createBooking);
 
 			model.addAttribute("booking", createBooking);
-			model.addAttribute("message", "Booking created successfully created!");
+			model.addAttribute("message", "Booking was successfully created!");
 			
 		}
 		
