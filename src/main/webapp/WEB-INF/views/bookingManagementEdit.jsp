@@ -33,20 +33,21 @@
 			</div>
 			
 			<div class="form-group" hidden="true">
-				<label for="customerId" class="col-md-3 control-label">Customer ID</label>
+				<label for="customerUsername" class="col-md-3 control-label">Customer Username</label>
 				<div class="col-md-9">
-					<form:input path="customerId" value="${booking.customerId}"
+					<form:input path="customerUsername" value="${booking.customerUsername}"
 						cssClass="form-control" readonly="true" />
 				</div>
 			</div>
-
-			<div class="form-group" >
+			
+			<!--  
+			<div class="form-group" hidden="true">
 				<label for="dateOfCreation" class="col-md-3 control-label">Date Of Creation</label>
 				<div class="col-md-9">
 					<form:input type="date" path="dateOfCreation" value="${booking.dateOfCreation}"
 						cssClass="form-control" readonly="true" />
 				</div>
-			</div>
+			</div> -->
 
 			<div class="form-group">
 				<label for="roomNumber" class="col-md-3 control-label">Room

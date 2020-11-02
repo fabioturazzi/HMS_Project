@@ -28,7 +28,6 @@ import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
-import com.csis3275.model.Staff;
 
 @Controller
 public class BookingController {
@@ -123,7 +122,7 @@ public class BookingController {
 			createBooking.setStatus("booked");
 
 			createBooking.setRoomNumber(Integer.parseInt(request.getParameter("roomList")));
-			createBooking.setCustomerId(Integer.parseInt(request.getParameter("customer")));
+			createBooking.setCustomerUsername(request.getParameter("customer"));
 
 			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("roomList")));
 			Room room = rooms.get(0);
@@ -168,7 +167,7 @@ public class BookingController {
 		Booking bookingToUpdate = bookingDAOImp.getBooking(id);
 		model.addAttribute("booking", bookingToUpdate);
 
-		Customer customer = customerDAOImp.getCustomerById(bookingToUpdate.getCustomerId());
+		Customer customer = customerDAOImp.getCustomer(bookingToUpdate.getCustomerUsername()).get(0);
 		model.addAttribute("customer", customer);
 
 		List<Customer> custormersList = customerDAOImp.getAllCustomers();

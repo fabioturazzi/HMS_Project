@@ -22,10 +22,10 @@ public class BookingDAOImpl {
 	/* private final String SQL_GET_ALL = "SELECT BOOKINGID,  ROOMNUMBER, CUSTOMERID, customers.FNAME, customers.LNAME, customers.EMAIL,  customers.PHONENUMBER, STATUS, PAID, BOOKINGDATESTART,  	BOOKINDDATEEND, CHECKINDATE,  CHECKOUTDATE, PAYMENTDATE, DATEOFCREATION, TOTALCOST, ROOMTYPE FROM bookings\r\n" + 
 			"JOIN customers ON bookings.customerId = customers.id;"; */
 	private final String SQL_GET_ALL = "SELECT * FROM bookings;";
-	private final String SQL_CREATE_BOOKING = "INSERT INTO bookings(roomNumber, customerId, status, paid, bookingDateStart, bookindDateEnd, checkinDate, checkoutDate, paymentDate, dateOfCreation, totalCost, roomType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+	private final String SQL_CREATE_BOOKING = "INSERT INTO bookings(roomNumber, customerUsername, numbOfPeople, status, paid, bookingDateStart, bookindDateEnd, checkinDate, checkoutDate, paymentDate, dateOfCreation, totalCost, roomType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private final String SQL_DELETE_BOOKING = "DELETE FROM bookings WHERE bookingId = ?";
 	private final String SQL_FIND_BOOKING = "SELECT * FROM bookings WHERE bookingId = ?";
-	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set roomNumber = ?, customerId = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
+	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set roomNumber = ?, customerUsername = ?, numbOfPeople  = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
 	
 	@Autowired
 	public BookingDAOImpl (DataSource dataSource)	{
@@ -41,11 +41,11 @@ public class BookingDAOImpl {
 	}
 	
 	public boolean createBooking(Booking newBooking) {
-		return jdbcTemplate.update(SQL_CREATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerId(), newBooking.getStatus(), newBooking.isPaid(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd(), newBooking.getCheckinDate(), newBooking.getCheckoutDate(), newBooking.getPaymentDate(), newBooking.getDateOfCreation(), newBooking.getTotalCost(), newBooking.getRoomType()) > 0;
+		return jdbcTemplate.update(SQL_CREATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerUsername(), newBooking.getNumbOfPeople(), newBooking.getStatus(), newBooking.isPaid(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd(), newBooking.getCheckinDate(), newBooking.getCheckoutDate(), newBooking.getPaymentDate(), newBooking.getDateOfCreation(), newBooking.getTotalCost(), newBooking.getRoomType()) > 0;
 	}
 	
 	public boolean updateBooking(Booking newBooking) {
-		return jdbcTemplate.update(SQL_UPDATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerId(), newBooking.getStatus(), newBooking.isPaid(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd(), newBooking.getCheckinDate(), newBooking.getCheckoutDate(), newBooking.getPaymentDate(), newBooking.getDateOfCreation(), newBooking.getTotalCost(), newBooking.getRoomType(), newBooking.getBookingId()) > 0;
+		return jdbcTemplate.update(SQL_UPDATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerUsername(), newBooking.getNumbOfPeople(), newBooking.getStatus(), newBooking.isPaid(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd(), newBooking.getCheckinDate(), newBooking.getCheckoutDate(), newBooking.getPaymentDate(), newBooking.getDateOfCreation(), newBooking.getTotalCost(), newBooking.getRoomType(), newBooking.getBookingId()) > 0;
 	}
 	
 	public boolean deleteBooking(int idToDelete) {

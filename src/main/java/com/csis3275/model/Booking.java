@@ -7,7 +7,8 @@ public class Booking {
 
 	private int bookingId;
 	private int roomNumber;
-	private int customerId;
+	private String customerUsername;
+	private int numbOfPeople;
 	private String status; // booked, checked-in, checked-out
 	private boolean paid;
 	private String bookingDateStart;
@@ -45,12 +46,20 @@ public class Booking {
 		this.roomNumber = roomNumber;
 	}
 
-	public int getCustomerId() {
-		return customerId;
+	public String getCustomerUsername() {
+		return customerUsername;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setCustomerUsername(String customerUsername) {
+		this.customerUsername = customerUsername;
+	}	
+
+	public int getNumbOfPeople() {
+		return numbOfPeople;
+	}
+
+	public void setNumbOfPeople(int numbOfPeople) {
+		this.numbOfPeople = numbOfPeople;
 	}
 
 	public String getStatus() {
@@ -130,7 +139,7 @@ public class Booking {
 	}
 
 	public void setRoomType(String roomType) {
-		roomType = roomType;
+		this.roomType = roomType;
 	}
 
 }

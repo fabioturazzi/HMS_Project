@@ -12,7 +12,8 @@ public class BookingMapper implements RowMapper<Booking>{
 		Booking booking = new Booking();
 		booking.setBookingId(resultSet.getInt("bookingId"));
 		booking.setRoomNumber(resultSet.getInt("roomNumber"));
-		booking.setCustomerId(resultSet.getInt("customerId"));
+		booking.setCustomerUsername(resultSet.getString("customerUsername"));
+		booking.setNumbOfPeople(resultSet.getInt("numbOfPeople"));
 		booking.setStatus(resultSet.getString("status"));
 		booking.setPaid(resultSet.getBoolean("paid"));
 		booking.setBookingDateStart(resultSet.getString("bookingDateStart"));

@@ -40,7 +40,7 @@
 			<tr class="dataHeader">
 				<td>Booking Id</td>
 				<td>Room Number</td>
-				<td>Customer ID</td>
+				<td>Customer Username</td>
 				<td>Room Type</td>
 				<td>Status</td>
 				<td>Paid</td>
@@ -58,7 +58,7 @@
 				<tr class="dataRows">
 					<td>${booking.bookingId}</td>
 					<td>${booking.roomNumber}</td>
-					<td>${booking.customerId}</td>
+					<td>${booking.customerUsername}</td>
 					<td>${booking.roomType}</td>
 					<td>${booking.status}</td>
 					<td>${booking.paid}</td>
@@ -98,11 +98,11 @@
 
 			<div class="form-group">
 				<label for="customerId" class="col-md-3 control-label">Customer
-					ID</label>
+					Username</label>
 				<div class="col-md-9">
 					<select name="customer">
 						<c:forEach items="${custormersList}" var="customer">
-							<option value="${customer.id}">${customer.id}</option>
+							<option value="${customer.username}">${customer.username}</option>
 						</c:forEach>
 					</select>
 				</div>
