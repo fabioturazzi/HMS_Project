@@ -5,11 +5,11 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class BookingMapper implements RowMapper<BookingModel>{
+public class BookingMapper implements RowMapper<Booking>{
 	
-	public BookingModel mapRow(ResultSet resultSet, int i) throws SQLException {
+	public Booking mapRow(ResultSet resultSet, int i) throws SQLException {
 		
-		BookingModel booking = new BookingModel();
+		Booking booking = new Booking();
 		booking.setBookingId(resultSet.getInt("bookingId"));
 		booking.setRoomNumber(resultSet.getInt("roomNumber"));
 		booking.setCustomerId(resultSet.getInt("customerId"));

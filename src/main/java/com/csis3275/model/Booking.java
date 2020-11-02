@@ -1,6 +1,6 @@
 package com.csis3275.model;
 
-public class BookingModel {
+public class Booking {
 
 	private int bookingId;
 	private int roomNumber;

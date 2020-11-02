@@ -14,7 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 import com.csis3275.dao.RoomDAOImpl;
-import com.csis3275.model.BookingModel;
+import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
@@ -25,8 +25,8 @@ public class BookingController {
 	RoomDAOImpl roomDAOImp;
 
 	@ModelAttribute("booking")
-	public BookingModel setupAddForm() {
-		return new BookingModel();
+	public Booking setupAddForm() {
+		return new Booking();
 	}
 	
 	// Create object for the UserController
