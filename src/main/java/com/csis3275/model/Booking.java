@@ -1,5 +1,8 @@
 package com.csis3275.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Booking {
 
 	private int bookingId;
@@ -18,6 +21,12 @@ public class Booking {
 	
 	public Booking() {
 		
+	}
+	
+	public String setTodaysDate() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String formatted = df.format(new Date());
+		return formatted;
 	}
 	
 	public int getBookingId() {

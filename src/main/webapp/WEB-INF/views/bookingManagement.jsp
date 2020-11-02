@@ -87,31 +87,43 @@
 				<label for="roomNumber" class="col-md-3 control-label">Room
 					Number</label>
 				<div class="col-md-9">
-					<form:input path="roomNumber" cssClass="form-control"
-						required="required" value="" />
+					<select name="roomList">
+						<c:forEach items="${roomList}" var="roomList">
+							<option value="${roomList.roomNumber }">${roomList.roomNumber }
+								Type: ${roomList.roomType }</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="customerId" class="col-md-3 control-label">Customer ID</label>
+				<label for="customerId" class="col-md-3 control-label">Customer
+					ID</label>
 				<div class="col-md-9">
-					<form:input path="customerId" cssClass="form-control"
-						required="required" value="" />
+					<select name="customer">
+						<c:forEach items="${custormersList}" var="customer">
+							<option value="${customer.id}">${customer.id}</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
+
 			<c:if test="${ errorMessage !=null }">
 				<div class="alert alert-danger">${errorMessage}</div>
 			</c:if>
 
 			<div class="form-group">
-				<label for="bookingDateStart" class="col-md-3 control-label">Booking From</label>
+				<label for="bookingDateStart" class="col-md-3 control-label">Booking
+					From</label>
 				<div class="col-md-9">
 					<form:input type="date" path="bookingDateStart"
 						cssClass="form-control" required="required" value="" />
 				</div>
 			</div>
+
 			<div class="form-group">
-				<label for="bookindDateEnd" class="col-md-3 control-label">Booking To</label>
+				<label for="bookindDateEnd" class="col-md-3 control-label">Booking
+					To</label>
 				<div class="col-md-9">
 					<form:input type="date" path="bookindDateEnd"
 						cssClass="form-control" required="required" value="" />
@@ -119,10 +131,9 @@
 			</div>
 
 			<div class="form-group">
-				<label for="roomType" class="col-md-3 control-label">Room Type</label>
-				<div class="col-md-9">
-					<form:input path="roomType" cssClass="form-control"
-						required="required" value="" />
+				<!-- Button -->
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn btn-primary">Submit</button>
 				</div>
 			</div>
 

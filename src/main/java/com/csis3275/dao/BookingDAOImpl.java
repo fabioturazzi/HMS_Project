@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.csis3275.model.BookingMapper;
+import com.csis3275.model.RoomMapper;
 import com.csis3275.model.Booking;
 
 @Component
@@ -27,7 +28,7 @@ public class BookingDAOImpl {
 	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set (roomNumber = ?, customerId = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE id = ?";
 	
 	@Autowired
-	public BookingDAOImpl(DataSource dataSource)	{
+	public BookingDAOImpl (DataSource dataSource)	{
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
@@ -35,8 +36,8 @@ public class BookingDAOImpl {
 		return jdbcTemplate.query(SQL_GET_ALL, new BookingMapper());	
 	}
 	
-	public List<Booking> getBooking(int id)	{
-		return jdbcTemplate.query(SQL_FIND_BOOKING, new BookingMapper(), id);	
+	public Booking getBooking(int id)	{
+		return jdbcTemplate.queryForObject(SQL_FIND_BOOKING, new Object[] { id },new BookingMapper());	
 	}
 	
 	public boolean createBooking(Booking newBooking) {
