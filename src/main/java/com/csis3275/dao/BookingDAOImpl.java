@@ -23,9 +23,9 @@ public class BookingDAOImpl {
 			"JOIN customers ON bookings.customerId = customers.id;"; */
 	private final String SQL_GET_ALL = "SELECT * FROM bookings;";
 	private final String SQL_CREATE_BOOKING = "INSERT INTO bookings(roomNumber, customerId, status, paid, bookingDateStart, bookindDateEnd, checkinDate, checkoutDate, paymentDate, dateOfCreation, totalCost, roomType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-	private final String SQL_DELETE_BOOKING = "DELETE FROM bookings WHERE id = ?";
-	private final String SQL_FIND_BOOKING = "SELECT * FROM bookings WHERE id = ?";
-	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set (roomNumber = ?, customerId = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE id = ?";
+	private final String SQL_DELETE_BOOKING = "DELETE FROM bookings WHERE bookingId = ?";
+	private final String SQL_FIND_BOOKING = "SELECT * FROM bookings WHERE bookingId = ?";
+	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set (roomNumber = ?, customerId = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
 	
 	@Autowired
 	public BookingDAOImpl (DataSource dataSource)	{

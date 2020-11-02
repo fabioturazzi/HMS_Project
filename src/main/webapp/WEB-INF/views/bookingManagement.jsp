@@ -116,8 +116,8 @@
 				<label for="bookingDateStart" class="col-md-3 control-label">Booking
 					From</label>
 				<div class="col-md-9">
-					<form:input type="date" path="bookingDateStart"
-						cssClass="form-control" required="required" value="" />
+					<form:input type="date" name="startDate" path="bookingDateStart"
+						cssClass="form-control" required="required" />
 				</div>
 			</div>
 
@@ -125,8 +125,8 @@
 				<label for="bookindDateEnd" class="col-md-3 control-label">Booking
 					To</label>
 				<div class="col-md-9">
-					<form:input type="date" path="bookindDateEnd"
-						cssClass="form-control" required="required" value="" />
+					<form:input type="date" name="endDate" path="bookindDateEnd"
+						cssClass="form-control" required="required" />
 				</div>
 			</div>
 
