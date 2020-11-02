@@ -12,17 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-
-import com.csis3275.dao.RoomDAOImpl;
+import com.csis3275.dao.BookingDAOImpl;
 import com.csis3275.model.Booking;
-import com.csis3275.model.Customer;
-import com.csis3275.model.Room;
-import com.csis3275.model.RoomType;
 
+@Controller
 public class BookingController {
 	
 	@Autowired
-	RoomDAOImpl roomDAOImp;
+	BookingDAOImpl bookingDAOImp;
 
 	@ModelAttribute("booking")
 	public Booking setupAddForm() {
@@ -32,15 +29,15 @@ public class BookingController {
 	// Create object for the UserController
 	UserController user = new UserController();
 	
-	@GetMapping("/bookingManagement")
-	public String showCustomers(HttpSession session, Model model) {
+	@GetMapping("/bookingManagement/bookings")
+	public String showBookings(HttpSession session, Model model) {
 
 		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
 		// Get a list of customers from the database
-		List<Room> bookings = roomDAOImp.getAllRooms();
+		List<Booking> bookings = bookingDAOImp.getAllBookings();
 
 		// Add the list of customers to the model to be returned to the view
 		model.addAttribute("bookings", bookings);
@@ -56,10 +53,10 @@ public class BookingController {
 			return "denied";
 		
 		// Get the room
-		roomDAOImp.deleteRoom(id);
+		bookingDAOImp.deleteBooking(id);
 
 		// Get a list of rooms from the controller
-		List<Room> bookings = roomDAOImp.getAllRooms();
+		List<Booking> bookings = bookingDAOImp.getAllBookings();
 		model.addAttribute("bookings", bookings);
 
 		model.addAttribute("message", "Deleted Room: " + id);

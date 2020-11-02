@@ -38,47 +38,64 @@
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">
-				<td>Customer Id</td>
-				<td>First Name</td>
-				<td>Last Name</td>
-				<td>Username</td>
-				<td>Email</td>
-				<td>Phone number</td>
-				<td>Address</td>
-				<td>Recovery Question</td>
-				<td>Recovery Answer</td>
+				<td>Booking Id</td>
+				<td>Room Number</td>
+				<td>Customer ID</td>
+				<td>Room Type</td>
+				<td>Status</td>
+				<td>Paid</td>
+				<td>Start Date</td>
+				<td>End Date</td>
+				<td>Check-in Date</td>
+				<td>Check-out Date</td>
+				<td>Payment Date</td>
+				<td>Booking Creation Date</td>
+				<td>Total Costs</td>
 				<td></td>
 				<td></td>
 			</tr>
 			<c:forEach var="booking" items="${bookings}">
 				<tr class="dataRows">
-					<td>${booking.id}</td>
+					<td>${booking.bookingId}</td>
+					<td>${booking.roomNumber}</td>
+					<td>${booking.customerId}</td>
+					<td>${booking.roomType}</td>
+					<td>${booking.status}</td>
+					<td>${booking.paid}</td>
+					<td>${booking.bookingDateStart}</td>
+					<td>${booking.bookindDateEnd}</td>
+					<td>${booking.checkinDate}</td>
+					<td>${booking.checkoutDate}</td>
+					<td>${booking.paymentDate}</td>
+					<td>${booking.dateOfCreation}</td>
+					<td>$${booking.totalCost}</td>
 					<td><a
-						href="${pageContext.request.contextPath}/editCustomer/?id=${customer.id}">Edit</a></td>
+						href="${pageContext.request.contextPath}/editBooking/?id=${booking.bookingId}">Edit</a></td>
 					<td><a
-						href="${pageContext.request.contextPath}/deleteCustomer/?id=${customer.id}">Delete</a></td>
+						href="${pageContext.request.contextPath}/deleteBooking/?id=${booking.bookingId}">Delete</a></td>
 				</tr>
 			</c:forEach>
 
 		</table>
 
-		<h3>Create Customer</h3>
+		<h3>Create Booking</h3>
 
-		<form:form action="${pageContext.request.contextPath}/createCustomer/"
-			cssClass="form-horizontal" method="post" modelAttribute="customer">
+		<form:form action="${pageContext.request.contextPath}/createBooking/"
+			cssClass="form-horizontal" method="post" modelAttribute="booking">
 
 			<div class="form-group">
-				<label for="fName" class="col-md-3 control-label">First Name</label>
+				<label for="roomNumber" class="col-md-3 control-label">Room
+					Number</label>
 				<div class="col-md-9">
-					<form:input path="fName" cssClass="form-control"
+					<form:input path="roomNumber" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="lName" class="col-md-3 control-label">Last Name</label>
+				<label for="customerId" class="col-md-3 control-label">Customer ID</label>
 				<div class="col-md-9">
-					<form:input path="lName" cssClass="form-control"
+					<form:input path="customerId" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>
@@ -87,65 +104,25 @@
 			</c:if>
 
 			<div class="form-group">
-				<label for="username" class="col-md-3 control-label">Username</label>
+				<label for="bookingDateStart" class="col-md-3 control-label">Booking From</label>
 				<div class="col-md-9">
-					<form:input path="username" cssClass="form-control"
-						required="required" value="" />
+					<form:input type="date" path="bookingDateStart"
+						cssClass="form-control" required="required" value="" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="password" class="col-md-3 control-label">Password</label>
+				<label for="bookindDateEnd" class="col-md-3 control-label">Booking To</label>
 				<div class="col-md-9">
-					<form:input path="password" type="password" cssClass="form-control"
-						required="required" value="" pattern=".{8,}"
-						title="Password must have 8 characters" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="email" class="col-md-3 control-label">Email</label>
-				<div class="col-md-9">
-					<form:input path="email" type="email" cssClass="form-control"
-						required="required" value="" />
-				</div>
-			</div>
-
-
-			<div class="form-group">
-				<label for="phoneNumber" class="col-md-3 control-label">Phone
-					number</label>
-				<div class="col-md-9">
-					<form:input path="phoneNumber" cssClass="form-control"
-						required="required" value="" />
-				</div>
-			</div>
-
-
-			<div class="form-group">
-				<label for="address" class="col-md-3 control-label">Address</label>
-				<div class="col-md-9">
-					<form:input path="address" cssClass="form-control"
-						required="required" value="" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="passQuestion" class="col-md-3 control-label">Password Recovery Question</label>
-				<div class="col-md-9">
-					<form:input path="passQuestion" cssClass="form-control"
-						required="required" value="" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="passAnswer" class="col-md-3 control-label">Password Recovery Answer</label>
-				<div class="col-md-9">
-					<form:input path="passAnswer" cssClass="form-control"
-						required="required" value="" />
+					<form:input type="date" path="bookindDateEnd"
+						cssClass="form-control" required="required" value="" />
 				</div>
 			</div>
 
 			<div class="form-group">
-				<!-- Button -->
-				<div class="col-md-offset-3 col-md-9">
-					<button type="submit" class="btn btn-primary">Submit</button>
+				<label for="roomType" class="col-md-3 control-label">Room Type</label>
+				<div class="col-md-9">
+					<form:input path="roomType" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 

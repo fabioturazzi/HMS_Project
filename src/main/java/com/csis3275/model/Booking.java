@@ -16,6 +16,10 @@ public class Booking {
 	private double totalCost;
 	private String roomType;
 	
+	public Booking() {
+		
+	}
+	
 	public int getBookingId() {
 		return bookingId;
 	}

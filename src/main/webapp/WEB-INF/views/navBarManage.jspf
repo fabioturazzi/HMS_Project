@@ -14,8 +14,8 @@
 			<li class="roomNav2"><a
 				href="${pageContext.request.contextPath}/roomManagement/roomType">Manage
 					Room Types</a></li>
-			<li class="roomNav2"><a
-				href="${pageContext.request.contextPath}/bookingManagement">Manage
+			<li class="roomNav3"><a
+				href="${pageContext.request.contextPath}/bookingManagement/bookings">Manage
 					Bookings</a></li>
 			<li class="dataManagement dataNav3"><a>Manage Facilities
 					(und.dev.)</a></li>
