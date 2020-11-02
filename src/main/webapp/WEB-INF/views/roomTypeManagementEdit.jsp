@@ -67,7 +67,16 @@
 			<div class="form-group">
 				<label for="amenities" class="col-md-3 control-label">Amenities</label>
 				<div class="checkboxItems">
-					<form:checkboxes element="span class='checkboxItems'" cssClass="checkboxItems" checkedItems="${roomType.amenities}" items="${amenitiesList}" path="amenities" />
+					<form:checkboxes element="span class='checkboxItems'"
+						cssClass="checkboxItems" checkedItems="${roomType.amenities}"
+						items="${amenitiesList}" path="amenities" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="capacity" class="col-md-3 control-label">Capacity</label>
+				<div class="col-md-9">
+					<form:input path="capacity" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 			<div class="form-group">

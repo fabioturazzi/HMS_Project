@@ -166,13 +166,8 @@ public class RoomTypeController {
 			return "roomTypeManagement";
 		}
 	}
-	@GetMapping("/roomSearch")
-	public String searchRoomTypes() {
+	
 
-		return "roomSearch";
-	}
-	
-	
 	@ModelAttribute("amenitiesList")
 	public List<String> getAmenities() {
 		List<String> amenitiesList = new ArrayList<String>();

@@ -15,8 +15,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.csis3275.dao.CustomerDAOImpl;
+import com.csis3275.dao.RoomDAOImpl;
 import com.csis3275.dao.StaffDAOImpl;
 import com.csis3275.model.Customer;
+import com.csis3275.model.RoomType;
 import com.csis3275.model.Staff;
 
 import com.csis3275.model.User;
@@ -34,6 +36,9 @@ public class UserController {
 
 	@Autowired
 	StaffDAOImpl staffDAOImp;
+	
+	@Autowired
+	RoomDAOImpl roomDAOImp;
 
 	@ModelAttribute("staff")
 	public Staff setupAddFormStaff() {
@@ -94,7 +99,7 @@ public class UserController {
 				// Check if user has management access
 				hasManageAccess(session, authCustomer.get(0).getUserType());
 
-				return "roomSearch";
+				return "redirect:/roomSearch";
 			} else {
 				model.addAttribute("message", "Username and/or Password do not match");
 				session.removeAttribute("sessionHash");
