@@ -25,7 +25,7 @@ public class BookingDAOImpl {
 	private final String SQL_CREATE_BOOKING = "INSERT INTO bookings(roomNumber, customerId, status, paid, bookingDateStart, bookindDateEnd, checkinDate, checkoutDate, paymentDate, dateOfCreation, totalCost, roomType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private final String SQL_DELETE_BOOKING = "DELETE FROM bookings WHERE bookingId = ?";
 	private final String SQL_FIND_BOOKING = "SELECT * FROM bookings WHERE bookingId = ?";
-	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set (roomNumber = ?, customerId = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
+	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set roomNumber = ?, customerId = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
 	
 	@Autowired
 	public BookingDAOImpl (DataSource dataSource)	{
@@ -45,7 +45,7 @@ public class BookingDAOImpl {
 	}
 	
 	public boolean updateBooking(Booking newBooking) {
-		return jdbcTemplate.update(SQL_UPDATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerId(), newBooking.getStatus(), newBooking.isPaid(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd(), newBooking.getCheckinDate(), newBooking.getCheckoutDate(), newBooking.getPaymentDate(), newBooking.getDateOfCreation(), newBooking.getTotalCost(), newBooking.getRoomType()) > 0;
+		return jdbcTemplate.update(SQL_UPDATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerId(), newBooking.getStatus(), newBooking.isPaid(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd(), newBooking.getCheckinDate(), newBooking.getCheckoutDate(), newBooking.getPaymentDate(), newBooking.getDateOfCreation(), newBooking.getTotalCost(), newBooking.getRoomType(), newBooking.getBookingId()) > 0;
 	}
 	
 	public boolean deleteBooking(int idToDelete) {

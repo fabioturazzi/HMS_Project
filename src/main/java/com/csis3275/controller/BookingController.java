@@ -28,6 +28,7 @@ import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
+import com.csis3275.model.Staff;
 
 @Controller
 public class BookingController {
@@ -105,15 +106,16 @@ public class BookingController {
 
 		String sd = createBooking.getBookingDateStart();
 		String ed = createBooking.getBookindDateEnd();
-		
 
-		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(sd, new ParsePosition(0));
-		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(ed, new ParsePosition(0));
+		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(createBooking.getBookingDateStart(),
+				new ParsePosition(0));
+		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(createBooking.getBookindDateEnd(),
+				new ParsePosition(0));
 
 		if (endDate.compareTo(startDate) < 0) {
-			
+
 			model.addAttribute("errorMessage", "Please, select correct ending date.");
-			
+
 		} else {
 
 			// set some fields depending on the input
@@ -126,32 +128,104 @@ public class BookingController {
 			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("roomList")));
 			Room room = rooms.get(0);
 			RoomType roomType = roomDAOImpl.getRoomTypeById(room.getRoomId());
-			
+
 			createBooking.setRoomType(room.getRoomType());
-			
+
 			// Calculate price
 			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(sd), LocalDate.parse(ed));
-			
+
 			if (noOfDaysBetween == 0) {
 				noOfDaysBetween = 1;
 			}
-			
+
 			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
 			createBooking.setTotalCost(totalCost);
-			
+
 			// put new booking to the DB
 			bookingDAOImp.createBooking(createBooking);
 
 			model.addAttribute("booking", createBooking);
 			model.addAttribute("message", "Booking was successfully created!");
-			
+
 		}
-		
+
 		// Get a list of bookings from the controller
 		List<Booking> bookings = bookingDAOImp.getAllBookings();
 		model.addAttribute("bookings", bookings);
-		
+
 		return "bookingManagement";
+
+	}
+
+	@GetMapping("/editBooking")
+	public String editBooking(@RequestParam(required = true) int id, HttpSession session, Model model) {
+
+		// checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+
+		// Get the customer
+		Booking bookingToUpdate = bookingDAOImp.getBooking(id);
+		model.addAttribute("booking", bookingToUpdate);
+
+		Customer customer = customerDAOImp.getCustomerById(bookingToUpdate.getCustomerId());
+		model.addAttribute("customer", customer);
+
+		List<Customer> custormersList = customerDAOImp.getAllCustomers();
+		model.addAttribute("custormersList", custormersList);
+
+		List<Room> roomList = roomDAOImpl.getAllRooms();
+		model.addAttribute("roomList", roomList);
+
+		return "bookingManagementEdit";
+	}
+
+	@PostMapping("/editBooking")
+	public String updateBooking(@ModelAttribute("booking") Booking updatedBooking, HttpServletRequest request,
+			HttpSession session, Model model) {
+
+		// checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+		
+		String sd = updatedBooking.getBookingDateStart();
+		String ed = updatedBooking.getBookindDateEnd();
+
+		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(updatedBooking.getBookingDateStart(),
+				new ParsePosition(0));
+		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(updatedBooking.getBookindDateEnd(),
+				new ParsePosition(0));;
+
+		if (endDate.compareTo(startDate) < 0) {
+
+			model.addAttribute("errorMessage", "Please, select correct ending date.");
+			return "bookingManagementEdit";
+
+		} else {
+
+			updatedBooking.setRoomNumber(Integer.parseInt(request.getParameter("roomList")));
+			
+			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(sd), LocalDate.parse(ed));
+
+			if (noOfDaysBetween == 0) {
+				noOfDaysBetween = 1;
+			}
+			
+			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("roomList")));
+			Room room = rooms.get(0);
+			RoomType roomType = roomDAOImpl.getRoomTypeById(room.getRoomId());
+
+			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
+			updatedBooking.setTotalCost(totalCost);
+			
+			bookingDAOImp.updateBooking(updatedBooking);
+
+			List<Booking> bookings = bookingDAOImp.getAllBookings();
+			model.addAttribute("bookings", bookings);
+			model.addAttribute("message", "Updated Booking " + updatedBooking.getBookingId());
+			return "bookingManagement";
+
+		}
 
 	}
 
