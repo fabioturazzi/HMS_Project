@@ -14,7 +14,7 @@ public class BookingModel {
 	private String paymentDate;
 	private String dateOfCreation;
 	private double totalCost;
-	private String RoomType;
+	private String roomType;
 	
 	public int getBookingId() {
 		return bookingId;
@@ -113,11 +113,11 @@ public class BookingModel {
 	}
 
 	public String getRoomType() {
-		return RoomType;
+		return roomType;
 	}
 
 	public void setRoomType(String roomType) {
-		RoomType = roomType;
+		roomType = roomType;
 	}
 
 }
