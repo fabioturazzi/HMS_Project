@@ -2,6 +2,7 @@ package com.csis3275.model;
 
 public class BookingModel {
 
+	private int bookingId;
 	private int roomNumber;
 	private int customerId;
 	private String status; // booked, checked-in, checked-out
@@ -14,6 +15,14 @@ public class BookingModel {
 	private String dateOfCreation;
 	private double totalCost;
 	private String RoomType;
+	
+	public int getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(int bookingId) {
+		this.bookingId = bookingId;
+	}
 
 	public int getRoomNumber() {
 		return roomNumber;
