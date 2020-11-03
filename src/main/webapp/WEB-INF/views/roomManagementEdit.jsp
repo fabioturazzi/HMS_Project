@@ -25,8 +25,7 @@
 			cssClass="form-horizontal" method="post" modelAttribute="room">
 
 			<div class="form-group">
-				<label for="roomId" class="col-md-3 control-label">Room
-					Id</label>
+				<label for="roomId" class="col-md-3 control-label">Room Id</label>
 				<div class="col-md-9">
 					<form:input path="roomId" cssClass="form-control"
 						required="required" value="" readonly="true" />
@@ -59,16 +58,19 @@
 			<div class="form-group">
 				<label for="floor" class="col-md-3 control-label">Floor</label>
 				<div class="col-md-9">
-					<form:input path="floor" cssClass="form-control"
+					<form:input type="number" path="floor" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label for="housekeepingStatus" class="col-md-3 control-label">Housekeeping
 					Status</label>
 				<div class="col-md-9">
-					<form:input path="housekeepingStatus" cssClass="form-control"
-						required="required" value="" />
+					<form:select path="housekeepingStatus" cssClass="form-control"
+						required="required" value="">
+						<form:options items="${housekeeping}"></form:options>
+					</form:select>
 				</div>
 			</div>
 

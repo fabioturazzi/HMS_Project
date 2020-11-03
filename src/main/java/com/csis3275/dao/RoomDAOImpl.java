@@ -123,7 +123,7 @@ public class RoomDAOImpl {
 	}
 	
 	public boolean createRoomType(RoomType newRoomType) {
-		return jdbcTemplate.update(SQL_CREATE_ROOMTYPES, newRoomType.getRoomType(), newRoomType.getPhotos(), newRoomType.getDailyPrice(), newRoomType.getAmenities()) > 0;
+		return jdbcTemplate.update(SQL_CREATE_ROOMTYPES, newRoomType.getRoomType(), newRoomType.getPhotos(), newRoomType.getDailyPrice(), newRoomType.getAmenities(), newRoomType.getCapacity()) > 0;
 	}
 	
 	public boolean deleteRoom(int idToDelete) {
@@ -141,7 +141,7 @@ public class RoomDAOImpl {
 	
 	public boolean updateRoomType(RoomType roomType) {
 		/** @return boolean indicating changes have been made to database */
-		return jdbcTemplate.update(SQL_UPDATE_ROOMTYPE, roomType.getRoomType(), roomType.getPhotos(), roomType.getDailyPrice(), roomType.getAmenities(), roomType.getRoomTypeId()) > 0;
+		return jdbcTemplate.update(SQL_UPDATE_ROOMTYPE, roomType.getRoomType(), roomType.getPhotos(), roomType.getDailyPrice(), roomType.getAmenities(), roomType.getCapacity(), roomType.getRoomTypeId()) > 0;
 	}
 	
 	public List<Room> getRoomPriceByRoomNumber(int roomNumber) {

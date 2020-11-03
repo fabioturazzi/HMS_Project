@@ -101,6 +101,7 @@ public class RoomController {
 		model.addAttribute("roomList", rooms);
 		
 		model.addAttribute("roomTypesListItems", getRoomTypeListItems());
+		model.addAttribute("housekeeping", getHousekeeping());
 		
 		return "roomManagement";
 	}
@@ -120,6 +121,7 @@ public class RoomController {
 		model.addAttribute("room", updatedRoom);
 		
 		model.addAttribute("roomTypesListItems", getRoomTypeListItems());
+		model.addAttribute("housekeeping", getHousekeeping());
 		
 		return "roomManagementEdit";
 	}
@@ -177,5 +179,18 @@ public class RoomController {
 		}
 
 		return roomTypesListItems;
+	}
+	
+	/** Get the list of housekeeping status for the form
+	 */
+	@ModelAttribute("housekeeping")
+	public List<String> getHousekeeping() {
+		List<String> housekeeping = new ArrayList<String>();
+	
+		housekeeping.add("Clean");
+		housekeeping.add("Not Clean");
+		
+
+		return housekeeping;
 	}
 }
