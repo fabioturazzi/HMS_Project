@@ -62,6 +62,11 @@ public class RoomDAOImpl {
 	private final String SQL_GET_ROOM_PRICE_BY_ROOM_ID = "SELECT dailyPrice FROM rooms JOIN roomTypes ON rooms.roomType = roomTypes.roomType WHERE roomNumber = ?";
 	private final String SQL_GET_ROOM_PHOTOS_BY_ROOM_ID = "SELECT photos FROM rooms JOIN roomTypes ON rooms.roomType = roomTypes.roomType WHERE roomNumber = ?";
 	
+	private final String SQL_CHECK_ROOMTYPE_FOR_BOOKING = "SELECT * FROM roomTypes WHERE capacity >= ? AND roomType = ?";
+	private final String SQL_CHECK_ROOMTYPE_FOR_BOOKING_NOTYPE = "SELECT * FROM roomTypes WHERE capacity >= ?";
+
+//	private final String SQL_CHECK_BOOKING_DATES = "SELECT roomType.roomTypeId, roomType.roomType, roomType.photos, roomType.dailyPrice, roomType.amenities, roomType.capacity FROM bookings WHERE roomNumber = ? AND (bookingDateStart >= ? AND bookingDateStart <=?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?)";
+
 
 	@Autowired
 	public RoomDAOImpl(DataSource dataSource) {
@@ -75,7 +80,14 @@ public class RoomDAOImpl {
 	public List<RoomType> getAllRoomTypes() {
 		return jdbcTemplate.query(SQL_GET_ALL_ROOMTYPES, new RoomTypeMapper());
 	}
-
+	public List<RoomType> checkRoomTypeBooking(int capacity, String roomType) {
+		return jdbcTemplate.query(SQL_CHECK_ROOMTYPE_FOR_BOOKING, new RoomTypeMapper(), capacity, roomType);
+	}
+	public List<RoomType> checkRoomTypeBooking(int capacity) {
+		return jdbcTemplate.query(SQL_CHECK_ROOMTYPE_FOR_BOOKING_NOTYPE, new RoomTypeMapper(), capacity);
+	}
+	
+	
 	public List<Room> getRoomByNumber(int roomNumber) {
 		return jdbcTemplate.query(SQL_GET_ROOM_BY_NUMBER, new RoomMapper(), roomNumber);
 	}

@@ -8,7 +8,10 @@ public class RoomType {
 	private double dailyPrice;
 	private String[] amenities;
 	private int capacity;
+	private String startDateFormControl;
+	private String endDateFormControl;
 	
+
 	public RoomType(String roomType, String[] photos, double dailyPrice, String[] amenities, int roomTypeId, int capacity) {
 		super();
 		this.roomType = roomType;
@@ -68,6 +71,22 @@ public class RoomType {
 
 	public void setAmenities(String[] amenities) {
 		this.amenities = amenities;
+	}
+	
+	public String getStartDateFormControl() {
+		return startDateFormControl;
+	}
+
+	public void setStartDateFormControl(String startDateFormControl) {
+		this.startDateFormControl = startDateFormControl;
+	}
+
+	public String getEndDateFormControl() {
+		return endDateFormControl;
+	}
+
+	public void setEndDateFormControl(String endDateFormControl) {
+		this.endDateFormControl = endDateFormControl;
 	}
 
 }

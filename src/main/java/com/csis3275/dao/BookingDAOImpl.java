@@ -26,15 +26,17 @@ public class BookingDAOImpl {
 	private final String SQL_DELETE_BOOKING = "DELETE FROM bookings WHERE bookingId = ?";
 	private final String SQL_FIND_BOOKING = "SELECT * FROM bookings WHERE bookingId = ?";
 	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set roomNumber = ?, customerUsername = ?, numbOfPeople  = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
-	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND (bookingDateStart >= ? AND bookingDateStart <=?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?)";
-
+//	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND (bookingDateStart BETWEEN ? AND  ?) OR (bookindDateEnd BETWEEN ? AND ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?)";
+	
+	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND ((bookingDateStart >= ? AND bookingDateStart <= ?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?))";
+	
 	@Autowired
 	public BookingDAOImpl (DataSource dataSource)	{
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public List<Booking> checkBookingConflict(int roomNumber, Date attemptedStartDate, Date attemptedEndDate )	{
-		return jdbcTemplate.query(SQL_CHECK_BOOKING_DATES, new BookingMapper(), roomNumber, attemptedStartDate,attemptedEndDate, attemptedStartDate,attemptedEndDate, attemptedStartDate,attemptedEndDate);	
+	public List<Booking> checkBookingConflict(int roomNumber, String attemptedStartDate, String attemptedEndDate)	{
+		return jdbcTemplate.query(SQL_CHECK_BOOKING_DATES, new BookingMapper(), roomNumber, attemptedStartDate, attemptedEndDate, attemptedStartDate, attemptedEndDate, attemptedStartDate, attemptedEndDate);	
 	}
 	
 	public List<Booking> getAllBookings()	{

@@ -16,6 +16,8 @@ public class RoomTypeMapper implements RowMapper<RoomType> {
 		roomType.setPhotos(resultSet.getString("photos").replace("[", "").replace("]", "").split(", "));
 		roomType.setAmenities(resultSet.getString("amenities").replace("[", "").replace("]", "").split(", "));
 		roomType.setCapacity(resultSet.getInt("capacity"));
+		roomType.setStartDateFormControl(resultSet.getString("startDateFormControl"));
+		roomType.setEndDateFormControl(resultSet.getString("endDateFormControl"));
 		
 		return roomType;
 
