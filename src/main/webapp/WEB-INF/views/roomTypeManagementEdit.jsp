@@ -75,7 +75,7 @@
 			<div class="form-group">
 				<label for="capacity" class="col-md-3 control-label">Capacity</label>
 				<div class="col-md-9">
-					<form:input path="capacity" cssClass="form-control"
+					<form:input type="number" path="capacity" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>

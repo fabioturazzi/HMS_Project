@@ -3,6 +3,12 @@ package com.csis3275.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
+
 public class Booking {
 
 	private int bookingId;

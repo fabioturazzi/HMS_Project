@@ -13,8 +13,11 @@ $(function() {
 		$(".availRoomsHead").hide();
 		$(".bookRoomsHead").hide();
 		$(".bookRoomsCell").hide();
+
+		$(".totalCost").hide();
+		$(".totalCostHead").hide();
 	}
-	
+
 
 
 	for (var i = 0; i < $(".availRooms").length; i++) {

@@ -41,7 +41,8 @@ public class CustomerController {
 		return "registration";
 	}
 
-	// Handle Form Post
+	/** Handle Post Form for registration
+	 */
 	@PostMapping("/registration")
 	public String registerCustomer(@ModelAttribute("customer") Customer createCustomer, Model model, HttpSession session) {
 
@@ -73,7 +74,8 @@ public class CustomerController {
 
 	}
 
-	// Get the customer and display the form
+	/** Get the customer and display the form
+	 */
 	@GetMapping("/deleteCustomer")
 	public String deleteCustomer(@RequestParam(required = true) int id, HttpSession session, Model model) {
 

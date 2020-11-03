@@ -11,6 +11,7 @@
 
 <%@ include file="/WEB-INF/views/imports.jspf"%>
 <script src="<c:url value="/static/js/searchRoomPage.js" />"></script>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 </head>
 <body>
@@ -25,7 +26,8 @@
 		<div>
 
 			<form:form action="${pageContext.request.contextPath}/roomSearch/"
-				cssClass="form-horizontal searchForm" method="post" modelAttribute="roomType">
+				cssClass="form-horizontal searchForm" method="post"
+				modelAttribute="roomType">
 
 				<c:if test="${ errorMessage !=null }">
 					<div class="alert alert-danger">${errorMessage}</div>
@@ -58,14 +60,16 @@
 					</div>
 				</div>
 
-
 				<div class="form-group">
 					<label for="roomType" class="col-md-3 control-label">Room
 						Type</label>
 					<div class="col-md-9">
-						<form:input path="roomType" cssClass="form-control" value="" />
+						<form:select path="roomType" cssClass="form-control" value="">
+							<form:options items="${roomTypesListItems}"></form:options>
+						</form:select>
 					</div>
 				</div>
+
 				<div class="form-group checkboxGroup">
 					<label for="amenities" class="col-md-3 control-label">Amenities</label>
 					<div class="checkboxDiv">
@@ -83,7 +87,8 @@
 					</div>
 					<!-- Button -->
 					<div class="col-md-offset-3 col-md-9">
-						<a id="cleanFilterDiv" href="${pageContext.request.contextPath}/roomSearch"
+						<a id="cleanFilterDiv"
+							href="${pageContext.request.contextPath}/roomSearch"
 							id="cleanFilterButton" class="btn btn-danger">Clean Search
 							Filters</a>
 					</div>
@@ -91,16 +96,18 @@
 				<div class="form-group"></div>
 			</form:form>
 			<c:if test="${ message != null }">
-				<div class="alert alert-success successMessage" id="successMessage" role="alert">${message}</div>
+				<div class="alert alert-success successMessage" id="successMessage"
+					role="alert">${message}</div>
 			</c:if>
 			<span id="flag" hidden>false</span>
 			<table class="table table-striped table-bordered">
 				<tr class="dataHeader">
 					<td>Photos</td>
 					<td>Room Type</td>
-					<td>Daily Price</td>
 					<td>Amenities</td>
 					<td>Capacity</td>
+					<td>Daily Price</td>
+					<td class="totalCostHead">Total Cost</td>
 					<td class="availRoomsHead">Rooms Available</td>
 					<td class="bookRoomsHead">Book</td>
 				</tr>
@@ -112,13 +119,18 @@
 						${photo} |
 					</c:forEach></td>
 						<td>${roomType.roomType}</td>
-						<td>${roomType.dailyPrice}</td>
 						<td><c:forEach var="amenity" items="${roomType.amenities}">
 						${amenity} |
 					</c:forEach></td>
 						<td>${roomType.capacity}</td>
+						<td><fmt:formatNumber type="currency" currencySymbol="$"
+								value="${roomType.dailyPrice}" /></td>
+						<td class="totalCost"><fmt:formatNumber type="currency"
+								currencySymbol="$" value="${totalCost.get(loop.index)}" /></td>
 						<td class="availRooms">${availableRooms.get(loop.index)}</td>
-						<td class="bookRoomsCell"><a class="bookRooms" href="${pageContext.request.contextPath}/roomBooking/?roomType=${roomType.roomType}">Book a Room</a></td>
+						<td class="bookRoomsCell"><a class="bookRooms"
+							href="${pageContext.request.contextPath}/roomBooking/?roomType=${roomType.roomType}">Book
+								a Room</a></td>
 					</tr>
 				</c:forEach>
 

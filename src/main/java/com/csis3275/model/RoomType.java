@@ -1,5 +1,10 @@
 package com.csis3275.model;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 public class RoomType {
 	
 	private int roomTypeId;

@@ -167,7 +167,8 @@ public class RoomTypeController {
 		}
 	}
 	
-
+	/** Get list of amenities for form
+	 */
 	@ModelAttribute("amenitiesList")
 	public List<String> getAmenities() {
 		List<String> amenitiesList = new ArrayList<String>();

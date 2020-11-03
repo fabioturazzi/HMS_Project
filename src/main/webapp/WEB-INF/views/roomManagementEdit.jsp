@@ -46,8 +46,10 @@
 				<label for="roomType" class="col-md-3 control-label">Room
 					Type</label>
 				<div class="col-md-9">
-					<form:input path="roomType" cssClass="form-control"
-						required="required" value="" />
+					<form:select path="roomType" cssClass="form-control"
+						required="required" value="">
+						<form:options items="${roomTypesListItems}"></form:options>
+					</form:select>
 				</div>
 			</div>
 			<c:if test="${ errorMessage !=null }">

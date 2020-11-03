@@ -8,6 +8,10 @@ import java.util.Base64;
 
 import java.util.Base64;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
 
 public class User {
 	private int id;
