@@ -199,8 +199,6 @@
 				<td>Email</td>
 				<td>Phone number</td>
 				<td>Address</td>
-				<td>Recovery Question</td>
-				<td>Recovery Answer</td>
 				<td></td>
 			</tr>
 			<tr class="dataRows">
@@ -211,8 +209,6 @@
 				<td>${customer.email}</td>
 				<td>${customer.phoneNumber}</td>
 				<td>${customer.address}</td>
-				<td>${customer.passQuestion}</td>
-				<td>${customer.passAnswer}</td>
 				<td><a
 					href="${pageContext.request.contextPath}/editCustomer/?id=${customer.id}">Edit</a></td>
 			</tr>

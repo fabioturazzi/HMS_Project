@@ -119,6 +119,7 @@
 				<td>Room Number</td>
 				<td>Customer Username</td>
 				<td>Room Type</td>
+				<td># of People</td>
 				<td>Status</td>
 				<td>Paid</td>
 				<td>Start Date</td>
@@ -137,6 +138,7 @@
 					<td>${booking.roomNumber}</td>
 					<td>${booking.customerUsername}</td>
 					<td>${booking.roomType}</td>
+					<td>${booking.numbOfPeople}</td>
 					<td>${booking.status}</td>
 					<td>${booking.paid}</td>
 					<td>${booking.bookingDateStart}</td>
