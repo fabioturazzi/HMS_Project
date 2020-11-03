@@ -86,6 +86,8 @@ public class BookingController {
 		// Get a list of rooms from the controller
 		List<Booking> bookings = bookingDAOImp.getAllBookings();
 		model.addAttribute("bookings", bookings);
+		
+		setDropdownLists(model);
 
 		model.addAttribute("message", "Deleted Booking: " + id);
 
@@ -233,6 +235,7 @@ public class BookingController {
 				
 				if (updatedBooking.getPaymentDate() == "") {
 					updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
+					updatedBooking.setPaid(true);
 				}
 				
 				updatedBooking.setCheckoutDate(null);

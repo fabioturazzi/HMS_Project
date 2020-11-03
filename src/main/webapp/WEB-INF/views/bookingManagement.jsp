@@ -20,8 +20,85 @@
 	</div>
 
 	<div class="container">
+
 		<h1 id="pageTitle">Manage Bookings</h1>
 		<hr />
+
+		<h3>Create Booking</h3>
+
+		<form:form action="${pageContext.request.contextPath}/createBooking/"
+			cssClass="form-horizontal" method="post" modelAttribute="booking">
+
+			<div class="form-group">
+				<label for="roomNumber" class="col-md-3 control-label">Room
+					Number</label>
+				<div class="col-md-9">
+					<select name="room">
+						<c:forEach items="${roomList}" var="room">
+							<option value="${room.roomNumber }">${room.roomNumber }
+								Type: ${room.roomType }</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="customerId" class="col-md-3 control-label">Customer
+					Username</label>
+				<div class="col-md-9">
+					<select name="customer">
+						<c:forEach items="${custormersList}" var="customer">
+							<option value="${customer.username}">${customer.username}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+
+			<c:if test="${ errorMessage !=null }">
+				<div class="alert alert-danger">${errorMessage}</div>
+			</c:if>
+
+			<div class="form-group">
+				<label for="bookingDateStart" class="col-md-3 control-label">Booking
+					From</label>
+				<div class="col-md-9">
+					<form:input type="date" name="startDate" path="bookingDateStart"
+						cssClass="form-control" required="required" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="bookindDateEnd" class="col-md-3 control-label">Booking
+					To</label>
+				<div class="col-md-9">
+					<form:input type="date" name="endDate" path="bookindDateEnd"
+						cssClass="form-control" required="required" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="numbOfPeople" class="col-md-3 control-label">Number of People</label>
+				<div class="col-md-9">
+					<form:input type="number" min="1" max="10" name="numbOfPeople" path="numbOfPeople"
+						cssClass="form-control" required="required" value="1"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<!-- Button -->
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+
+		</form:form>
+		
+		<br />
+		<br />
+
+		<h3>Search Bookings</h3>
+		<hr />
+
 		<div class="form-group searchBar form-horizontal">
 			<label for="fName" class="col-md-3 control-label">Search
 				Entries:</label>
@@ -78,66 +155,6 @@
 
 		</table>
 
-		<h3>Create Booking</h3>
-
-		<form:form action="${pageContext.request.contextPath}/createBooking/"
-			cssClass="form-horizontal" method="post" modelAttribute="booking">
-
-			<div class="form-group">
-				<label for="roomNumber" class="col-md-3 control-label">Room
-					Number</label>
-				<div class="col-md-9">
-					<select name="room">
-						<c:forEach items="${roomList}" var="room">
-							<option value="${room.roomNumber }">${room.roomNumber }
-								Type: ${room.roomType }</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="customerId" class="col-md-3 control-label">Customer
-					Username</label>
-				<div class="col-md-9">
-					<select name="customer">
-						<c:forEach items="${custormersList}" var="customer">
-							<option value="${customer.username}">${customer.username}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-
-			<c:if test="${ errorMessage !=null }">
-				<div class="alert alert-danger">${errorMessage}</div>
-			</c:if>
-
-			<div class="form-group">
-				<label for="bookingDateStart" class="col-md-3 control-label">Booking
-					From</label>
-				<div class="col-md-9">
-					<form:input type="date" name="startDate" path="bookingDateStart"
-						cssClass="form-control" required="required" />
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="bookindDateEnd" class="col-md-3 control-label">Booking
-					To</label>
-				<div class="col-md-9">
-					<form:input type="date" name="endDate" path="bookindDateEnd"
-						cssClass="form-control" required="required" />
-				</div>
-			</div>
-
-			<div class="form-group">
-				<!-- Button -->
-				<div class="col-md-offset-3 col-md-9">
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
-			</div>
-
-		</form:form>
 
 	</div>
 </body>
