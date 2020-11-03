@@ -21,6 +21,12 @@
 	<div class="container">
 		<h1 id="pageTitle">Edit Booking</h1>
 		<hr />
+
+
+		<c:if test="${ errorMessage !=null }">
+			<div class="alert alert-danger">${errorMessage}</div>
+		</c:if>
+
 		<form:form action="${pageContext.request.contextPath}/editBooking/"
 			cssClass="form-horizontal" method="post" modelAttribute="booking">
 
@@ -43,28 +49,37 @@
 				</div>
 			</div>
 
-			<!--  
+
 			<div class="form-group" hidden="true">
-				<label for="dateOfCreation" class="col-md-3 control-label">Date Of Creation</label>
+				<label for="dateOfCreation" class="col-md-3 control-label">Booking
+					Created</label>
 				<div class="col-md-9">
-					<form:input type="date" path="dateOfCreation" value="${booking.dateOfCreation}"
-						cssClass="form-control" readonly="true" />
+					<form:input type="date" name="dateOfCreation" path="dateOfCreation"
+						cssClass="form-control" required="required" />
 				</div>
-			</div> -->
+			</div>
+
+			<div class="form-group" hidden="true">
+				<label for="paid" class="col-md-3 control-label">paid</label>
+				<div class="col-md-9">
+					<form:input name="paid" path="paid" cssClass="form-control"
+						required="required" />
+				</div>
+			</div>
 
 			<div class="form-group">
-				<label for="roomNumber" class="col-md-3 control-label">Room</label>
+				<label for="room" class="col-md-3 control-label">Room</label>
 				<div class="col-md-9">
-					<select name="roomList">
-						<c:forEach items="${roomList}" var="roomList">
+					<select name="room">
+						<c:forEach items="${roomList}" var="room">
 							<c:choose>
-								<c:when test="${roomList.roomNumber == booking.roomNumber}">
-									<option value="${roomList.roomNumber }" selected>${roomList.roomNumber }
-										Type: ${roomList.roomType }</option>
+								<c:when test="${room.roomNumber == booking.roomNumber}">
+									<option value="${room.roomNumber }" selected>${room.roomNumber }
+										Type: ${room.roomType }</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${roomList.roomNumber }">${roomList.roomNumber }
-										Type: ${roomList.roomType }</option>
+									<option value="${room.roomNumber }">${room.roomNumber }
+										Type: ${room.roomType }</option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -81,10 +96,6 @@
 				</div>
 			</div>
 
-			<c:if test="${ errorMessage !=null }">
-				<div class="alert alert-danger">${errorMessage}</div>
-			</c:if>
-
 			<div class="form-group">
 				<label for="bookingDateStart" class="col-md-3 control-label">Booking
 					From</label>
@@ -100,6 +111,70 @@
 				<div class="col-md-9">
 					<form:input type="date" name="endDate" path="bookindDateEnd"
 						cssClass="form-control" required="required" />
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="checkinDate" class="col-md-3 control-label">checkoutDate
+				</label>
+				<div class="col-md-9">
+					<form:input type="date" name="checkinDate" path="checkinDate"
+						cssClass="form-control" readonly="true" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="checkoutDate" class="col-md-3 control-label">checkoutDate
+				</label>
+				<div class="col-md-9">
+					<form:input type="date" name="checkoutDate" path="checkoutDate"
+						cssClass="form-control" readonly="true" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="paymentDate" class="col-md-3 control-label">paymentDate
+				</label>
+				<div class="col-md-9">
+					<form:input type="date" name="paymentDate" path="paymentDate"
+						cssClass="form-control" readonly="true" />
+				</div>
+			</div>
+
+			<div class="form-group" name="radioContainer">
+				<label for="status" class="col-md-3 control-label">Status</label>
+				<div class="col-md-9">
+
+					<c:forEach items="${roomStatus}" var="status">
+						<c:choose>
+							<c:when test="${booking.status == 'checked-out'}">
+								<label><input type="radio" name="status"
+									value="${status}" disabled>${status}</label>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${status == booking.status}">
+										<label><input type="radio" name="status"
+											value="${status}" checked>${status}</label>
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when
+												test="${status == 'checked-out' && booking.paid != true}">
+												<label><input type="radio" name="status"
+													value="${status}" disabled>${status}</label>
+											</c:when>
+											<c:otherwise>
+												<label><input type="radio" name="status"
+													value="${status}">${status}</label>
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
 				</div>
 			</div>
 

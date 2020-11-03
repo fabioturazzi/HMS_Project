@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -64,11 +65,7 @@ public class BookingController {
 		// Get a list of customers from the database
 		List<Booking> bookings = bookingDAOImp.getAllBookings();
 
-		List<Customer> custormersList = customerDAOImp.getAllCustomers();
-		model.addAttribute("custormersList", custormersList);
-
-		List<Room> roomList = roomDAOImpl.getAllRooms();
-		model.addAttribute("roomList", roomList);
+		setDropdownLists(model);
 
 		// Add the list of customers to the model to be returned to the view
 		model.addAttribute("bookings", bookings);
@@ -120,15 +117,12 @@ public class BookingController {
 			// set some fields depending on the input
 			createBooking.setDateOfCreation(createBooking.setTodaysDate());
 			createBooking.setStatus("booked");
-			
-System.out.println(request.getParameter("room"));
 
 			createBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
 			createBooking.setCustomerUsername(request.getParameter("customer"));
 
 			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("room")));
 			Room room = rooms.get(0);
-			System.out.println(room.getRoomType());
 
 			createBooking.setRoomType(room.getRoomType());
 
@@ -140,7 +134,7 @@ System.out.println(request.getParameter("room"));
 			}
 
 			RoomType roomType = roomDAOImpl.getRoomType(room.getRoomType()).get(0);
-			
+
 			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
 			createBooking.setTotalCost(totalCost);
 
@@ -156,7 +150,7 @@ System.out.println(request.getParameter("room"));
 		List<Booking> bookings = bookingDAOImp.getAllBookings();
 		model.addAttribute("bookings", bookings);
 
-		return "bookingManagement";
+		return "redirect:/bookingManagement/bookings";
 
 	}
 
@@ -174,11 +168,7 @@ System.out.println(request.getParameter("room"));
 		Customer customer = customerDAOImp.getCustomer(bookingToUpdate.getCustomerUsername()).get(0);
 		model.addAttribute("customer", customer);
 
-		List<Customer> custormersList = customerDAOImp.getAllCustomers();
-		model.addAttribute("custormersList", custormersList);
-
-		List<Room> roomList = roomDAOImpl.getAllRooms();
-		model.addAttribute("roomList", roomList);
+		setDropdownLists(model);
 
 		return "bookingManagementEdit";
 	}
@@ -190,14 +180,15 @@ System.out.println(request.getParameter("room"));
 		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
-		
+
 		String sd = updatedBooking.getBookingDateStart();
 		String ed = updatedBooking.getBookindDateEnd();
 
 		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(updatedBooking.getBookingDateStart(),
 				new ParsePosition(0));
 		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(updatedBooking.getBookindDateEnd(),
-				new ParsePosition(0));;
+				new ParsePosition(0));
+		;
 
 		if (endDate.compareTo(startDate) < 0) {
 
@@ -206,29 +197,73 @@ System.out.println(request.getParameter("room"));
 
 		} else {
 
-			updatedBooking.setRoomNumber(Integer.parseInt(request.getParameter("roomList")));
-			
+			updatedBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
+
+			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("room")));
+			Room room = rooms.get(0);
+
+			updatedBooking.setRoomType(room.getRoomType());
+
+			// Calculate price
 			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(sd), LocalDate.parse(ed));
 
 			if (noOfDaysBetween == 0) {
 				noOfDaysBetween = 1;
 			}
-			
-			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("roomList")));
-			Room room = rooms.get(0);
-			RoomType roomType = roomDAOImpl.getRoomTypeById(room.getRoomId());
+
+			RoomType roomType = roomDAOImpl.getRoomType(room.getRoomType()).get(0);
 
 			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
 			updatedBooking.setTotalCost(totalCost);
-			
+
+			setDropdownLists(model);
+
+			// Checking status and Putting dates if necessary
+			String status = request.getParameter("status");
+			System.out.println(status);
+
+			if (status.equals("paid") && updatedBooking.getPaymentDate() == "") {
+				System.out.println(updatedBooking.getPaymentDate());
+				updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
+				updatedBooking.setCheckinDate(null);
+				updatedBooking.setCheckoutDate(null);
+				updatedBooking.setPaid(true);
+			} else if (status.equals("checked-in") && updatedBooking.getCheckinDate()  == "") {
+				updatedBooking.setCheckinDate(updatedBooking.setTodaysDate());
+				
+				if (updatedBooking.getPaymentDate() == "") {
+					updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
+				}
+				
+				updatedBooking.setCheckoutDate(null);
+				
+			} else if (status.equals("checked-out")) {
+
+				updatedBooking.setCheckoutDate(updatedBooking.setTodaysDate());
+				
+			}
+
 			bookingDAOImp.updateBooking(updatedBooking);
 
 			List<Booking> bookings = bookingDAOImp.getAllBookings();
 			model.addAttribute("bookings", bookings);
 			model.addAttribute("message", "Updated Booking " + updatedBooking.getBookingId());
-			return "bookingManagement";
+			return "redirect:/bookingManagement/bookings";
 
 		}
+
+	}
+
+	public void setDropdownLists(Model model) {
+
+		List<Customer> custormersList = customerDAOImp.getAllCustomers();
+		model.addAttribute("custormersList", custormersList);
+
+		List<Room> roomList = roomDAOImpl.getAllRooms();
+		model.addAttribute("roomList", roomList);
+
+		List<String> roomStatus = Arrays.asList("booked", "paid", "checked-in", "checked-out");
+		model.addAttribute("roomStatus", roomStatus);
 
 	}
 
