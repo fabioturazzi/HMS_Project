@@ -115,22 +115,22 @@
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">
-				<td>Booking Id</td>
-				<td>Room Number</td>
-				<td>Customer Username</td>
-				<td>Room Type</td>
-				<td># of People</td>
-				<td>Status</td>
-				<td>Paid</td>
-				<td>Start Date</td>
-				<td>End Date</td>
-				<td>Check-in Date</td>
-				<td>Check-out Date</td>
-				<td>Payment Date</td>
-				<td>Booking Creation Date</td>
-				<td>Total Costs</td>
-				<td></td>
-				<td></td>
+				<th>Booking Id</th>
+				<th>Room Number</th>
+				<th>Customer Username</th>
+				<th>Room Type</th>
+				<th># of People</th>
+				<th>Status</th>
+				<th>Paid</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Check-in Date</th>
+				<th>Check-out Date</th>
+				<th>Payment Date</th>
+				<th>Booking Creation Date</th>
+				<th>Total Costs</th>
+				<th></th>
+				<th></th>
 			</tr>
 			<c:forEach var="booking" items="${bookings}">
 				<tr class="dataRows">

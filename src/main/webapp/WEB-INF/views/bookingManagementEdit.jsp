@@ -162,7 +162,7 @@
 									<c:otherwise>
 										<c:choose>
 											<c:when
-												test="${status == 'checked-out' && booking.paid != true}">
+												test="${status == 'checked-out' && (booking.paid != true || booking.checkinDate == null)}">
 												<label><input type="radio" name="status"
 													value="${status}" disabled>${status}</label>
 											</c:when>
@@ -193,14 +193,14 @@
 
 		<table class="table table-striped table-bordered">
 			<tr class="dataHeader">
-				<td>Customer Id</td>
-				<td>First Name</td>
-				<td>Last Name</td>
-				<td>Username</td>
-				<td>Email</td>
-				<td>Phone number</td>
-				<td>Address</td>
-				<td></td>
+				<th>Customer Id</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Phone number</th>
+				<th>Address</th>
+				<th></th>
 			</tr>
 			<tr class="dataRows">
 				<td>${customer.id}</td>
