@@ -22,7 +22,7 @@
 		<%@ include file="/WEB-INF/views/navBar.jspf"%>
 	</div>
 	<h1 class="text-center">&#9992; Booking Confirmation</h1>
-	<div class="container cover">
+	<div class="container">
 		<br>
 		<div class="col-md-5 booking-form">
 			<h3>Your Details</h3>
