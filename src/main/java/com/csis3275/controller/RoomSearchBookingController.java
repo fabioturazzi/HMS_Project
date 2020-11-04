@@ -186,19 +186,24 @@ public class RoomSearchBookingController {
 
 	/*
 	 * @author: Fernando Casaloti Silva
+	 * 
 	 * @param: roomType passing from the search
+	 * 
 	 * @param: startDate passing from the search
+	 * 
 	 * @param: endDate passing from the search
-	 * @param: session and model passing information of session and to manipulate Model.
+	 * 
+	 * @param: session and model passing information of session and to manipulate
+	 * Model.
 	 */
 	@GetMapping("/roomBooking")
 	public String bookingRoom(@RequestParam(required = true) String roomType,
 			@RequestParam(required = true) String startDate, @RequestParam(required = true) String endDate,
 			@RequestParam(required = true) int capacity, HttpSession session, Model model) {
 
-		//Check if user is logged in and if it is a Customer
+		// Check if user is logged in and if it is a Customer
 		if (session.getAttribute("username") != null && session.getAttribute("userType").equals("Customer")) {
-			
+
 			// Getting Last Name of the user
 			String userName = session.getAttribute("username").toString();
 			List<Customer> customer = customerDAOImp.getCustomer(userName);
@@ -226,15 +231,16 @@ public class RoomSearchBookingController {
 			model.addAttribute("booking", newBooking);
 
 			return "customerBooking";
-			
+
 		} else {
 			return "denied";
 		}
-		
+
 	}
 
 	/*
 	 * @author: Fernando Casaloti Silva
+	 * 
 	 * @param: passing roomType choosen on Room search
 	 */
 	private String getAmenities(String roomType) {
@@ -254,7 +260,9 @@ public class RoomSearchBookingController {
 
 	/*
 	 * @author: Fernando Casaloti Silva
+	 * 
 	 * @param: startDate - Arriving Date
+	 * 
 	 * @param: endDate - Leaving Date
 	 */
 	private long getNights(String startDate, String endDate) {
@@ -271,8 +279,8 @@ public class RoomSearchBookingController {
 
 	/*
 	 * @author: Fernando Casaloti Silva
-	 * @param: roomType and nights
-	 * Calculate the price of the stay
+	 * 
+	 * @param: roomType and nights Calculate the price of the stay
 	 */
 	private double calculatePrice(String roomType, int nights) {
 		double price;
@@ -286,8 +294,7 @@ public class RoomSearchBookingController {
 	}
 
 	/*
-	 * @author: Fernando Casaloti Silva 
-	 * Edit user information on Booking Page
+	 * @author: Fernando Casaloti Silva Edit user information on Booking Page
 	 */
 	@PostMapping("/profileBook")
 	public String showEditProfile(@ModelAttribute("customerBook") Customer updatedUser, HttpSession session,
@@ -305,14 +312,16 @@ public class RoomSearchBookingController {
 
 	/*
 	 * author: Fernando Casaloti Silva
-	 * @param: roomType, capacity (number of People), startDate, endDate, price, and username.
+	 * 
+	 * @param: roomType, capacity (number of People), startDate, endDate, price, and
+	 * username.
 	 */
 	private Booking setNewBooking(String roomType, int capacity, String startDate, String endDate, double price,
 			String userName) {
 
 		Booking newBooking = new Booking();
 
-		//Setting Data on Booking Model
+		// Setting Data on Booking Model
 		List<Room> listRoomsByType = roomDAOImp.getRoomsByRoomType(roomType);
 		newBooking.setRoomNumber(listRoomsByType.get(0).getRoomNumber());
 		newBooking.setCustomerUsername(userName);
@@ -323,35 +332,100 @@ public class RoomSearchBookingController {
 		newBooking.setBookindDateEnd(endDate);
 		newBooking.setTotalCost(price);
 		newBooking.setRoomType(roomType);
-		
-		
-		//Getting date of the Booking creation and setting on Model
+
+		// Getting date of the Booking creation and setting on Model
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String logBookingTime = df.format(new Date());
 		newBooking.setDateOfCreation(logBookingTime);
 
 		return newBooking;
 	}
-	
+
 	/*
 	 * @author: Fernando Casaloti Silva
-	 * @param: booking, session and Model.
-	 * POST method to create a new Booking
+	 * 
+	 * @param: booking, session and Model. POST method to create a new Booking
 	 */
 	@PostMapping("/submitBooking")
 	public String submitBooking(@ModelAttribute("booking") Booking newBooking, HttpSession session, Model model) {
 
-		//Add booking on Database
+		// Add booking on Database
 		bookingDAOImp.createBooking(newBooking);
-		
-		
-		//TODO: CREATE CODE TO INSERT IN A NEW PAGE CALLED MYBOOKINGS. CODE BELLOW IN THIS METHOD WILL BE OVERRIDEN.
+
 		// Get our customer and show his profile
 		String userName = session.getAttribute("username").toString();
 		List<Customer> customerData = customerDAOImp.getCustomer(userName);
-		
-		model.addAttribute("user", customerData.get(0));
 
-		return "profileView";
+		// List all bookings of the user
+		List<Booking> myBookings = bookingDAOImp.getBookingByUsername(customerData.get(0).getUsername());
+
+		model.addAttribute("user", customerData.get(0));
+		model.addAttribute("message", "Booking successfull");
+		model.addAttribute("bookings", myBookings);
+
+		return "seeBooking";
+	}
+
+	/*
+	 * @author: Fernando Casaloti Silva
+	 * 
+	 * @param: bookingId passing bookingid to delete
+	 */
+	@GetMapping("/deleteBookingCustomer")
+	public String deleteRoom(@RequestParam(required = true) int bookingId, HttpSession session, Model model) {
+
+		// Check if user is logged in and if it is a Customer
+		if (session.getAttribute("username") != null && session.getAttribute("userType").equals("Customer")) {
+
+			// Delete Booking based on BookingID
+			bookingDAOImp.deleteBooking(bookingId);
+
+			// Get our customer username
+			String userName = session.getAttribute("username").toString();
+			List<Customer> customerData = customerDAOImp.getCustomer(userName);
+
+			// List all bookings of the user
+			List<Booking> myBookings = bookingDAOImp.getBookingByUsername(customerData.get(0).getUsername());
+
+			// Add attributes
+			model.addAttribute("message", "Deleted Booking successfull");
+			model.addAttribute("bookings", myBookings);
+
+			return "seeBooking";
+
+		} else {
+			return "denied";
+		}
+	}
+
+	/*
+	 * @author: Fernando Casaloti Silva
+	 * 
+	 * @param: booking, session and Model. GET to list all bookings of a user
+	 */
+	@GetMapping("/seeBookingCustomer")
+	public String seeBooking(HttpSession session, Model model) {
+
+		// Check if user is logged in and if it is a Customer
+		if (session.getAttribute("username") != null && session.getAttribute("userType").equals("Customer")) {
+			// Get our customer and show his profile
+			String userName = session.getAttribute("username").toString();
+			List<Customer> customerData = customerDAOImp.getCustomer(userName);
+
+			// Add booking on Database
+			bookingDAOImp.getBookingByUsername(customerData.get(0).getUsername());
+
+			// List all bookings of the user
+			List<Booking> myBookings = bookingDAOImp.getBookingByUsername(customerData.get(0).getUsername());
+
+			model.addAttribute("user", customerData.get(0));
+			model.addAttribute("bookings", myBookings);
+
+			return "seeBooking";
+
+		} else {
+			return "denied";
+		}
+
 	}
 }
