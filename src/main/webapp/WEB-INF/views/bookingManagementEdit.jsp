@@ -21,7 +21,8 @@
 	<div class="container">
 		<h1 id="pageTitle">Edit Booking</h1>
 		<hr />
-
+		
+		<h3>Booking Information</h3>
 
 		<c:if test="${ errorMessage !=null }">
 			<div class="alert alert-danger">${errorMessage}</div>
@@ -181,13 +182,13 @@
 			<div class="form-group">
 				<!-- Button -->
 				<div class="col-md-offset-3 col-md-9">
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Submit Changes</button>
 				</div>
 			</div>
 
 		</form:form>
 
-		<h1 id="pageTitle">Customer</h1>
+		<h3>Customer Information</h3>
 		<hr />
 
 		<table class="table table-striped table-bordered">

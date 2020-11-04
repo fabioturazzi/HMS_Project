@@ -1,9 +1,7 @@
 package com.csis3275.controller;
 
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.csis3275.dao.BookingDAOImpl;
 import com.csis3275.dao.CustomerDAOImpl;
@@ -190,12 +186,9 @@ public class BookingController {
 
 						return "/bookingManagement";
 					}
-
 				}
-
 			}
 		}
-
 	}
 
 	@GetMapping("/editBooking")
