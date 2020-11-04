@@ -38,17 +38,17 @@
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">
-				<td>Customer Id</td>
-				<td>First Name</td>
-				<td>Last Name</td>
-				<td>Username</td>
-				<td>Email</td>
-				<td>Phone number</td>
-				<td>Address</td>
-				<td>Recovery Question</td>
-				<td>Recovery Answer</td>
-				<td></td>
-				<td></td>
+				<th>Customer Id</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Phone number</th>
+				<th>Address</th>
+				<th>Recovery Question</th>
+				<th>Recovery Answer</th>
+				<th></th>
+				<th></th>
 			</tr>
 			<c:forEach var="customer" items="${customerList}">
 				<tr class="dataRows">

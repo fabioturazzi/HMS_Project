@@ -38,13 +38,13 @@
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">
-				<td>Room Id</td>
-				<td>Room Number</td>
-				<td>Room Type</td>
-				<td>Floor</td>
-				<td>Housekeeping Status</td>
-				<td></td>
-				<td></td>
+				<th>Room Id</th>
+				<th>Room Number</th>
+				<th>Room Type</th>
+				<th>Floor</th>
+				<th>Housekeeping Status</th>
+				<th></th>
+				<th></th>
 			</tr>
 			<c:forEach var="room" items="${roomList}">
 				<tr class="dataRows">

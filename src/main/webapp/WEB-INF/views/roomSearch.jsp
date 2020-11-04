@@ -102,26 +102,52 @@
 			<span id="flag" hidden>false</span>
 			<table class="table table-striped table-bordered">
 				<tr class="dataHeader">
-					<td>Photos</td>
-					<td>Room Type</td>
-					<td>Amenities</td>
-					<td>Capacity</td>
-					<td>Daily Price</td>
-					<td class="totalCostHead">Total Cost</td>
-					<td class="availRoomsHead">Rooms Available</td>
-					<td class="bookRoomsHead">Book</td>
+					<th>Photos</th>
+					<th>Room Type</th>
+					<th>Amenities</th>
+					<th>Capacity</th>
+					<th>Daily Price</th>
+					<th class="totalCostHead">Total Cost</th>
+					<th class="availRoomsHead">Rooms Available</th>
+					<th class="bookRoomsHead">Book</th>
 				</tr>
 
 				<c:forEach var="roomType" items="${roomTypeList}" varStatus="loop">
 					<tr class="dataRows">
 						<td hidden>${roomType.roomTypeId}</td>
-						<td><c:forEach var="photo" items="${roomType.photos}">
-						${photo} |
-					</c:forEach></td>
+						<td id="photosCell"><c:if test="${not empty roomType.photos[0]}">
+								<div id="carouselExampleControls" class="carousel slide"
+									data-ride="carousel">
+									<div class="carousel-inner">
+										<c:forEach var="photo" items="${roomType.photos}"
+											varStatus="carouselLoop">
+											<div
+												class="carousel-item<c:if test="${carouselLoop.index==0}"> active</c:if>">
+												<img src="<c:url value="${photo}" />"
+													alt="${carouselLoop.index}" class="d-block w-100 roomPhoto" />
+											</div>
+										</c:forEach>
+									</div>
+									<a class="carousel-control-prev"
+										href="#carouselExampleControls" role="button"
+										data-slide="prev"> <span
+										class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="sr-only">Previous</span>
+									</a> <a class="carousel-control-next"
+										href="#carouselExampleControls" role="button"
+										data-slide="next"> <span
+										class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="sr-only">Next</span>
+									</a>
+								</div>
+							</c:if> <c:if test="${empty roomType.photos[0]}">(No photos available)</c:if>
+						</td>
+
+
 						<td>${roomType.roomType}</td>
-						<td><c:forEach var="amenity" items="${roomType.amenities}">
-						${amenity} |
-					</c:forEach></td>
+						<td><c:forEach var="amenity" items="${roomType.amenities}" varStatus="loop">
+						${amenity}<c:if test="${!loop.last}"> |</c:if>
+						</c:forEach></td>
 						<td>${roomType.capacity}</td>
 						<td><fmt:formatNumber type="currency" currencySymbol="$"
 								value="${roomType.dailyPrice}" /></td>

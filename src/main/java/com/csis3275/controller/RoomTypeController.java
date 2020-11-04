@@ -1,8 +1,16 @@
 package com.csis3275.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.csis3275.dao.RoomDAOImpl;
 import com.csis3275.model.Room;
@@ -29,111 +35,106 @@ public class RoomTypeController {
 	public RoomType setupAddForm() {
 		return new RoomType();
 	}
-	
-	//Create object for the UserController
+
+	// Create object for the UserController
 	UserController user = new UserController();
 
 	// Get the roomType and display the form
 	@GetMapping("/deleteRoomType")
 	public String deleteRoomType(@RequestParam(required = true) int id, HttpSession session, Model model) {
-		
-		//checking if user has a valid session hash and access
+
+		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
-		
+
 		model.addAttribute("amenitiesList", getAmenities());
-		
+
 		RoomType roomTypeObj = roomDAOImp.getRoomTypeById(id);
-		
-		List<Room> assignedRooms =roomDAOImp.getRoomsByRoomType(roomTypeObj.getRoomType());
-		
-		if(!(assignedRooms.isEmpty()))
-		{
-			model.addAttribute("message", "There are rooms assigned to the Room Type " + roomTypeObj.getRoomType() + ". Please reassign them before deleting.");
-		}
-		else {
+
+		List<Room> assignedRooms = roomDAOImp.getRoomsByRoomType(roomTypeObj.getRoomType());
+
+		if (!(assignedRooms.isEmpty())) {
+			model.addAttribute("message", "There are rooms assigned to the Room Type " + roomTypeObj.getRoomType()
+					+ ". Please reassign them before deleting.");
+		} else {
 			// Delete the roomType
 			roomDAOImp.deleteRoomType(id);
-			
+
 			model.addAttribute("message", "Deleted RoomType: " + id);
 		}
-		
+
 		// Get a list of roomTypes from the controller
 		List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
 		model.addAttribute("roomTypeList", roomTypes);
 
 		return "roomTypeManagement";
 	}
-	
-	/**
-	 * Post request to add entry to database
+
+	/** Post request to add entry to database
 	 */
 	// Handle Form Post
 	@PostMapping("/createRoomType")
-	public String createRoomType(@ModelAttribute("roomType") RoomType createRoomType, HttpSession session, Model model) {
-		
-		//checking if user has a valid session hash and access
+	public String createRoomType(@ModelAttribute("roomType") RoomType createRoomType, HttpSession session,
+			Model model) {
+
+		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
 		model.addAttribute("amenitiesList", getAmenities());
-		
+
 		List<RoomType> checkRoomType = roomDAOImp.getRoomType(createRoomType.getRoomType());
-		
-		if(!(checkRoomType.isEmpty()))
-		{
+
+		if (!(checkRoomType.isEmpty())) {
 			model.addAttribute("errorMessage", "Room Type already exists");
-		}
-		else {
+		} else {
 			// Create the roomType pass the object in.
 			roomDAOImp.createRoomType(createRoomType);
 			model.addAttribute("roomType", createRoomType);
 			model.addAttribute("message", "RoomType created: " + createRoomType.getRoomType());
 		}
-		
+
 		// Get a list of roomTypes from the controller
 		List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
 		model.addAttribute("roomTypeList", roomTypes);
-		
-		return "roomTypeManagement";
-	}
-	
-	
-	@GetMapping("/roomManagement/roomType")
-	public String showRoomTypes(HttpSession session, Model model) {
-		
-		//checking if user has a valid session hash and access
-		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
-			return "denied";
-		
-		model.addAttribute("amenitiesList", getAmenities());
-		
-		// Get a list of roomTypes from the database
-		List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
-	
-		// Add the list of roomTypes to the model to be returned to the view
-		model.addAttribute("roomTypeList", roomTypes);
-		
+
 		return "roomTypeManagement";
 	}
 
-	/**
-	 * Get request to get entry to be edited from database
-	 */
-	@GetMapping("/editRoomType")
-	public String editRoomType(@RequestParam(required = true) int id, HttpSession session, Model model) {
-		
-		//checking if user has a valid session hash and access
+	@GetMapping("/roomTypeManagement")
+	public String showRoomTypes(HttpSession session, Model model) {
+
+		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
-		
+
+		model.addAttribute("amenitiesList", getAmenities());
+
+		// Get a list of roomTypes from the database
+		List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
+
+		// Add the list of roomTypes to the model to be returned to the view
+		model.addAttribute("roomTypeList", roomTypes);
+
+		return "roomTypeManagement";
+	}
+
+	
+	
+	@GetMapping("/editRoomType")
+	public String editRoomType(@RequestParam(required = true) int id, HttpSession session, Model model) {
+
+		// checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+
 		RoomType updatedRoomType = roomDAOImp.getRoomTypeById(id);
 
 		model.addAttribute("amenitiesList", getAmenities());
-		
+
 		// Get the roomType
 		model.addAttribute("roomType", updatedRoomType);
-		
+
 		return "roomTypeManagementEdit";
 	}
 
@@ -141,33 +142,92 @@ public class RoomTypeController {
 	 * Post request to edit entry from database
 	 */
 	@PostMapping("/editRoomType")
-	public String updateRoomType(@ModelAttribute("roomType") RoomType updatedRoomType, HttpSession session, Model model) {
-		
-		//checking if user has a valid session hash and access
+	public String updateRoomType(@ModelAttribute("roomType") RoomType updatedRoomType, HttpSession session,
+			Model model) {
+
+		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 		model.addAttribute("amenitiesList", getAmenities());
 
-		List<RoomType> checkRoomType = roomDAOImp.checkRoomTypeConflict(updatedRoomType.getRoomTypeId(), updatedRoomType.getRoomType());
-		
-		if(!checkRoomType.isEmpty())
-		{
+		List<RoomType> checkRoomType = roomDAOImp.checkRoomTypeConflict(updatedRoomType.getRoomTypeId(),
+				updatedRoomType.getRoomType());
+
+		if (!checkRoomType.isEmpty()) {
 			model.addAttribute("errorMessage", "Room Type already exists");
-			
+
 			return "roomTypeManagementEdit";
-		}
-		else {
+		} else {
 			roomDAOImp.updateRoomType(updatedRoomType);
-			
+
 			List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
 			model.addAttribute("roomTypeList", roomTypes);
 			model.addAttribute("message", "Updated RoomType " + updatedRoomType.getRoomType());
-			
-			return "roomTypeManagement";
+
+			return "redirect:/roomTypeManagement";
 		}
 	}
-	
-	/** Get list of amenities for form
+
+	@GetMapping("/uploadPhotos")
+	public String getFormUpload(@RequestParam(required = true) String selectedRoomType, HttpSession session,
+			Model model) {
+		// checking if user has a valid session hash and access
+		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
+			return "denied";
+		List<RoomType> roomType = roomDAOImp.getRoomType(selectedRoomType);
+		model.addAttribute("roomType", roomType.get(0));
+
+		return "roomTypePhoto";
+	}
+
+	@PostMapping("/uploadPhotos")
+	public String handleFormUpload(@RequestParam("uploadPhotos") MultipartFile uploadPhotos, @RequestParam("roomType") String roomTypeUpload, HttpSession session,
+			Model model) throws IOException {
+		if (!uploadPhotos.isEmpty()) {
+			
+			Calendar cal = Calendar.getInstance();
+		    SimpleDateFormat sdf = new SimpleDateFormat("ddmmyy_HHmmss");
+		    
+		    String path = this.getClass().getClassLoader().getResource("").getPath();
+		    String fullPath = URLDecoder.decode(path, "UTF-8");
+		    String pathArr[] = fullPath.split("/WEB-INF/classes/");
+		    
+		    fullPath = pathArr[0] + "/static/images/";
+		    
+		    System.out.println(fullPath);
+		    
+		    String saveUrl = fullPath.replace("/C:", "C:") + roomTypeUpload + sdf.format(cal.getTime()).toString() + ".png";
+		    			
+		    System.out.println(saveUrl);
+		    
+			File destination = new File(saveUrl); 
+			
+			BufferedImage src = ImageIO.read(new ByteArrayInputStream(uploadPhotos.getBytes()));
+			ImageIO.write(src, "png", destination);
+
+			
+			RoomType roomType = roomDAOImp.getRoomType(roomTypeUpload).get(0);
+			
+			String[] photos = roomType.getPhotos();
+			if(!photos[0].equals("")) {
+				String[] newPhotos = new String[photos.length + 1];
+				
+				for(int i = 0; i < photos.length; i++) {
+					newPhotos[i] = photos[i];
+				}
+				newPhotos[photos.length] = saveUrl.split("static/")[1];
+				roomDAOImp.updateRoomTypePhotos(roomType.getRoomType(), newPhotos);
+			} else {
+				String[] newPhotos = { saveUrl.split("static/")[1] };
+				roomDAOImp.updateRoomTypePhotos(roomType.getRoomType(), newPhotos);
+			}
+		}
+		
+		return "redirect:/roomTypeManagement";
+	}
+
+	/**
+	 * Get list of amenities for form
 	 */
 	@ModelAttribute("amenitiesList")
 	public List<String> getAmenities() {

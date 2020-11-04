@@ -46,14 +46,25 @@
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label for="photos" class="col-md-3 control-label">Photos</label>
-				<div class="col-md-9">
-					<form:input path="photos" cssClass="form-control"
-						required="required" value="" />
-				</div>
-			</div>
 
+			<div class="form-group">
+				<label for="photos" class="col-md-3 control-label">Room
+					Photos (Uncheck to remove)</label>
+				<c:if test="${empty roomType.photos[0]}">
+					<div class="col-md-9">
+						<input class="form-control"
+							value="N/A. Add photos via 'Upload Photos' button in management page." readonly="readonly" />
+					</div>
+				</c:if>
+				<c:if test="${not empty roomType.photos[0]}">
+					<div class="checkboxItems">
+						<form:checkboxes element="span class='checkboxItems'"
+							cssClass="checkboxItems" checkedItems="${roomType.photos}"
+							items="${roomType.photos}" path="photos" />
+					</div>
+				</c:if>
+
+			</div>
 
 			<div class="form-group">
 				<label for="dailyPrice" class="col-md-3 control-label">Daily

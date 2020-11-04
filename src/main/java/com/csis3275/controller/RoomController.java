@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 
 import com.csis3275.dao.RoomDAOImpl;
 import com.csis3275.model.Room;
@@ -87,7 +84,7 @@ public class RoomController {
 	}
 	
 	
-	@GetMapping("/roomManagement/room")
+	@GetMapping("/roomManagement")
 	public String showRooms(HttpSession session, Model model) {
 		
 		//checking if user has a valid session hash and access

@@ -37,15 +37,15 @@
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">
-				<td>Staff Id</td>
-				<td>First Name</td>
-				<td>Last Name</td>
-				<td>Username</td>
-				<td>Position</td>
-				<td>Recovery Question</td>
-				<td>Recovery Answer</td>
-				<td></td>
-				<td></td>
+				<th>Staff Id</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Username</th>
+				<th>Position</th>
+				<th>Recovery Question</th>
+				<th>Recovery Answer</th>
+				<th></th>
+				<th></th>
 			</tr>
 			<c:forEach var="staff" items="${staffList}">
 				<tr class="dataRows">

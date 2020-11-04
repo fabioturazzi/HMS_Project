@@ -55,46 +55,60 @@
 .checkboxItems {
 	margin-right: 10px;
 	margin-top: 10px;
-	
 }
+
 .checkboxGroup {
-	display:flex;
-	overflow:auto;
-	float:clear;
-	vertical-align:center;
-	
+	display: flex;
+	overflow: auto;
+	float: clear;
+	vertical-align: center;
 }
 
 input[type="checkbox"] {
-	margin-right:5px;
+	margin-right: 5px;
 }
 
 td {
-	text-align:center;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle !important;
 }
 
 .availRooms {
-
-	color:dodgerblue;
+	color: dodgerblue;
 	font-size: 18px;
-
 }
 
 .bookRooms {
-
-	color:dodgerblue;
+	color: dodgerblue;
 	font-size: 18px;
-
 }
 
-#roomType > div.form-group.searchButtons {
-	text-align:center;
-	width: 70%;
-	margin-right:10px !important;
-	margin-left:10px !important;
-}
-.searchButtons {
-	display:flex;
-	overflow:auto;
+#roomType>div.form-group.searchButtons {
 	text-align: center;
+	width: 70%;
+	margin-right: 10px !important;
+	margin-left: 10px !important;
+}
+
+.searchButtons {
+	display: flex;
+	overflow: auto;
+	text-align: center;
+}
+
+.roomPhoto {
+	width: 300px;
+}
+
+th {
+	font-weight: bold;
+	text-align: center;
+	background-color: rgb(232, 238, 248);
+	display: table-cell;
+	vertical-align: middle !important;
+}
+
+#photosCell {
+	width: 310px;
 }

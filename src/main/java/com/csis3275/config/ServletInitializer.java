@@ -24,4 +24,18 @@ public class ServletInitializer implements WebApplicationInitializer {
 		servlet.addMapping("/");
 	
 	}
+	
+//    protected Class<?>[] getRootConfigClasses() {
+//        return null;
+//    }
+//
+//    protected Class<?>[] getServletConfigClasses() {
+//        
+//        return new Class[]{SpringMVCConfig.class};
+//    }
+//
+//    protected String[] getServletMappings() {
+//        
+//        return new String[]{"/*"};
+//    }
 }

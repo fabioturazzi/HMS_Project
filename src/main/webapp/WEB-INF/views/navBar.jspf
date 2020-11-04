@@ -4,6 +4,7 @@
 
 <img src="<c:url value="/static/images/HMS Logo.png" />"
 	alt="HMS Hackermen logo" class="hmsLogo" id="hmsLogo" />
+
 <div class="navBarDiv">
 	<nav class="navbar navbar-default">
 		<ul class="nav navbar-nav">

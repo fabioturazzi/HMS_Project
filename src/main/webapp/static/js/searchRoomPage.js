@@ -1,7 +1,6 @@
 
 $(function() {
 
-
 	$("input.checkboxItems")[0].checked = true;
 	$("span.checkboxItems").hide();
 	$("span.checkboxItems").first().show();

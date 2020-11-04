@@ -59,8 +59,7 @@ public class RoomDAOImpl {
 	private final String SQL_UPDATE_ROOM = "UPDATE rooms set roomNumber = ?, roomType = ?, floor = ?, houseKeepingStatus = ? WHERE roomId = ?";
 	private final String SQL_UPDATE_ROOMTYPE = "UPDATE roomTypes set roomType = ?, photos = ?, dailyPrice = ?, amenities = ?, capacity = ? WHERE roomTypeId = ?";
 	
-	private final String SQL_GET_ROOM_PRICE_BY_ROOM_ID = "SELECT dailyPrice FROM rooms JOIN roomTypes ON rooms.roomType = roomTypes.roomType WHERE roomNumber = ?";
-	private final String SQL_GET_ROOM_PHOTOS_BY_ROOM_ID = "SELECT photos FROM rooms JOIN roomTypes ON rooms.roomType = roomTypes.roomType WHERE roomNumber = ?";
+	private final String SQL_UPDATE_ROOMTYPE_PHOTOS = "UPDATE roomTypes set photos = ? WHERE roomType = ?";
 	
 	private final String SQL_CHECK_ROOMTYPE_FOR_BOOKING = "SELECT * FROM roomTypes WHERE capacity >= ? AND roomType = ?";
 	private final String SQL_CHECK_ROOMTYPE_FOR_BOOKING_NOTYPE = "SELECT * FROM roomTypes WHERE capacity >= ?";
@@ -143,12 +142,10 @@ public class RoomDAOImpl {
 		/** @return boolean indicating changes have been made to database */
 		return jdbcTemplate.update(SQL_UPDATE_ROOMTYPE, roomType.getRoomType(), roomType.getPhotos(), roomType.getDailyPrice(), roomType.getAmenities(), roomType.getCapacity(), roomType.getRoomTypeId()) > 0;
 	}
+
 	
-	public List<Room> getRoomPriceByRoomNumber(int roomNumber) {
-		return jdbcTemplate.query(SQL_GET_ROOM_PRICE_BY_ROOM_ID, new RoomMapper(), roomNumber);
-	}
-	
-	public List<Room> getRoomPhotosByRoomNumber(int roomNumber) {
-		return jdbcTemplate.query(SQL_GET_ROOM_PHOTOS_BY_ROOM_ID, new RoomMapper(), roomNumber);
+	public boolean updateRoomTypePhotos(String roomType, String[] photos) {
+		/** @return boolean indicating changes have been made to database */
+		return jdbcTemplate.update(SQL_UPDATE_ROOMTYPE_PHOTOS, photos, roomType) > 0;
 	}
 }

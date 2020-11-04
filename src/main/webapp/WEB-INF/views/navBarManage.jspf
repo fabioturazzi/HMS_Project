@@ -9,10 +9,10 @@
 				href="${pageContext.request.contextPath}/userManagement/staff">Manage
 					Staff</a></li>
 			<li class="roomNav1"><a
-				href="${pageContext.request.contextPath}/roomManagement/room">Manage
+				href="${pageContext.request.contextPath}/roomManagement">Manage
 					Rooms</a></li>
 			<li class="roomNav2"><a
-				href="${pageContext.request.contextPath}/roomManagement/roomType">Manage
+				href="${pageContext.request.contextPath}/roomTypeManagement">Manage
 					Room Types</a></li>
 			<li class="roomNav3"><a
 				href="${pageContext.request.contextPath}/bookingManagement/bookings">Manage
