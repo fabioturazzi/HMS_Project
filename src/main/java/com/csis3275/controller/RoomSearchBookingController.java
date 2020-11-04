@@ -426,6 +426,5 @@ public class RoomSearchBookingController {
 		} else {
 			return "denied";
 		}
-
 	}
 }
