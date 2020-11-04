@@ -103,16 +103,10 @@
 
 
 				<!-- Hidden Form to submit booking Information -->
-				<form:form action="${pageContext.request.contextPath}/submitBooking/"
+				<form:form
+					action="${pageContext.request.contextPath}/submitBooking/"
 					method="post" modelAttribute="booking">
 					<div class="row">
-						<div class="col form-group" hidden>
-							<label for="bookingId">bookingId</label>
-							<div>
-								<form:input type="number" class="form-control" path="bookingId" />
-							</div>
-						</div>
-
 						<div class="col form-group" hidden>
 							<label for="roomNumber">roomNumber</label>
 							<div>
@@ -128,25 +122,11 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="col form-group" hidden>
 						<label for="numbOfPeople">numbOfPeople</label>
 						<div>
 							<form:input type="number" path="numbOfPeople"
 								class="form-control" />
-						</div>
-					</div>
-
-					<div class="col form-group" hidden>
-						<label for="status">status</label>
-						<div>
-							<form:input type="text" path="status" class="form-control" />
-						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="paid">Paid</label>
-						<div>
-							<form:input type="text" path="paid" class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
@@ -164,21 +144,9 @@
 						</div>
 					</div>
 					<div class="col form-group" hidden>
-						<label for="checkinDate">checkinDate</label>
+						<label for="totalCost">totalCost</label>
 						<div>
-							<form:input type="date" path="checkinDate" class="form-control" />
-						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="checkoutDate">checkoutDate</label>
-						<div>
-							<form:input type="date" path="checkoutDate" class="form-control" />
-						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="paymentDate">paymentDate</label>
-						<div>
-							<form:input type="date" path="paymentDate" class="form-control" />
+							<form:input type="text" path="totalCost" class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
@@ -186,12 +154,6 @@
 						<div>
 							<form:input type="date" path="dateOfCreation"
 								class="form-control" />
-						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="totalCost">totalCost</label>
-						<div>
-							<form:input type="text" path="totalCost" class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
