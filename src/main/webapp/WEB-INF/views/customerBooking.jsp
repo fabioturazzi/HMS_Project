@@ -144,12 +144,6 @@
 						</div>
 					</div>
 					<div class="col form-group" hidden>
-						<label for="status">Status</label>
-						<div>
-							<form:input type="text" path="status" class="form-control" />
-						</div>
-					</div>
-					<div class="col form-group" hidden>
 						<label for="paid">Paid</label>
 						<div>
 							<form:input type="text" path="paid" class="form-control" />
@@ -158,39 +152,39 @@
 					<div class="col form-group" hidden>
 						<label for="bookingDateStart">bookingDateStart</label>
 						<div>
-							<form:input type="text" path="bookingDateStart"
+							<form:input type="date" path="bookingDateStart"
 								class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
 						<label for="bookindDateEnd">bookindDateEnd</label>
 						<div>
-							<form:input type="text" path="bookindDateEnd"
+							<form:input type="date" path="bookindDateEnd"
 								class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
 						<label for="checkinDate">checkinDate</label>
 						<div>
-							<form:input type="text" path="checkinDate" class="form-control" />
+							<form:input type="date" path="checkinDate" class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
 						<label for="checkoutDate">checkoutDate</label>
 						<div>
-							<form:input type="text" path="checkoutDate" class="form-control" />
+							<form:input type="date" path="checkoutDate" class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
 						<label for="paymentDate">paymentDate</label>
 						<div>
-							<form:input type="text" path="paymentDate" class="form-control" />
+							<form:input type="date" path="paymentDate" class="form-control" />
 						</div>
 					</div>
 					<div class="col form-group" hidden>
 						<label for="dateOfCreation">dateOfCreation</label>
 						<div>
-							<form:input type="text" path="dateOfCreation"
+							<form:input type="date" path="dateOfCreation"
 								class="form-control" />
 						</div>
 					</div>
@@ -250,7 +244,7 @@
 						<div class="form-group" hidden>
 							<div class="col-xs-6">
 								<h4>Registration Date</h4>
-								<form:input path="registrationDate" type="text"
+								<form:input path="registrationDate" type="date"
 									class="form-control" value="${ customerBook.registrationDate }" />
 
 							</div>
@@ -291,7 +285,7 @@
 						<div class="form-group">
 							<div class="col-xs-6">
 								<h4>Email</h4>
-								<form:input path="email" type="text" class="form-control"
+								<form:input path="email" type="email" class="form-control"
 									id="email" value="${customerBook.email }" min="2" />
 							</div>
 						</div>
