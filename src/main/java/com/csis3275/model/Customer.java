@@ -1,5 +1,11 @@
 package com.csis3275.model;
 
+
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 public class Customer extends User {
 
 	private String phoneNumber;

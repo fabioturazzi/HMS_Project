@@ -55,9 +55,46 @@
 .checkboxItems {
 	margin-right: 10px;
 	margin-top: 10px;
+	
 }
+.checkboxGroup {
+	display:flex;
+	overflow:auto;
+	float:clear;
+	vertical-align:center;
+	
+}
+
 input[type="checkbox"] {
 	margin-right:5px;
 }
 
+td {
+	text-align:center;
+}
 
+.availRooms {
+
+	color:dodgerblue;
+	font-size: 18px;
+
+}
+
+.bookRooms {
+
+	color:dodgerblue;
+	font-size: 18px;
+
+}
+
+#roomType > div.form-group.searchButtons {
+	text-align:center;
+	width: 70%;
+	margin-right:10px !important;
+	margin-left:10px !important;
+}
+.searchButtons {
+	display:flex;
+	overflow:auto;
+	text-align: center;
+}

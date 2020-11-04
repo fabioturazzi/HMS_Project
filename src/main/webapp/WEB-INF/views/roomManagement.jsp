@@ -71,7 +71,8 @@
 				<div class="alert alert-danger">${errorMessage}</div>
 			</c:if>
 			<div class="form-group">
-				<label for="roomNumber" class="col-md-3 control-label">Room Number</label>
+				<label for="roomNumber" class="col-md-3 control-label">Room
+					Number</label>
 				<div class="col-md-9">
 					<form:input path="roomNumber" cssClass="form-control"
 						required="required" value="" />
@@ -79,25 +80,32 @@
 			</div>
 
 			<div class="form-group">
-				<label for="roomType" class="col-md-3 control-label">Room Type</label>
+				<label for="roomType" class="col-md-3 control-label">Room
+					Type</label>
 				<div class="col-md-9">
-					<form:input path="roomType" cssClass="form-control"
-						required="required" value="" />
+					<form:select path="roomType" cssClass="form-control"
+						required="required" value="">
+						<form:options items="${roomTypesListItems}"></form:options>
+					</form:select>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="floor" class="col-md-3 control-label">Floor</label>
 				<div class="col-md-9">
-					<form:input path="floor" cssClass="form-control"
+					<form:input type="number" path="floor" cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>
+
 			<div class="form-group">
-				<label for="housekeepingStatus" class="col-md-3 control-label">Housekeeping Status</label>
+				<label for="housekeepingStatus" class="col-md-3 control-label">Housekeeping
+					Status</label>
 				<div class="col-md-9">
-					<form:input path="housekeepingStatus" cssClass="form-control"
-						required="required" value="" />
+					<form:select path="housekeepingStatus" cssClass="form-control"
+						required="required" value="">
+						<form:options items="${housekeeping}"></form:options>
+					</form:select>
 				</div>
 			</div>
 

@@ -166,20 +166,15 @@ public class RoomTypeController {
 			return "roomTypeManagement";
 		}
 	}
-	@GetMapping("/roomSearch")
-	public String searchRoomTypes() {
-
-		return "roomSearch";
-	}
 	
-	
+	/** Get list of amenities for form
+	 */
 	@ModelAttribute("amenitiesList")
 	public List<String> getAmenities() {
 		List<String> amenitiesList = new ArrayList<String>();
 		amenitiesList.add("Air Conditioner");
 		amenitiesList.add("Heating");
 		amenitiesList.add("King Size Bed");
-		amenitiesList.add("Single Bed");
 		amenitiesList.add("Bath Tub");
 		amenitiesList.add("Porch");
 		amenitiesList.add("Room Service");

@@ -51,17 +51,22 @@ public class RoomDAOImpl {
 	private final String SQL_GET_ROOMS_BY_TYPE = "SELECT * FROM rooms WHERE roomType = ?";
 
 	private final String SQL_CREATE_ROOMS = "INSERT INTO rooms (roomNumber, roomType, floor, houseKeepingStatus) VALUES (?,?,?,?)";
-	private final String SQL_CREATE_ROOMTYPES = "INSERT INTO roomTypes (roomType, photos, dailyPrice, amenities) VALUES (?,?,?,?)";
+	private final String SQL_CREATE_ROOMTYPES = "INSERT INTO roomTypes (roomType, photos, dailyPrice, amenities, capacity) VALUES (?,?,?,?,?)";
 	
 	private final String SQL_DELETE_ROOM = "DELETE FROM rooms WHERE roomId = ?";
 	private final String SQL_DELETE_ROOMTYPE = "DELETE FROM roomTypes WHERE roomTypeId = ?";
 	
 	private final String SQL_UPDATE_ROOM = "UPDATE rooms set roomNumber = ?, roomType = ?, floor = ?, houseKeepingStatus = ? WHERE roomId = ?";
-	private final String SQL_UPDATE_ROOMTYPE = "UPDATE roomTypes set roomType = ?, photos = ?, dailyPrice = ?, amenities = ? WHERE roomTypeId = ?";
+	private final String SQL_UPDATE_ROOMTYPE = "UPDATE roomTypes set roomType = ?, photos = ?, dailyPrice = ?, amenities = ?, capacity = ? WHERE roomTypeId = ?";
 	
 	private final String SQL_GET_ROOM_PRICE_BY_ROOM_ID = "SELECT dailyPrice FROM rooms JOIN roomTypes ON rooms.roomType = roomTypes.roomType WHERE roomNumber = ?";
 	private final String SQL_GET_ROOM_PHOTOS_BY_ROOM_ID = "SELECT photos FROM rooms JOIN roomTypes ON rooms.roomType = roomTypes.roomType WHERE roomNumber = ?";
 	
+	private final String SQL_CHECK_ROOMTYPE_FOR_BOOKING = "SELECT * FROM roomTypes WHERE capacity >= ? AND roomType = ?";
+	private final String SQL_CHECK_ROOMTYPE_FOR_BOOKING_NOTYPE = "SELECT * FROM roomTypes WHERE capacity >= ?";
+
+//	private final String SQL_CHECK_BOOKING_DATES = "SELECT roomType.roomTypeId, roomType.roomType, roomType.photos, roomType.dailyPrice, roomType.amenities, roomType.capacity FROM bookings WHERE roomNumber = ? AND (bookingDateStart >= ? AND bookingDateStart <=?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?)";
+
 
 	@Autowired
 	public RoomDAOImpl(DataSource dataSource) {
@@ -71,11 +76,18 @@ public class RoomDAOImpl {
 	public List<Room> getAllRooms() {
 		return jdbcTemplate.query(SQL_GET_ALL_ROOMS, new RoomMapper());
 	}
-
+	
 	public List<RoomType> getAllRoomTypes() {
 		return jdbcTemplate.query(SQL_GET_ALL_ROOMTYPES, new RoomTypeMapper());
 	}
-
+	public List<RoomType> checkRoomTypeBooking(int capacity, String roomType) {
+		return jdbcTemplate.query(SQL_CHECK_ROOMTYPE_FOR_BOOKING, new RoomTypeMapper(), capacity, roomType);
+	}
+	public List<RoomType> checkRoomTypeBooking(int capacity) {
+		return jdbcTemplate.query(SQL_CHECK_ROOMTYPE_FOR_BOOKING_NOTYPE, new RoomTypeMapper(), capacity);
+	}
+	
+	
 	public List<Room> getRoomByNumber(int roomNumber) {
 		return jdbcTemplate.query(SQL_GET_ROOM_BY_NUMBER, new RoomMapper(), roomNumber);
 	}
@@ -111,7 +123,7 @@ public class RoomDAOImpl {
 	}
 	
 	public boolean createRoomType(RoomType newRoomType) {
-		return jdbcTemplate.update(SQL_CREATE_ROOMTYPES, newRoomType.getRoomType(), newRoomType.getPhotos(), newRoomType.getDailyPrice(), newRoomType.getAmenities()) > 0;
+		return jdbcTemplate.update(SQL_CREATE_ROOMTYPES, newRoomType.getRoomType(), newRoomType.getPhotos(), newRoomType.getDailyPrice(), newRoomType.getAmenities(), newRoomType.getCapacity()) > 0;
 	}
 	
 	public boolean deleteRoom(int idToDelete) {
@@ -129,7 +141,7 @@ public class RoomDAOImpl {
 	
 	public boolean updateRoomType(RoomType roomType) {
 		/** @return boolean indicating changes have been made to database */
-		return jdbcTemplate.update(SQL_UPDATE_ROOMTYPE, roomType.getRoomType(), roomType.getPhotos(), roomType.getDailyPrice(), roomType.getAmenities(), roomType.getRoomTypeId()) > 0;
+		return jdbcTemplate.update(SQL_UPDATE_ROOMTYPE, roomType.getRoomType(), roomType.getPhotos(), roomType.getDailyPrice(), roomType.getAmenities(), roomType.getCapacity(), roomType.getRoomTypeId()) > 0;
 	}
 	
 	public List<Room> getRoomPriceByRoomNumber(int roomNumber) {

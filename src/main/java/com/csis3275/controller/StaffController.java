@@ -65,6 +65,7 @@ public class StaffController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
+		//check username to avoid conflict
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(createStaff.getUsername());
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(createStaff.getUsername());
 		
@@ -130,6 +131,7 @@ public class StaffController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
+		//Check usernames to avoid conflict
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(updatedStaff.getUsername(), updatedStaff.getId());
 		
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(updatedStaff.getUsername());
@@ -141,6 +143,7 @@ public class StaffController {
 			return "staffManagementEdit";
 		}
 		else {
+			//Update staff if no conflict is found
 			staffDAOImp.updateStaff(updatedStaff);
 			
 			List<Staff> staffs = staffDAOImp.getAllStaffs();

@@ -5,6 +5,11 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 public class BookingMapper implements RowMapper<Booking>{
 	
 	public Booking mapRow(ResultSet resultSet, int i) throws SQLException {

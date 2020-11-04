@@ -3,6 +3,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -43,6 +44,7 @@
 				<td>Photos</td>
 				<td>Daily Price</td>
 				<td>Amenities</td>
+				<td>Capacity</td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -54,10 +56,12 @@
 					<td><c:forEach var="photo" items="${roomType.photos}">
 						${photo} |
 					</c:forEach></td>
-					<td>${roomType.dailyPrice}</td>
+					<td><fmt:formatNumber type="currency" currencySymbol="$"
+								value="${roomType.dailyPrice}" /></td>
 					<td><c:forEach var="amenity" items="${roomType.amenities}">
 						${amenity} |
 					</c:forEach></td>
+					<td>${roomType.capacity}</td>
 					<td><a
 						href="${pageContext.request.contextPath}/editRoomType/?id=${roomType.roomTypeId}">Edit</a></td>
 					<td><a
@@ -104,7 +108,16 @@
 			<div class="form-group">
 				<label for="amenities" class="col-md-3 control-label">Amenities</label>
 				<div class="checkboxItems">
-					<form:checkboxes element="span class='checkboxItems'" cssClass="checkboxItems" checkedItems="${roomType.amenities}" items="${amenitiesList}" path="amenities" />
+					<form:checkboxes element="span class='checkboxItems'"
+						cssClass="checkboxItems" checkedItems="${roomType.amenities}"
+						items="${amenitiesList}" path="amenities" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="capacity" class="col-md-3 control-label">Capacity</label>
+				<div class="col-md-9">
+					<form:input type="number" path="capacity" cssClass="form-control"
+						required="required" value="" />
 				</div>
 			</div>
 
