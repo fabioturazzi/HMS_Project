@@ -1,7 +1,6 @@
 package com.csis3275.dao;
 
-//import java.util.Date;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -49,16 +48,7 @@ public class BookingDAOImpl {
 	}
 	
 	public boolean createBooking(Booking newBooking) {
-		
-		//CONVERTING STRING TO SQL DATE BEFORE SUBMIT
-		Date bookingDateStart = Date.valueOf(newBooking.getBookingDateStart());
-		Date bookindDateEnd = Date.valueOf(newBooking.getBookindDateEnd());
-		Date checkinDate = Date.valueOf(newBooking.getCheckinDate());
-		Date checkoutDate = Date.valueOf(newBooking.getCheckoutDate());
-		Date paymentDate = Date.valueOf(newBooking.getPaymentDate());
-		Date dateOfCreation = Date.valueOf(newBooking.getDateOfCreation());
-		
-		return jdbcTemplate.update(SQL_CREATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerUsername(), newBooking.getNumbOfPeople(), newBooking.getStatus(), newBooking.isPaid(), bookingDateStart, bookindDateEnd, checkinDate, checkoutDate, paymentDate, dateOfCreation, newBooking.getTotalCost(), newBooking.getRoomType()) > 0;
+		return jdbcTemplate.update(SQL_CREATE_BOOKING, newBooking.getRoomNumber(), newBooking.getCustomerUsername(), newBooking.getNumbOfPeople(), newBooking.getStatus(), newBooking.isPaid(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd(), newBooking.getCheckinDate(), newBooking.getCheckoutDate(), newBooking.getPaymentDate(), newBooking.getDateOfCreation(), newBooking.getTotalCost(), newBooking.getRoomType()) > 0;
 	}
 	
 	public boolean updateBooking(Booking newBooking) {

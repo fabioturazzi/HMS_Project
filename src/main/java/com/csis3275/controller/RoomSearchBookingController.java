@@ -321,12 +321,13 @@ public class RoomSearchBookingController {
 		newBooking.setPaid(false);
 		newBooking.setBookingDateStart(startDate);
 		newBooking.setBookindDateEnd(endDate);
-		newBooking.setCheckinDate("2000-01-01");
-		newBooking.setCheckoutDate("2000-01-01");
-		newBooking.setPaymentDate("2000-01-01");
+		newBooking.setCheckinDate("1980-01-01");
+		newBooking.setCheckoutDate("1980-01-02");
+		newBooking.setPaymentDate("1980-01-01");
 		newBooking.setTotalCost(price);
 		newBooking.setRoomType(roomType);
-
+		
+		
 		//Getting date of the Booking creation and setting on Model
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String logBookingTime = df.format(new Date());
