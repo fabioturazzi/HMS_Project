@@ -103,7 +103,7 @@
 
 
 				<!-- Hidden Form to submit booking Information -->
-				<form:form action="${pageContext.request.contextPath}/myBookings/"
+				<form:form action="${pageContext.request.contextPath}/submitBooking/"
 					method="post" modelAttribute="booking">
 					<div class="row">
 						<div class="col form-group" hidden>

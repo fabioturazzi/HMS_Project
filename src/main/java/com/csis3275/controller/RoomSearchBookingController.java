@@ -341,8 +341,8 @@ public class RoomSearchBookingController {
 	 * @param: booking, session and Model.
 	 * POST method to create a new Booking
 	 */
-	@PostMapping("/myBookings")
-	public String myBookings(@ModelAttribute("booking") Booking newBooking, HttpSession session, Model model) {
+	@PostMapping("/submitBooking")
+	public String submitBooking(@ModelAttribute("booking") Booking newBooking, HttpSession session, Model model) {
 
 		//Add booking on Database
 		bookingDAOImp.createBooking(newBooking);
