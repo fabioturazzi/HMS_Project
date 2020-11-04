@@ -107,21 +107,21 @@
 					method="post" modelAttribute="booking">
 					<div class="row">
 						<div class="col form-group" hidden>
-							<label for="bookingId">Booking ID</label>
+							<label for="bookingId">bookingId</label>
 							<div>
 								<form:input type="number" class="form-control" path="bookingId" />
 							</div>
 						</div>
 
 						<div class="col form-group" hidden>
-							<label for="roomNumber">Room Number</label>
+							<label for="roomNumber">roomNumber</label>
 							<div>
 								<form:input type="number" path="roomNumber" class="form-control" />
 							</div>
 						</div>
 
 						<div class="col form-group" hidden>
-							<label for="customerUsername">Username</label>
+							<label for="customerUsername">customerUsername</label>
 							<div>
 								<form:input type="text" path="customerUsername"
 									class="form-control" />
@@ -130,7 +130,7 @@
 					</div>
 
 					<div class="col form-group" hidden>
-						<label for="numbOfPeople"># of People</label>
+						<label for="numbOfPeople">numbOfPeople</label>
 						<div>
 							<form:input type="number" path="numbOfPeople"
 								class="form-control" />
@@ -138,7 +138,7 @@
 					</div>
 
 					<div class="col form-group" hidden>
-						<label for="status">Status</label>
+						<label for="status">status</label>
 						<div>
 							<form:input type="text" path="status" class="form-control" />
 						</div>
@@ -206,20 +206,17 @@
 							<form:input type="text" path="roomType" class="form-control" />
 						</div>
 					</div>
+					<%-- SUBMIT BOOKING --%>
+					<div class="form-group">
+						<!-- Button -->
+						<span> <form:button class="btn btn-primary mb-2">Confirm Booking</form:button>
+						</span> <a class="col btn btn-primary"
+							href="${pageContext.request.contextPath}/roomSearch">Back to
+							room search </a>
+					</div>
+				</form:form>
 			</div>
-
-			<%-- SUBMIT BOOKING --%>
-			<div class="form-group">
-				<!-- Button -->
-				<span> <form:button class="btn btn-primary mb-2">Confirm Booking</form:button>
-				</span> <span class="col btn btn-primary"
-					href="${pageContext.request.contextPath}/roomSearch">Back to
-					room search </span>
-			</div>
-			</form:form>
 		</div>
-
-		<div class="row"></div>
 	</div>
 
 	<!-- Modal with Edit form -->

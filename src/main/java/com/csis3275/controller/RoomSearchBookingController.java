@@ -186,53 +186,55 @@ public class RoomSearchBookingController {
 
 	/*
 	 * @author: Fernando Casaloti Silva
-	 * 
 	 * @param: roomType passing from the search
-	 * 
 	 * @param: startDate passing from the search
-	 * 
 	 * @param: endDate passing from the search
-	 * 
-	 * @param: session and model passing information of session and to manipulate
-	 * Model.
+	 * @param: session and model passing information of session and to manipulate Model.
 	 */
 	@GetMapping("/roomBooking")
 	public String bookingRoom(@RequestParam(required = true) String roomType,
 			@RequestParam(required = true) String startDate, @RequestParam(required = true) String endDate,
 			@RequestParam(required = true) int capacity, HttpSession session, Model model) {
 
-		// Getting Last Name of the user
-		String userName = session.getAttribute("username").toString();
-		List<Customer> customer = customerDAOImp.getCustomer(userName);
+		//Check if user is logged in and if it is a Customer
+		if (session.getAttribute("username") != null && session.getAttribute("userType").equals("Customer")) {
+			
+			// Getting Last Name of the user
+			String userName = session.getAttribute("username").toString();
+			List<Customer> customer = customerDAOImp.getCustomer(userName);
 
-		// Getting String with the room amenities
-		String amenities = getAmenities(roomType);
+			// Getting String with the room amenities
+			String amenities = getAmenities(roomType);
 
-		// Getting #nights
-		int nights = (int) getNights(startDate, endDate);
+			// Getting #nights
+			int nights = (int) getNights(startDate, endDate);
 
-		// Calculating Price
-		Double price = calculatePrice(roomType, nights);
+			// Calculating Price
+			Double price = calculatePrice(roomType, nights);
 
-		// Set a new booking
-		Booking newBooking = setNewBooking(roomType, capacity, startDate, endDate, price, userName);
+			// Set a new booking
+			Booking newBooking = setNewBooking(roomType, capacity, startDate, endDate, price, userName);
 
-		// Adding Model Attributes to the View
-		model.addAttribute("customerBook", customer.get(0));
-		model.addAttribute("startDate", startDate);
-		model.addAttribute("endDate", endDate);
-		model.addAttribute("roomType", roomType);
-		model.addAttribute("amenities", amenities);
-		model.addAttribute("nights", nights);
-		model.addAttribute("price", price);
-		model.addAttribute("booking", newBooking);
+			// Adding Model Attributes to the View
+			model.addAttribute("customerBook", customer.get(0));
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+			model.addAttribute("roomType", roomType);
+			model.addAttribute("amenities", amenities);
+			model.addAttribute("nights", nights);
+			model.addAttribute("price", price);
+			model.addAttribute("booking", newBooking);
 
-		return "customerBooking";
+			return "customerBooking";
+			
+		} else {
+			return "denied";
+		}
+		
 	}
 
 	/*
 	 * @author: Fernando Casaloti Silva
-	 * 
 	 * @param: passing roomType choosen on Room search
 	 */
 	private String getAmenities(String roomType) {
@@ -252,9 +254,7 @@ public class RoomSearchBookingController {
 
 	/*
 	 * @author: Fernando Casaloti Silva
-	 * 
 	 * @param: startDate - Arriving Date
-	 * 
 	 * @param: endDate - Leaving Date
 	 */
 	private long getNights(String startDate, String endDate) {
@@ -270,6 +270,8 @@ public class RoomSearchBookingController {
 	}
 
 	/*
+	 * @author: Fernando Casaloti Silva
+	 * @param: roomType and nights
 	 * Calculate the price of the stay
 	 */
 	private double calculatePrice(String roomType, int nights) {
@@ -284,7 +286,8 @@ public class RoomSearchBookingController {
 	}
 
 	/*
-	 * @author: Fernando Casaloti Silva Edit user information on Booking Page
+	 * @author: Fernando Casaloti Silva 
+	 * Edit user information on Booking Page
 	 */
 	@PostMapping("/profileBook")
 	public String showEditProfile(@ModelAttribute("customerBook") Customer updatedUser, HttpSession session,
@@ -301,27 +304,15 @@ public class RoomSearchBookingController {
 	}
 
 	/*
-	 * @author: Fernando Casaloti Silva Post to create a new Booking
-	 */
-	@PostMapping("/myBookings")
-	public String myBookings(@ModelAttribute("booking") Booking newBooking, HttpSession session, Model model) {
-
-		System.out.println(newBooking.getDateOfCreation());
-
-		return "profileView";
-	}
-
-	/*
 	 * author: Fernando Casaloti Silva
-	 * 
-	 * @param: roomType, capacity (number of People), startDate, endDate, price, and
-	 * username.
+	 * @param: roomType, capacity (number of People), startDate, endDate, price, and username.
 	 */
 	private Booking setNewBooking(String roomType, int capacity, String startDate, String endDate, double price,
 			String userName) {
 
 		Booking newBooking = new Booking();
 
+		//Setting Data on Booking Model
 		List<Room> listRoomsByType = roomDAOImp.getRoomsByRoomType(roomType);
 		newBooking.setRoomNumber(listRoomsByType.get(0).getRoomNumber());
 		newBooking.setCustomerUsername(userName);
@@ -330,17 +321,39 @@ public class RoomSearchBookingController {
 		newBooking.setPaid(false);
 		newBooking.setBookingDateStart(startDate);
 		newBooking.setBookindDateEnd(endDate);
-		newBooking.setCheckinDate(null);
-		newBooking.setCheckoutDate(null);
-		newBooking.setPaymentDate(null);
-
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		String logBookingTime = df.format(new Date());
-		newBooking.setDateOfCreation(logBookingTime);
+		newBooking.setCheckinDate("2000-01-01");
+		newBooking.setCheckoutDate("2000-01-01");
+		newBooking.setPaymentDate("2000-01-01");
 		newBooking.setTotalCost(price);
 		newBooking.setRoomType(roomType);
 
-		return newBooking;
+		//Getting date of the Booking creation and setting on Model
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String logBookingTime = df.format(new Date());
+		newBooking.setDateOfCreation(logBookingTime);
 
+		return newBooking;
+	}
+	
+	/*
+	 * @author: Fernando Casaloti Silva
+	 * @param: booking, session and Model.
+	 * POST method to create a new Booking
+	 */
+	@PostMapping("/myBookings")
+	public String myBookings(@ModelAttribute("booking") Booking newBooking, HttpSession session, Model model) {
+
+		//Add booking on Database
+		bookingDAOImp.createBooking(newBooking);
+		
+		
+		//TODO: CREATE CODE TO INSERT IN A NEW PAGE CALLED MYBOOKINGS. CODE BELLOW IN THIS METHOD WILL BE OVERRIDEN.
+		// Get our customer and show his profile
+		String userName = session.getAttribute("username").toString();
+		List<Customer> customerData = customerDAOImp.getCustomer(userName);
+		
+		model.addAttribute("user", customerData.get(0));
+
+		return "profileView";
 	}
 }
