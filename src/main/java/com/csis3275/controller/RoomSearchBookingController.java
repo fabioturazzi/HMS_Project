@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,11 +21,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.csis3275.dao.BookingDAOImpl;
+import com.csis3275.dao.CustomerDAOImpl;
 import com.csis3275.dao.RoomDAOImpl;
 import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
+import com.csis3275.model.User;
 
 @Controller
 public class RoomSearchBookingController {
@@ -34,6 +37,9 @@ public class RoomSearchBookingController {
 
 	@Autowired
 	BookingDAOImpl bookingDAOImp;
+
+	@Autowired
+	CustomerDAOImpl customerDAOImp;
 
 	@ModelAttribute("roomType")
 	public RoomType setupAddForm() {
@@ -127,7 +133,6 @@ public class RoomSearchBookingController {
 			availableRooms.add(availableRoomsByType.size());
 		}
 
-		
 		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(searchedRoomType.getStartDateFormControl(),
 				new ParsePosition(0));
 		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(searchedRoomType.getEndDateFormControl(),
@@ -144,7 +149,7 @@ public class RoomSearchBookingController {
 			model.addAttribute("roomTypeList", roomTypes);
 			return "roomSearch";
 		}
-		
+
 //		List<Booking> bookings = bookingDAOImp.checkBookingConflict(roomNumber, attemptedStartDate, attemptedEndDate);
 
 		model.addAttribute("availableRooms", availableRooms);
@@ -152,6 +157,14 @@ public class RoomSearchBookingController {
 		// Add the list of roomTypes to the model to be returned to the view
 		model.addAttribute("roomTypeList", secondFilterCheck);
 		model.addAttribute("message", "Search filter updated");
+
+		/*
+		 * @author: Fernando Casaloti Silva Add start and end date to the view to be
+		 * used on booking
+		 */
+		model.addAttribute("startDate", searchedRoomType.getStartDateFormControl().toString());
+		model.addAttribute("endDate", searchedRoomType.getEndDateFormControl().toString());
+		model.addAttribute("capacity", searchedRoomType.getCapacity());
 
 		return "roomSearch";
 	}
@@ -169,5 +182,165 @@ public class RoomSearchBookingController {
 		amenitiesList.add("Wi-Fi");
 
 		return amenitiesList;
+	}
+
+	/*
+	 * @author: Fernando Casaloti Silva
+	 * 
+	 * @param: roomType passing from the search
+	 * 
+	 * @param: startDate passing from the search
+	 * 
+	 * @param: endDate passing from the search
+	 * 
+	 * @param: session and model passing information of session and to manipulate
+	 * Model.
+	 */
+	@GetMapping("/roomBooking")
+	public String bookingRoom(@RequestParam(required = true) String roomType,
+			@RequestParam(required = true) String startDate, @RequestParam(required = true) String endDate,
+			@RequestParam(required = true) int capacity, HttpSession session, Model model) {
+
+		// Getting Last Name of the user
+		String userName = session.getAttribute("username").toString();
+		List<Customer> customer = customerDAOImp.getCustomer(userName);
+
+		// Getting String with the room amenities
+		String amenities = getAmenities(roomType);
+
+		// Getting #nights
+		int nights = (int) getNights(startDate, endDate);
+
+		// Calculating Price
+		Double price = calculatePrice(roomType, nights);
+
+		// Set a new booking
+		Booking newBooking = setNewBooking(roomType, capacity, startDate, endDate, price, userName);
+
+		// Adding Model Attributes to the View
+		model.addAttribute("customerBook", customer.get(0));
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("roomType", roomType);
+		model.addAttribute("amenities", amenities);
+		model.addAttribute("nights", nights);
+		model.addAttribute("price", price);
+		model.addAttribute("booking", newBooking);
+
+		return "customerBooking";
+	}
+
+	/*
+	 * @author: Fernando Casaloti Silva
+	 * 
+	 * @param: passing roomType choosen on Room search
+	 */
+	private String getAmenities(String roomType) {
+		List<RoomType> listRoomsByType = roomDAOImp.getRoomType(roomType);
+		String[] amenitiesArr = listRoomsByType.get(0).getAmenities();
+		StringBuffer stringBuffer = new StringBuffer();
+
+		for (int i = 0; i < amenitiesArr.length; i++) {
+			if (i == amenitiesArr.length - 1)
+				stringBuffer.append(amenitiesArr[i]);
+			else
+				stringBuffer.append(amenitiesArr[i] + ", ");
+		}
+		String amenities = stringBuffer.toString();
+		return amenities;
+	}
+
+	/*
+	 * @author: Fernando Casaloti Silva
+	 * 
+	 * @param: startDate - Arriving Date
+	 * 
+	 * @param: endDate - Leaving Date
+	 */
+	private long getNights(String startDate, String endDate) {
+		// Parsing the date
+		LocalDate dateBefore = LocalDate.parse(startDate);
+		LocalDate dateAfter = LocalDate.parse(endDate);
+
+		// calculating number of days in between
+		long noOfDaysBetween = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+
+		// displaying the number of days
+		return noOfDaysBetween;
+	}
+
+	/*
+	 * Calculate the price of the stay
+	 */
+	private double calculatePrice(String roomType, int nights) {
+		double price;
+
+		List<RoomType> listRoomsByType = roomDAOImp.getRoomType(roomType);
+		double dailyPrice = listRoomsByType.get(0).getDailyPrice();
+
+		price = dailyPrice * nights;
+
+		return price;
+	}
+
+	/*
+	 * @author: Fernando Casaloti Silva Edit user information on Booking Page
+	 */
+	@PostMapping("/profileBook")
+	public String showEditProfile(@ModelAttribute("customerBook") Customer updatedUser, HttpSession session,
+			Model model) {
+
+		// Update customer information
+		updatedUser.putProfileUpdated();
+		customerDAOImp.updateCustomer(updatedUser);
+		Customer customer = customerDAOImp.getCustomerById(updatedUser.getId());
+		model.addAttribute("customerBook", customer);
+		session.setAttribute("lastname", customer.getlName());
+
+		return "roomSearch";
+	}
+
+	/*
+	 * @author: Fernando Casaloti Silva Post to create a new Booking
+	 */
+	@PostMapping("/myBookings")
+	public String myBookings(@ModelAttribute("booking") Booking newBooking, HttpSession session, Model model) {
+
+		System.out.println(newBooking.getDateOfCreation());
+
+		return "profileView";
+	}
+
+	/*
+	 * author: Fernando Casaloti Silva
+	 * 
+	 * @param: roomType, capacity (number of People), startDate, endDate, price, and
+	 * username.
+	 */
+	private Booking setNewBooking(String roomType, int capacity, String startDate, String endDate, double price,
+			String userName) {
+
+		Booking newBooking = new Booking();
+
+		List<Room> listRoomsByType = roomDAOImp.getRoomsByRoomType(roomType);
+		newBooking.setRoomNumber(listRoomsByType.get(0).getRoomNumber());
+		newBooking.setCustomerUsername(userName);
+		newBooking.setNumbOfPeople(capacity);
+		newBooking.setStatus("null");
+		newBooking.setPaid(false);
+		newBooking.setBookingDateStart(startDate);
+		newBooking.setBookindDateEnd(endDate);
+		newBooking.setCheckinDate(null);
+		newBooking.setCheckoutDate(null);
+		newBooking.setPaymentDate(null);
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		String logBookingTime = df.format(new Date());
+		newBooking.setDateOfCreation(logBookingTime);
+		newBooking.setTotalCost(price);
+		newBooking.setRoomType(roomType);
+
+		return newBooking;
+
 	}
 }

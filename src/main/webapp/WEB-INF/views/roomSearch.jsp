@@ -25,7 +25,8 @@
 		<div>
 
 			<form:form action="${pageContext.request.contextPath}/roomSearch/"
-				cssClass="form-horizontal searchForm" method="post" modelAttribute="roomType">
+				cssClass="form-horizontal searchForm" method="post"
+				modelAttribute="roomType">
 
 				<c:if test="${ errorMessage !=null }">
 					<div class="alert alert-danger">${errorMessage}</div>
@@ -83,7 +84,8 @@
 					</div>
 					<!-- Button -->
 					<div class="col-md-offset-3 col-md-9">
-						<a id="cleanFilterDiv" href="${pageContext.request.contextPath}/roomSearch"
+						<a id="cleanFilterDiv"
+							href="${pageContext.request.contextPath}/roomSearch"
 							id="cleanFilterButton" class="btn btn-danger">Clean Search
 							Filters</a>
 					</div>
@@ -91,7 +93,8 @@
 				<div class="form-group"></div>
 			</form:form>
 			<c:if test="${ message != null }">
-				<div class="alert alert-success successMessage" id="successMessage" role="alert">${message}</div>
+				<div class="alert alert-success successMessage" id="successMessage"
+					role="alert">${message}</div>
 			</c:if>
 			<span id="flag" hidden>false</span>
 			<table class="table table-striped table-bordered">
@@ -118,7 +121,10 @@
 					</c:forEach></td>
 						<td>${roomType.capacity}</td>
 						<td class="availRooms">${availableRooms.get(loop.index)}</td>
-						<td class="bookRoomsCell"><a class="bookRooms" href="${pageContext.request.contextPath}/roomBooking/?roomType=${roomType.roomType}">Book a Room</a></td>
+						<td class="bookRoomsCell"><a class="bookRooms" href="${pageContext.request.contextPath}
+							/roomBooking/?roomType=${roomType.roomType}&startDate=${startDate}&endDate=${endDate}
+							&capacity=${capacity}">
+							Book a Room</a></td>
 					</tr>
 				</c:forEach>
 
