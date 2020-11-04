@@ -86,7 +86,7 @@ public class BookingController {
 		// Get a list of rooms from the controller
 		List<Booking> bookings = bookingDAOImp.getAllBookings();
 		model.addAttribute("bookings", bookings);
-		
+
 		setDropdownLists(model);
 
 		model.addAttribute("message", "Deleted Booking: " + id);
@@ -98,61 +98,103 @@ public class BookingController {
 	public String createRoom(@ModelAttribute("room") Booking createBooking, HttpServletRequest request,
 			HttpSession session, Model model) {
 
+		setDropdownLists(model);
+		List<Booking> bookings = bookingDAOImp.getAllBookings();
+		model.addAttribute("bookings", bookings);
+
 		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
 		String sd = createBooking.getBookingDateStart();
 		String ed = createBooking.getBookindDateEnd();
+		createBooking.setDateOfCreation(createBooking.setTodaysDate());
+		String td = createBooking.getDateOfCreation();
 
-		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(createBooking.getBookingDateStart(),
-				new ParsePosition(0));
-		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(createBooking.getBookindDateEnd(),
-				new ParsePosition(0));
+		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(sd, new ParsePosition(0));
+		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(ed, new ParsePosition(0));
+		Date today = new SimpleDateFormat("yyyy-MM-dd").parse(td, new ParsePosition(0));
 
-		if (endDate.compareTo(startDate) < 0) {
-
-			model.addAttribute("errorMessage", "Please, select correct ending date.");
+		if (startDate.compareTo(today) < 0) {
+			
+			model.addAttribute("errorMessage", "Please, check the starting date.");
+			return "/bookingManagement";
 
 		} else {
 
-			// set some fields depending on the input
-			createBooking.setDateOfCreation(createBooking.setTodaysDate());
-			createBooking.setStatus("booked");
+			if (endDate.compareTo(startDate) < 0) {
 
-			createBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
-			createBooking.setCustomerUsername(request.getParameter("customer"));
+				model.addAttribute("errorMessage", "Please, select correct ending date.");
+				return "/bookingManagement";
 
-			List<Room> rooms = roomDAOImpl.getRoomByNumber(Integer.parseInt(request.getParameter("room")));
-			Room room = rooms.get(0);
+			} else {
 
-			createBooking.setRoomType(room.getRoomType());
+				int rNum = Integer.parseInt(request.getParameter("room"));
 
-			// Calculate price
-			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(sd), LocalDate.parse(ed));
+				List<Room> rooms = roomDAOImpl.getRoomByNumber(rNum);
+				Room room = rooms.get(0);
 
-			if (noOfDaysBetween == 0) {
-				noOfDaysBetween = 1;
+				String rType = room.getRoomType();
+				List<RoomType> roomTypes = roomDAOImpl.getRoomType(rType);
+				int cap = roomTypes.get(0).getCapacity();
+
+				int numOfPeople = createBooking.getNumbOfPeople();
+
+				// IF
+				if (cap < numOfPeople) {
+
+					model.addAttribute("errorMessage",
+							"Capacity of this room is insufficient. Max number of people is: " + cap + ".");
+					return "/bookingManagement";
+
+				} else {
+
+					List<Booking> bookingList = bookingDAOImp.checkBookingConflict(rNum, sd, ed);
+
+					if (!bookingList.isEmpty()) {
+
+						model.addAttribute("errorMessage", "This room is not available for these dates.");
+						return "/bookingManagement";
+
+					} else {
+
+						// set some fields depending on the input
+						createBooking.setDateOfCreation(createBooking.setTodaysDate());
+						createBooking.setStatus("booked");
+
+						createBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
+						createBooking.setCustomerUsername(request.getParameter("customer"));
+
+						createBooking.setRoomType(rType);
+
+						// Calculate price
+						long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(sd), LocalDate.parse(ed));
+
+						if (noOfDaysBetween == 0) {
+							noOfDaysBetween = 1;
+						}
+
+						RoomType roomType = roomDAOImpl.getRoomType(room.getRoomType()).get(0);
+
+						double totalCost = noOfDaysBetween * roomType.getDailyPrice();
+						createBooking.setTotalCost(totalCost);
+
+						// put new booking to the DB
+						bookingDAOImp.createBooking(createBooking);
+
+						model.addAttribute("booking", createBooking);
+						model.addAttribute("message", "Booking was successfully created!");
+
+						List<Booking> bookingss = bookingDAOImp.getAllBookings();
+						model.addAttribute("bookings", bookingss);
+
+						return "/bookingManagement";
+					}
+
+				}
+
 			}
-
-			RoomType roomType = roomDAOImpl.getRoomType(room.getRoomType()).get(0);
-
-			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
-			createBooking.setTotalCost(totalCost);
-
-			// put new booking to the DB
-			bookingDAOImp.createBooking(createBooking);
-
-			model.addAttribute("booking", createBooking);
-			model.addAttribute("message", "Booking was successfully created!");
-
 		}
-
-		// Get a list of bookings from the controller
-		List<Booking> bookings = bookingDAOImp.getAllBookings();
-		model.addAttribute("bookings", bookings);
-
-		return "redirect:/bookingManagement/bookings";
 
 	}
 
@@ -230,20 +272,20 @@ public class BookingController {
 				updatedBooking.setCheckinDate(null);
 				updatedBooking.setCheckoutDate(null);
 				updatedBooking.setPaid(true);
-			} else if (status.equals("checked-in") && updatedBooking.getCheckinDate()  == "") {
+			} else if (status.equals("checked-in") && updatedBooking.getCheckinDate() == "") {
 				updatedBooking.setCheckinDate(updatedBooking.setTodaysDate());
-				
+
 				if (updatedBooking.getPaymentDate() == "") {
 					updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
 					updatedBooking.setPaid(true);
 				}
-				
+
 				updatedBooking.setCheckoutDate(null);
-				
+
 			} else if (status.equals("checked-out")) {
 
 				updatedBooking.setCheckoutDate(updatedBooking.setTodaysDate());
-				
+
 			}
 
 			bookingDAOImp.updateBooking(updatedBooking);
