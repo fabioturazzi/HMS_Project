@@ -95,13 +95,27 @@ td {
 	text-align: center;
 }
 
-.booking-form{
+.booking-form {
 	background-color: rgb(250, 250, 250);
 	border: solid 1px rgb(231, 231, 231);
 	margin: 5px;
 	padding: 30px;
 }
 
-.room-confirmation{
+.room-confirmation {
 	float: right;
+}
+
+div.ui-dialog {
+	background-color: white !important;
+	text-align: center;
+}
+
+.no-close .ui-dialog-titlebar-close {
+	display: none;
+}
+
+div.ui-dialog-content {
+	padding: 10px 0;
+	text-align: center;
 }

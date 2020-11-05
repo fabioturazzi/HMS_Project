@@ -15,6 +15,11 @@
 
 <%@ include file="/WEB-INF/views/imports.jspf"%>
 
+<!-- JQuery Dialog used to confirm booking -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<c:url value="/static/js/dialogConfirm.js" />"></script>
+
 </head>
 <body>
 
@@ -105,7 +110,7 @@
 				<!-- Hidden Form to submit booking Information -->
 				<form:form
 					action="${pageContext.request.contextPath}/submitBooking/"
-					method="post" modelAttribute="booking">
+					method="post" modelAttribute="booking" class="booking">
 					<div class="row">
 						<div class="col form-group" hidden>
 							<label for="roomNumber">roomNumber</label>
@@ -165,7 +170,7 @@
 					<%-- SUBMIT BOOKING --%>
 					<div class="form-group">
 						<!-- Button -->
-						<span> <form:button class="btn btn-primary mb-2">Confirm Booking</form:button>
+						<span> <form:button class="btn btn-primary mb-2 confirm-booking">Confirm Booking</form:button>
 						</span> <a class="col btn btn-primary"
 							href="${pageContext.request.contextPath}/roomSearch">Back to
 							room search </a>

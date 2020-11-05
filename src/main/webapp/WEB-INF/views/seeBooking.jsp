@@ -11,6 +11,10 @@
 <title>My Bookings</title>
 <%@ include file="/WEB-INF/views/imports.jspf"%>
 
+<!-- JQuery Dialog used to confirm booking -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<c:url value="/static/js/dialogConfirm.js" />"></script>
 </head>
 <body>
 
@@ -28,6 +32,7 @@
 
 			<tr class="dataHeader">
 				<td>Booking Id</td>
+				<td>Booking Date</td>
 				<td hidden>Room Number</td>
 				<td hidden>Customer Username</td>
 				<td>Room Type</td>
@@ -38,13 +43,13 @@
 				<td hidden>Check-in Date</td>
 				<td hidden>Check-out Date</td>
 				<td hidden>Payment Date</td>
-				<td>Booking Creation Date</td>
 				<td>Total Costs</td>
-				<td> Delete Booking</td>
+				<td>Delete Booking</td>
 			</tr>
 			<c:forEach var="booking" items="${bookings}">
 				<tr class="dataRows">
 					<td>${booking.bookingId}</td>
+					<td>${booking.dateOfCreation}</td>
 					<td hidden>${booking.roomNumber}</td>
 					<td hidden>${booking.customerUsername}</td>
 					<td>${booking.roomType}</td>
@@ -55,9 +60,8 @@
 					<td hidden>${booking.checkinDate}</td>
 					<td hidden>${booking.checkoutDate}</td>
 					<td hidden>${booking.paymentDate}</td>
-					<td>${booking.dateOfCreation}</td>
 					<td>$${booking.totalCost}</td>
-					<td><a class="btn btn-primary"
+					<td><a class="btn btn-primary submit-delete"
 						href="${pageContext.request.contextPath}/deleteBookingCustomer/?bookingId=${booking.bookingId}">Delete</a></td>
 				</tr>
 			</c:forEach>
