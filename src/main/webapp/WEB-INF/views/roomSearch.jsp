@@ -115,28 +115,29 @@
 				<c:forEach var="roomType" items="${roomTypeList}" varStatus="loop">
 					<tr class="dataRows">
 						<td hidden>${roomType.roomTypeId}</td>
-						<td id="photosCell"><c:if test="${not empty roomType.photos[0]}">
-								<div id="carouselExampleControls" class="carousel slide"
+						<td id="photosCell"><c:if
+								test="${not empty roomType.photos[0]}">
+								<div id="carouselControls${roomType.roomTypeId}" class="carousel slide"
 									data-ride="carousel">
 									<div class="carousel-inner">
 										<c:forEach var="photo" items="${roomType.photos}"
 											varStatus="carouselLoop">
 											<div
-												class="carousel-item<c:if test="${carouselLoop.index==0}"> active</c:if>">
+												class="item<c:if test="${carouselLoop.index==0}"> active</c:if>">
 												<img src="<c:url value="${photo}" />"
 													alt="${carouselLoop.index}" class="d-block w-100 roomPhoto" />
 											</div>
 										</c:forEach>
 									</div>
-									<a class="carousel-control-prev"
-										href="#carouselExampleControls" role="button"
+									<a class="left carousel-control"
+										href="#carouselControls${roomType.roomTypeId}" role="button"
 										data-slide="prev"> <span
-										class="carousel-control-prev-icon" aria-hidden="true"></span>
+										class="icon-prev"></span>
 										<span class="sr-only">Previous</span>
-									</a> <a class="carousel-control-next"
-										href="#carouselExampleControls" role="button"
+									</a> <a class="right carousel-control"
+										href="#carouselControls${roomType.roomTypeId}" role="button"
 										data-slide="next"> <span
-										class="carousel-control-next-icon" aria-hidden="true"></span>
+										class="icon-next"></span>
 										<span class="sr-only">Next</span>
 									</a>
 								</div>
@@ -145,9 +146,10 @@
 
 
 						<td>${roomType.roomType}</td>
-						<td><c:forEach var="amenity" items="${roomType.amenities}" varStatus="loop">
+						<td><c:forEach var="amenity" items="${roomType.amenities}"
+								varStatus="loop">
 						${amenity}<c:if test="${!loop.last}"> |</c:if>
-						</c:forEach></td>
+							</c:forEach></td>
 						<td>${roomType.capacity}</td>
 						<td><fmt:formatNumber type="currency" currencySymbol="$"
 								value="${roomType.dailyPrice}" /></td>

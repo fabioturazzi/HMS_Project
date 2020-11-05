@@ -40,41 +40,41 @@
 
 			<tr class="dataHeader">
 				<th>Photos</th>
-				<th>Room Type Id</th>
+				<th>Id</th>
 				<th>Room Type</th>
 				<th>Photos (Links)</th>
 				<th>Daily Price</th>
 				<th>Amenities</th>
 				<th>Capacity</th>
-				<th></th>
-				<th></th>
-				<th></th>
+				<th colspan="3">Options</th>
 			</tr>
 
 			<c:forEach var="roomType" items="${roomTypeList}">
 				<tr class="dataRows">
-					<td><c:if test="${not empty roomType.photos[0]}">
-							<div id="carouselExampleControls" class="carousel slide"
+					<td id="photosCell"><c:if test="${not empty roomType.photos[0]}">
+							<div id="carouselControls${roomType.roomTypeId}" class="carousel slide"
 								data-ride="carousel">
 								<div class="carousel-inner">
 									<c:forEach var="photo" items="${roomType.photos}"
 										varStatus="carouselLoop">
 										<div
-											class="carousel-item<c:if test="${carouselLoop.index==0}"> active</c:if>">
+											class="item<c:if test="${carouselLoop.index==0}"> active</c:if>">
 											<img src="<c:url value="${photo}" />"
 												alt="${carouselLoop.index}" class="d-block w-100 roomPhoto" />
 										</div>
 									</c:forEach>
 								</div>
-								<a class="carousel-control-prev" href="#carouselExampleControls"
-									role="button" data-slide="prev"> <span
-									class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-									class="sr-only">Previous</span>
-								</a> <a class="carousel-control-next"
-									href="#carouselExampleControls" role="button" data-slide="next">
-									<span class="carousel-control-next-icon" aria-hidden="true"></span>
-									<span class="sr-only">Next</span>
-								</a>
+								<a class="left carousel-control"
+										href="#carouselControls${roomType.roomTypeId}" role="button"
+										data-slide="prev"> <span
+										class="icon-prev"></span>
+										<span class="sr-only">Previous</span>
+									</a> <a class="right carousel-control"
+										href="#carouselControls${roomType.roomTypeId}" role="button"
+										data-slide="next"> <span
+										class="icon-next"></span>
+										<span class="sr-only">Next</span>
+									</a>
 							</div>
 						</c:if> <c:if test="${empty roomType.photos[0]}">(No photos available)</c:if>
 					</td>
@@ -83,7 +83,7 @@
 					<td><c:if test="${empty roomType.photos[0]}">(No photos available)</c:if>
 						<c:if test="${not empty roomType.photos[0]}">
 							<c:forEach var="photo" items="${roomType.photos}" varStatus="loop">
-								${photo}<c:if test="${!loop.last}"> |</c:if>
+								${photo}<c:if test="${!loop.last}"> </c:if>
 							</c:forEach>
 						</c:if></td>
 					<td><fmt:formatNumber type="currency" currencySymbol="$"

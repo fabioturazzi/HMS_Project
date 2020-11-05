@@ -44,8 +44,7 @@
 				<th>Position</th>
 				<th>Recovery Question</th>
 				<th>Recovery Answer</th>
-				<th></th>
-				<th></th>
+				<th colspan="2">Options</th>
 			</tr>
 			<c:forEach var="staff" items="${staffList}">
 				<tr class="dataRows">

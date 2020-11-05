@@ -72,6 +72,7 @@ td {
 	text-align: center;
 	display: table-cell;
 	vertical-align: middle !important;
+	min-width: 60px;
 }
 
 .availRooms {
@@ -98,7 +99,7 @@ td {
 }
 
 .roomPhoto {
-	width: 300px;
+	width: 400px;
 }
 
 th {
@@ -110,5 +111,5 @@ th {
 }
 
 #photosCell {
-	width: 310px;
+	width: 400px;
 }

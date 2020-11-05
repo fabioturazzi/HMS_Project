@@ -43,8 +43,7 @@
 				<th>Room Type</th>
 				<th>Floor</th>
 				<th>Housekeeping Status</th>
-				<th></th>
-				<th></th>
+				<th colspan="2">Options</th>
 			</tr>
 			<c:forEach var="room" items="${roomList}">
 				<tr class="dataRows">

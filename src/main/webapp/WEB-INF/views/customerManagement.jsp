@@ -47,8 +47,7 @@
 				<th>Address</th>
 				<th>Recovery Question</th>
 				<th>Recovery Answer</th>
-				<th></th>
-				<th></th>
+				<th colspan="2">Options</th>
 			</tr>
 			<c:forEach var="customer" items="${customerList}">
 				<tr class="dataRows">
