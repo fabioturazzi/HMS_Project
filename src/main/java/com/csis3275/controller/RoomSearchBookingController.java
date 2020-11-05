@@ -203,9 +203,8 @@ public class RoomSearchBookingController {
 			session.setAttribute("message", "No rooms with the searched specifications are available for these dates.");
 		} else {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-			Date date = new Date(System.currentTimeMillis());
 
-			session.setAttribute("message", "Search filter updated " + formatter.format(date));
+			session.setAttribute("message", "Search filters applied for " + searchedRoomType.getCapacity() + " guest(s) on dates: " + searchedRoomType.getStartDateFormControl() + " to " + searchedRoomType.getEndDateFormControl());
 		}
 
 		return "redirect:/roomSearch";
