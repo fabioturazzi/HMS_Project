@@ -116,11 +116,16 @@ div.ui-dialog {
 }
 
 .ui-dialog-titlebar {
-	background:rgb(231, 231, 231);
+	background:red;
+	color: white;
 	font-weight:bold;
 }
 
 div.ui-dialog-content {
 	padding: 10px 0;
 	text-align: center;
+}
+
+.ui-dialog{
+	border: solid 1px rgb(231, 231, 231);
 }

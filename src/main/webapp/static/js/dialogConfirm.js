@@ -12,7 +12,7 @@ $(function() {
 			dialogClass: "no-close",
 			title: "Delete Confirmation",
 			buttons: {
-				"Ok": function() {
+				"Delete": function() {
 					window.location = link.href;
 				},
 				"Cancel": function() {
@@ -21,7 +21,7 @@ $(function() {
 			}
 		});
 	});
-	
+
 	$(".confirm-booking").on("click", function(e) {
 		var link = this;
 		console.log("clicked");
@@ -31,8 +31,8 @@ $(function() {
 			dialogClass: "no-close",
 			title: "Booking Confirmation",
 			buttons: {
-				"Ok": function() {
-					$( ".booking" ).submit();
+				"Confirm!": function() {
+					$(".booking").submit();
 				},
 				"Cancel": function() {
 					$(this).dialog("close");
