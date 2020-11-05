@@ -115,6 +115,11 @@ div.ui-dialog {
 	display: none;
 }
 
+.ui-dialog-titlebar {
+	background:rgb(231, 231, 231);
+	font-weight:bold;
+}
+
 div.ui-dialog-content {
 	padding: 10px 0;
 	text-align: center;
