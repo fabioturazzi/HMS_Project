@@ -106,26 +106,6 @@ td {
 	float: right;
 }
 
-div.ui-dialog {
-	background-color: white !important;
-	text-align: center;
-}
-
-.no-close .ui-dialog-titlebar-close {
-	display: none;
-}
-
-.ui-dialog-titlebar {
-	background:red;
-	color: white;
-	font-weight:bold;
-}
-
-div.ui-dialog-content {
-	padding: 10px 0;
-	text-align: center;
-}
-
-.ui-dialog{
-	border: solid 1px rgb(231, 231, 231);
+.modal-booking{
+	background-color: rgb(231, 231, 231);
 }

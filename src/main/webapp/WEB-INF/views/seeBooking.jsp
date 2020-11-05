@@ -11,10 +11,6 @@
 <title>My Bookings</title>
 <%@ include file="/WEB-INF/views/imports.jspf"%>
 
-<!-- JQuery Dialog used to confirm booking -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="<c:url value="/static/js/dialogConfirm.js" />"></script>
 </head>
 <body>
 
@@ -44,7 +40,6 @@
 				<td hidden>Check-out Date</td>
 				<td hidden>Payment Date</td>
 				<td>Total Costs</td>
-				<td>Delete Booking</td>
 			</tr>
 			<c:forEach var="booking" items="${bookings}">
 				<tr class="dataRows">
@@ -61,12 +56,53 @@
 					<td hidden>${booking.checkoutDate}</td>
 					<td hidden>${booking.paymentDate}</td>
 					<td>$${booking.totalCost}</td>
-					<td><a class="btn btn-primary submit-delete"
-						href="${pageContext.request.contextPath}/deleteBookingCustomer/?bookingId=${booking.bookingId}">Delete</a></td>
 				</tr>
 			</c:forEach>
-
 		</table>
+
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#launchModal">Delete Booking</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="launchModal" tabindex="-1" role="dialog"
+			aria-labelledby="deleteModal" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Delete Booking</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table class="table table-striped table-bordered">
+
+							<tr class="dataHeader">
+								<td>Booking Id</td>
+								<td>Start Date</td>
+								<td>End Date</td>
+								<td>Delete Booking</td>
+							</tr>
+							<c:forEach var="booking" items="${bookings}">
+								<tr class="dataRows">
+									<td>${booking.bookingId}</td>
+									<td>${booking.bookingDateStart}</td>
+									<td>${booking.bookindDateEnd}</td>
+									<td><a class="btn btn-primary submit-delete"
+										href="${pageContext.request.contextPath}/deleteBookingCustomer/?bookingId=${booking.bookingId}">Delete</a></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary submit-delete"
+							data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

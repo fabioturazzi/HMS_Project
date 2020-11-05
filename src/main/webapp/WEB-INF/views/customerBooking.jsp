@@ -15,11 +15,6 @@
 
 <%@ include file="/WEB-INF/views/imports.jspf"%>
 
-<!-- JQuery Dialog used to confirm booking -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="<c:url value="/static/js/dialogConfirm.js" />"></script>
-
 </head>
 <body>
 
@@ -87,7 +82,7 @@
 							<h4>
 								&#128467; <b>${startDate}</b>&#10153;<b>${endDate}</b>
 							</h4>
-							<h4>${nights} nights</h4>
+							<h4>${nights}nights</h4>
 						</div>
 						<div class="list-group-item">
 							<h4>
@@ -103,79 +98,101 @@
 										type="currency" value="${price}" /></b>
 							</h4>
 						</div>
+						<br></br>
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-primary" data-toggle="modal"
+							data-target="#submitBooking">Submit Booking</button>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="submitBooking" tabindex="-1" role="dialog"
+		aria-labelledby="submitBookingLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content modal-booking">
+				<div class="modal-header">
+					<h3 class="modal-title" id="submitBookingLabel">Do you want to submit your booking?</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- Hidden Form to submit booking Information -->
+					<form:form
+						action="${pageContext.request.contextPath}/submitBooking/"
+						method="post" modelAttribute="booking" class="booking">
+						<div class="row">
+							<div class="col form-group" hidden>
+								<label for="roomNumber">roomNumber</label>
+								<div>
+									<form:input type="number" path="roomNumber"
+										class="form-control" />
+								</div>
+							</div>
 
-				<!-- Hidden Form to submit booking Information -->
-				<form:form
-					action="${pageContext.request.contextPath}/submitBooking/"
-					method="post" modelAttribute="booking" class="booking">
-					<div class="row">
-						<div class="col form-group" hidden>
-							<label for="roomNumber">roomNumber</label>
-							<div>
-								<form:input type="number" path="roomNumber" class="form-control" />
+							<div class="col form-group" hidden>
+								<label for="customerUsername">customerUsername</label>
+								<div>
+									<form:input type="text" path="customerUsername"
+										class="form-control" />
+								</div>
 							</div>
 						</div>
-
 						<div class="col form-group" hidden>
-							<label for="customerUsername">customerUsername</label>
+							<label for="numbOfPeople">numbOfPeople</label>
 							<div>
-								<form:input type="text" path="customerUsername"
+								<form:input type="number" path="numbOfPeople"
 									class="form-control" />
 							</div>
 						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="numbOfPeople">numbOfPeople</label>
-						<div>
-							<form:input type="number" path="numbOfPeople"
-								class="form-control" />
+						<div class="col form-group" hidden>
+							<label for="bookingDateStart">bookingDateStart</label>
+							<div>
+								<form:input type="date" path="bookingDateStart"
+									class="form-control" />
+							</div>
 						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="bookingDateStart">bookingDateStart</label>
-						<div>
-							<form:input type="date" path="bookingDateStart"
-								class="form-control" />
+						<div class="col form-group" hidden>
+							<label for="bookindDateEnd">bookindDateEnd</label>
+							<div>
+								<form:input type="date" path="bookindDateEnd"
+									class="form-control" />
+							</div>
 						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="bookindDateEnd">bookindDateEnd</label>
-						<div>
-							<form:input type="date" path="bookindDateEnd"
-								class="form-control" />
+						<div class="col form-group" hidden>
+							<label for="totalCost">totalCost</label>
+							<div>
+								<form:input type="text" path="totalCost" class="form-control" />
+							</div>
 						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="totalCost">totalCost</label>
-						<div>
-							<form:input type="text" path="totalCost" class="form-control" />
+						<div class="col form-group" hidden>
+							<label for="dateOfCreation">dateOfCreation</label>
+							<div>
+								<form:input type="date" path="dateOfCreation"
+									class="form-control" />
+							</div>
 						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="dateOfCreation">dateOfCreation</label>
-						<div>
-							<form:input type="date" path="dateOfCreation"
-								class="form-control" />
+						<div class="col form-group" hidden>
+							<label for="roomType">roomType</label>
+							<div>
+								<form:input type="text" path="roomType" class="form-control" />
+							</div>
 						</div>
-					</div>
-					<div class="col form-group" hidden>
-						<label for="roomType">roomType</label>
-						<div>
-							<form:input type="text" path="roomType" class="form-control" />
+						<%-- SUBMIT BOOKING --%>
+						<div class="form-group modal-footer">
+							<!-- Button -->
+							<span> <form:button
+									class="btn btn-primary confirm-booking">Confirm Booking</form:button>
+							</span> <a class="col btn btn-primary"
+								href="${pageContext.request.contextPath}/roomSearch">Back to
+								room search </a>
 						</div>
-					</div>
-					<%-- SUBMIT BOOKING --%>
-					<div class="form-group">
-						<!-- Button -->
-						<span> <form:button class="btn btn-primary mb-2 confirm-booking">Confirm Booking</form:button>
-						</span> <a class="col btn btn-primary"
-							href="${pageContext.request.contextPath}/roomSearch">Back to
-							room search </a>
-					</div>
-				</form:form>
+					</form:form>
+				</div>
 			</div>
 		</div>
 	</div>
