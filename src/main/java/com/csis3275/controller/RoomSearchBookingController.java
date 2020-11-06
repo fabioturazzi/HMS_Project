@@ -325,6 +325,8 @@ public class RoomSearchBookingController {
 		newBooking.setRoomNumber(listRoomsByType.get(0).getRoomNumber());
 		newBooking.setCustomerUsername(userName);
 		newBooking.setNumbOfPeople(capacity);
+		newBooking.setStatus("booked");
+		newBooking.setPaid(false);
 		newBooking.setBookingDateStart(startDate);
 		newBooking.setBookindDateEnd(endDate);
 		newBooking.setTotalCost(price);
