@@ -196,16 +196,42 @@ public class BookingController {
 	}
 
 	@GetMapping("/editBooking")
-	public String editBooking(@RequestParam(required = true) int id, HttpSession session, Model model) {
+	public String editBooking(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
+			Model model) {
 
 		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
-		// Get the customer
+//		if (request.getQueryString().toString() != null) {
+//
+//			String[] linkParts = request.getQueryString().toString().split("=");
+//
+//			if (linkParts.length > 1) {
+//				String msgPart = linkParts[linkParts.length - 1].toString();
+//
+//				try {
+//					
+//				String[] msgParts = msgPart.split("+");
+//				for (int i = 1; i <= msgParts.length - 1; i++) {
+//					System.out.println(msgParts[i]);
+//				}
+//				} catch (Exception ex) {
+//					System.out.println(ex.getMessage());
+//				}
+//
+//			}
+//
+//		}
+//
+//		if (model.getAttribute("errorMessage") != null) {
+//			System.out.println(request.getRequestURI());
+//			System.out.println(session.getAttribute("errorMessage") + model.getAttribute("errorMessage").toString());
+//		}
+
 		Booking bookingToUpdate = bookingDAOImp.getBooking(id);
 		model.addAttribute("booking", bookingToUpdate);
-
+		// Get the customer
 		Customer customer = customerDAOImp.getCustomer(bookingToUpdate.getCustomerUsername()).get(0);
 		model.addAttribute("customer", customer);
 
@@ -233,6 +259,11 @@ public class BookingController {
 	public String updateBooking(@ModelAttribute("booking") Booking updatedBooking, HttpServletRequest request,
 			HttpSession session, Model model) {
 
+		// Get the customer
+		Customer customer = customerDAOImp.getCustomer(updatedBooking.getCustomerUsername()).get(0);
+		model.addAttribute("customer", customer);
+		setDropdownLists(model);
+
 		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
@@ -247,10 +278,10 @@ public class BookingController {
 		if (endDate.compareTo(startDate) < 0) {
 
 			model.addAttribute("errorMessage", "Please, select correct ending date.");
-			return "bookingManagementEdit";
+			return "redirect:/editBooking/?id=" + updatedBooking.getBookingId();
 
 		} else {
-			
+
 			System.out.println("Here");
 
 			updatedBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
@@ -268,7 +299,7 @@ public class BookingController {
 			System.out.println(status);
 
 			if (status.equals("paid")) {
-				
+
 				if (updatedBooking.getPaymentDate() == "") {
 					updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
 					updatedBooking.setPaid(true);
@@ -278,7 +309,7 @@ public class BookingController {
 				updatedBooking.setCheckoutDate(null);
 
 			} else if (status.equals("checked-in")) {
-				
+
 				if (updatedBooking.getCheckinDate() == "")
 					updatedBooking.setCheckinDate(updatedBooking.setTodaysDate());
 
@@ -318,9 +349,8 @@ public class BookingController {
 
 			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
 			updatedBooking.setTotalCost(totalCost);
-			System.out.println(updatedBooking.getBookingDateStart() + " end: " + updatedBooking.getBookindDateEnd() + " in: " + updatedBooking.getCheckinDate() +
-					" out: " + updatedBooking.getCheckoutDate() + " paid: " + updatedBooking.getPaymentDate());
-			//New 
+
+			// New
 			bookingDAOImp.updateBooking(updatedBooking);
 
 			List<Booking> bookings = bookingDAOImp.getAllBookings();
