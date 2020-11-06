@@ -209,6 +209,21 @@ public class BookingController {
 		Customer customer = customerDAOImp.getCustomer(bookingToUpdate.getCustomerUsername()).get(0);
 		model.addAttribute("customer", customer);
 
+		// checking if we have valid (not occupied) dates for a room
+		String sd = bookingToUpdate.getBookingDateStart();
+		String td = bookingToUpdate.setTodaysDate();
+		String ed = bookingToUpdate.getBookindDateEnd();
+
+		Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(ed, new ParsePosition(0));
+		Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(sd, new ParsePosition(0));
+		Date todayDate = new SimpleDateFormat("yyyy-MM-dd").parse(td, new ParsePosition(0));
+
+		if (todayDate.compareTo(startDate) < 0 || todayDate.compareTo(endDate) > 0) {
+			model.addAttribute("canCheckin", false);
+		} else {
+			model.addAttribute("canCheckin", true);
+		}
+
 		setDropdownLists(model);
 
 		return "bookingManagementEdit";
@@ -235,6 +250,8 @@ public class BookingController {
 			return "bookingManagementEdit";
 
 		} else {
+			
+			System.out.println("Here");
 
 			updatedBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
 
@@ -248,14 +265,22 @@ public class BookingController {
 
 			// Checking status and Putting dates if necessary
 			String status = request.getParameter("status");
+			System.out.println(status);
 
-			if (status.equals("paid") && updatedBooking.getPaymentDate() == "") {
-				updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
+			if (status.equals("paid")) {
+				
+				if (updatedBooking.getPaymentDate() == "") {
+					updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
+					updatedBooking.setPaid(true);
+				}
+
 				updatedBooking.setCheckinDate(null);
 				updatedBooking.setCheckoutDate(null);
-				updatedBooking.setPaid(true);
-			} else if (status.equals("checked-in") && updatedBooking.getCheckinDate() == "") {
-				updatedBooking.setCheckinDate(updatedBooking.setTodaysDate());
+
+			} else if (status.equals("checked-in")) {
+				
+				if (updatedBooking.getCheckinDate() == "")
+					updatedBooking.setCheckinDate(updatedBooking.setTodaysDate());
 
 				if (updatedBooking.getPaymentDate() == "") {
 					updatedBooking.setPaymentDate(updatedBooking.setTodaysDate());
@@ -276,6 +301,10 @@ public class BookingController {
 					updatedBooking.setBookindDateEnd(ed);
 				}
 
+			} else if (status.equals("booked")) {
+				updatedBooking.setPaymentDate(null);
+				updatedBooking.setCheckinDate(null);
+				updatedBooking.setCheckoutDate(null);
 			}
 
 			// Calculate price
@@ -289,7 +318,9 @@ public class BookingController {
 
 			double totalCost = noOfDaysBetween * roomType.getDailyPrice();
 			updatedBooking.setTotalCost(totalCost);
-
+			System.out.println(updatedBooking.getBookingDateStart() + " end: " + updatedBooking.getBookindDateEnd() + " in: " + updatedBooking.getCheckinDate() +
+					" out: " + updatedBooking.getCheckoutDate() + " paid: " + updatedBooking.getPaymentDate());
+			//New 
 			bookingDAOImp.updateBooking(updatedBooking);
 
 			List<Booking> bookings = bookingDAOImp.getAllBookings();

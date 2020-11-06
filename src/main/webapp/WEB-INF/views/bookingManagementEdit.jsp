@@ -21,7 +21,7 @@
 	<div class="container">
 		<h1 id="pageTitle">Edit Booking</h1>
 		<hr />
-		
+
 		<h3>Booking Information</h3>
 
 		<c:if test="${ errorMessage !=null }">
@@ -155,20 +155,28 @@
 							</c:when>
 							<c:otherwise>
 								<c:choose>
-									<c:when test="${status == booking.status}">
+									<c:when test="${status == 'checked-in' && canCheckin==false}">
 										<label><input type="radio" name="status"
-											value="${status}" checked>${status}</label>
+											value="${status}" disabled>${status}</label>
 									</c:when>
 									<c:otherwise>
 										<c:choose>
-											<c:when
-												test="${status == 'checked-out' && (booking.paid != true || booking.checkinDate == null)}">
+											<c:when test="${status == booking.status}">
 												<label><input type="radio" name="status"
-													value="${status}" disabled>${status}</label>
+													value="${status}" checked>${status}</label>
 											</c:when>
 											<c:otherwise>
-												<label><input type="radio" name="status"
-													value="${status}">${status}</label>
+												<c:choose>
+													<c:when
+														test="${status == 'checked-out' && (booking.paid != true || booking.checkinDate == null)}">
+														<label><input type="radio" name="status"
+															value="${status}" disabled>${status}</label>
+													</c:when>
+													<c:otherwise>
+														<label><input type="radio" name="status"
+															value="${status}">${status}</label>
+													</c:otherwise>
+												</c:choose>
 											</c:otherwise>
 										</c:choose>
 									</c:otherwise>
@@ -182,7 +190,8 @@
 			<div class="form-group">
 				<!-- Button -->
 				<div class="col-md-offset-3 col-md-9">
-					<button type="submit" class="btn btn-primary">Submit Changes</button>
+					<button type="submit" class="btn btn-primary">Submit
+						Changes</button>
 				</div>
 			</div>
 
