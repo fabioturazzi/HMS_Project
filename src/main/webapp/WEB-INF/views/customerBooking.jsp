@@ -80,9 +80,9 @@
 					<div class="list-group">
 						<div class="list-group-item">
 							<h4>
-								&#128467; <b>${startDate}</b>&#10153;<b>${endDate}</b>
+								&#128467; <b>${startDate}</b>&nbsp;&#10153;&nbsp;<b>${endDate}</b>
 							</h4>
-							<h4>${nights}nights</h4>
+							<h4>${nights}&nbsp;nights</h4>
 						</div>
 						<div class="list-group-item">
 							<h4>
@@ -112,15 +112,40 @@
 	<div class="modal fade" id="submitBooking" tabindex="-1" role="dialog"
 		aria-labelledby="submitBookingLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content modal-booking">
+			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title" id="submitBookingLabel">Do you want to submit your booking?</h3>
+					<h3 class="modal-title" id="submitBookingLabel">Do you want to
+						submit your booking?</h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
+					<div class="list-group">
+						<div class="list-group-item">
+							<h4>
+								&#128467; <b>${startDate}</b>&nbsp;&#10153;&nbsp;<b>${endDate}</b>
+							</h4>
+							<h4>${nights}&nbsp;nights</h4>
+						</div>
+						<div class="list-group-item">
+							<h4>
+								&#128719; <b>Room Type:</b> ${roomType}
+							</h4>
+							<h4>
+								<b>&#8680; Room Amenities:</b> ${amenities}
+							</h4>
+						</div>
+						<div class="list-group-item">
+							<h4>
+								<b>TOTAL: </b> (Taxes not included) <b><fmt:formatNumber
+										type="currency" value="${price}" /></b>
+							</h4>
+						</div>
+					</div>
+
+
 					<!-- Hidden Form to submit booking Information -->
 					<form:form
 						action="${pageContext.request.contextPath}/submitBooking/"
