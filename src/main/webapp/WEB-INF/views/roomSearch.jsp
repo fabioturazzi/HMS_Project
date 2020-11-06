@@ -112,7 +112,7 @@
 					<th class="bookRoomsHead">Book</th>
 				</tr>
 
-				<c:forEach var="roomType" items="${roomTypeList}" varStatus="loop">
+				<c:forEach var="roomType" items="${roomTypeList}" varStatus="roomLoop">
 					<tr class="dataRows">
 						<td hidden>${roomType.roomTypeId}</td>
 						<td id="photosCell"><c:if
@@ -154,8 +154,8 @@
 						<td><fmt:formatNumber type="currency" currencySymbol="$"
 								value="${roomType.dailyPrice}" /></td>
 						<td class="totalCost"><fmt:formatNumber type="currency"
-								currencySymbol="$" value="${totalCost.get(loop.index)}" /></td>
-						<td class="availRooms">${availableRooms.get(loop.index)}</td>
+								currencySymbol="$" value="${totalCost.get(roomLoop.index)}" /></td>
+						<td class="availRooms">${availableRooms.get(roomLoop.index)}</td>
 						<td class="bookRoomsCell"><a class="bookRooms" href="${pageContext.request.contextPath}
 							/roomBooking/?roomType=${roomType.roomType}&startDate=${startDate}&endDate=${endDate}
 							&capacity=${capacity}">
