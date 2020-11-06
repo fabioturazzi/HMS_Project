@@ -20,63 +20,9 @@
 	</div>
 
 	<div class="container">
+
 		<h1 id="pageTitle">Manage Bookings</h1>
 		<hr />
-		<div class="form-group searchBar form-horizontal">
-			<label for="fName" class="col-md-3 control-label">Search
-				Entries:</label>
-			<div class="col-md-9">
-				<input class="form-control searchInput" id="searchInput"
-					required="required" value="" />
-			</div>
-		</div>
-
-
-		<c:if test="${ message != null }">
-			<div class="alert alert-success" role="alert">${message}</div>
-		</c:if>
-		<table class="table table-striped table-bordered">
-
-			<tr class="dataHeader">
-				<td>Booking Id</td>
-				<td>Room Number</td>
-				<td>Customer Username</td>
-				<td>Room Type</td>
-				<td>Status</td>
-				<td>Paid</td>
-				<td>Start Date</td>
-				<td>End Date</td>
-				<td>Check-in Date</td>
-				<td>Check-out Date</td>
-				<td>Payment Date</td>
-				<td>Booking Creation Date</td>
-				<td>Total Costs</td>
-				<td></td>
-				<td></td>
-			</tr>
-			<c:forEach var="booking" items="${bookings}">
-				<tr class="dataRows">
-					<td>${booking.bookingId}</td>
-					<td>${booking.roomNumber}</td>
-					<td>${booking.customerUsername}</td>
-					<td>${booking.roomType}</td>
-					<td>${booking.status}</td>
-					<td>${booking.paid}</td>
-					<td>${booking.bookingDateStart}</td>
-					<td>${booking.bookindDateEnd}</td>
-					<td>${booking.checkinDate}</td>
-					<td>${booking.checkoutDate}</td>
-					<td>${booking.paymentDate}</td>
-					<td>${booking.dateOfCreation}</td>
-					<td>$${booking.totalCost}</td>
-					<td><a
-						href="${pageContext.request.contextPath}/editBooking/?id=${booking.bookingId}">Edit</a></td>
-					<td><a
-						href="${pageContext.request.contextPath}/deleteBooking/?id=${booking.bookingId}">Delete</a></td>
-				</tr>
-			</c:forEach>
-
-		</table>
 
 		<h3>Create Booking</h3>
 
@@ -87,10 +33,10 @@
 				<label for="roomNumber" class="col-md-3 control-label">Room
 					Number</label>
 				<div class="col-md-9">
-					<select name="roomList">
-						<c:forEach items="${roomList}" var="roomList">
-							<option value="${roomList.roomNumber }">${roomList.roomNumber }
-								Type: ${roomList.roomType }</option>
+					<select name="room">
+						<c:forEach items="${roomList}" var="room">
+							<option value="${room.roomNumber }">${room.roomNumber }
+								Type: ${room.roomType }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -129,15 +75,88 @@
 						cssClass="form-control" required="required" />
 				</div>
 			</div>
+			
+			<div class="form-group">
+				<label for="numbOfPeople" class="col-md-3 control-label">Number of People</label>
+				<div class="col-md-9">
+					<form:input type="number" min="1" max="10" name="numbOfPeople" path="numbOfPeople"
+						cssClass="form-control" required="required" value="1"/>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<!-- Button -->
 				<div class="col-md-offset-3 col-md-9">
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Make Booking</button>
 				</div>
 			</div>
 
 		</form:form>
+		
+		<br />
+		<br />
+
+		<h3>Search Bookings</h3>
+		<hr />
+
+		<div class="form-group searchBar form-horizontal">
+			<label for="fName" class="col-md-3 control-label">Search
+				Entries:</label>
+			<div class="col-md-9">
+				<input class="form-control searchInput" id="searchInput"
+					required="required" value="" />
+			</div>
+		</div>
+
+
+		<c:if test="${ message != null }">
+			<div class="alert alert-success" role="alert">${message}</div>
+		</c:if>
+		<table class="table table-striped table-bordered">
+
+			<tr class="dataHeader">
+				<th>Booking Id</th>
+				<th>Room Number</th>
+				<th>Customer Username</th>
+				<th>Room Type</th>
+				<th># of People</th>
+				<th>Status</th>
+				<th>Paid</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Check-in Date</th>
+				<th>Check-out Date</th>
+				<th>Payment Date</th>
+				<th>Booking Creation Date</th>
+				<th>Total Costs</th>
+				<th></th>
+				<th></th>
+			</tr>
+			<c:forEach var="booking" items="${bookings}">
+				<tr class="dataRows">
+					<td>${booking.bookingId}</td>
+					<td>${booking.roomNumber}</td>
+					<td>${booking.customerUsername}</td>
+					<td>${booking.roomType}</td>
+					<td>${booking.numbOfPeople}</td>
+					<td>${booking.status}</td>
+					<td>${booking.paid}</td>
+					<td>${booking.bookingDateStart}</td>
+					<td>${booking.bookindDateEnd}</td>
+					<td>${booking.checkinDate}</td>
+					<td>${booking.checkoutDate}</td>
+					<td>${booking.paymentDate}</td>
+					<td>${booking.dateOfCreation}</td>
+					<td>$${booking.totalCost}</td>
+					<td><a
+						href="${pageContext.request.contextPath}/editBooking/?id=${booking.bookingId}">Edit</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/deleteBooking/?id=${booking.bookingId}">Delete</a></td>
+				</tr>
+			</c:forEach>
+
+		</table>
+
 
 	</div>
 </body>
