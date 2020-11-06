@@ -156,9 +156,10 @@
 						<td class="totalCost"><fmt:formatNumber type="currency"
 								currencySymbol="$" value="${totalCost.get(loop.index)}" /></td>
 						<td class="availRooms">${availableRooms.get(loop.index)}</td>
-						<td class="bookRoomsCell"><a class="bookRooms"
-							href="${pageContext.request.contextPath}/roomBooking/?roomType=${roomType.roomType}">Book
-								a Room</a></td>
+						<td class="bookRoomsCell"><a class="bookRooms" href="${pageContext.request.contextPath}
+							/roomBooking/?roomType=${roomType.roomType}&startDate=${startDate}&endDate=${endDate}
+							&capacity=${capacity}">
+							Book a Room</a></td>
 					</tr>
 				</c:forEach>
 

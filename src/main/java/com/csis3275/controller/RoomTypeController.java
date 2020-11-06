@@ -47,27 +47,21 @@ public class RoomTypeController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
-		model.addAttribute("amenitiesList", getAmenities());
-
 		RoomType roomTypeObj = roomDAOImp.getRoomTypeById(id);
 
 		List<Room> assignedRooms = roomDAOImp.getRoomsByRoomType(roomTypeObj.getRoomType());
 
 		if (!(assignedRooms.isEmpty())) {
-			model.addAttribute("message", "There are rooms assigned to the Room Type " + roomTypeObj.getRoomType()
+			session.setAttribute("errorMessage", "There are rooms assigned to the Room Type " + roomTypeObj.getRoomType()
 					+ ". Please reassign them before deleting.");
 		} else {
 			// Delete the roomType
 			roomDAOImp.deleteRoomType(id);
 
-			model.addAttribute("message", "Deleted RoomType: " + id);
+			session.setAttribute("message", "Deleted RoomType: " + id);
 		}
 
-		// Get a list of roomTypes from the controller
-		List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
-		model.addAttribute("roomTypeList", roomTypes);
-
-		return "roomTypeManagement";
+		return "redirect:/roomTypeManagement";
 	}
 
 	/** Post request to add entry to database
@@ -81,24 +75,17 @@ public class RoomTypeController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
-		model.addAttribute("amenitiesList", getAmenities());
-
 		List<RoomType> checkRoomType = roomDAOImp.getRoomType(createRoomType.getRoomType());
 
 		if (!(checkRoomType.isEmpty())) {
-			model.addAttribute("errorMessage", "Room Type already exists");
+			session.setAttribute("errorMessage", "Room Type already exists");
 		} else {
 			// Create the roomType pass the object in.
 			roomDAOImp.createRoomType(createRoomType);
-			model.addAttribute("roomType", createRoomType);
-			model.addAttribute("message", "RoomType created: " + createRoomType.getRoomType());
+			session.setAttribute("message", "RoomType created: " + createRoomType.getRoomType());
 		}
 
-		// Get a list of roomTypes from the controller
-		List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
-		model.addAttribute("roomTypeList", roomTypes);
-
-		return "roomTypeManagement";
+		return "redirect:/roomTypeManagement";
 	}
 
 	@GetMapping("/roomTypeManagement")
@@ -108,6 +95,11 @@ public class RoomTypeController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
+		model.addAttribute("message", session.getAttribute("message"));
+		session.removeAttribute("message");
+		model.addAttribute("errorMessage", session.getAttribute("errorMessage"));
+		session.removeAttribute("errorMessage");
+		
 		model.addAttribute("amenitiesList", getAmenities());
 
 		// Get a list of roomTypes from the database
@@ -160,9 +152,7 @@ public class RoomTypeController {
 		} else {
 			roomDAOImp.updateRoomType(updatedRoomType);
 
-			List<RoomType> roomTypes = roomDAOImp.getAllRoomTypes();
-			model.addAttribute("roomTypeList", roomTypes);
-			model.addAttribute("message", "Updated RoomType " + updatedRoomType.getRoomType());
+			session.setAttribute("message", "Updated information for RoomType " + updatedRoomType.getRoomType());
 
 			return "redirect:/roomTypeManagement";
 		}

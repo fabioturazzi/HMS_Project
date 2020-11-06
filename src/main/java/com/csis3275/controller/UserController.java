@@ -87,7 +87,7 @@ public class UserController {
 				model.addAttribute("message", "Hello " + authCustomer.get(0).getfName());
 				session.setAttribute("sessionHash", session);
 
-				// testing
+				//Add user attributes on session
 				session.setAttribute("username", authCustomer.get(0).getUsername());
 
 				// Check if user has management access

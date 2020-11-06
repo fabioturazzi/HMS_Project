@@ -73,6 +73,7 @@ td {
 	display: table-cell;
 	vertical-align: middle !important;
 	min-width: 60px;
+
 }
 
 .availRooms {
@@ -112,4 +113,15 @@ th {
 
 #photosCell {
 	width: 400px;
+}
+
+.booking-form {
+	background-color: rgb(250, 250, 250);
+	border: solid 1px rgb(231, 231, 231);
+	margin: 5px;
+	padding: 30px;
+}
+
+.room-confirmation {
+	float: right;
 }

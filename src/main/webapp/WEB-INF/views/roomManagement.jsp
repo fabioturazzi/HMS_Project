@@ -22,44 +22,7 @@
 	<div class="container">
 		<h1 id="pageTitle">Manage Rooms</h1>
 		<hr />
-		<div class="form-group searchBar form-horizontal">
-			<label for="fName" class="col-md-3 control-label">Search
-				Entries:</label>
-			<div class="col-md-9">
-				<input class="form-control searchInput" id="searchInput"
-					required="required" value="" />
-			</div>
-		</div>
 
-
-		<c:if test="${ message != null }">
-			<div class="alert alert-success" role="alert">${message}</div>
-		</c:if>
-		<table class="table table-striped table-bordered">
-
-			<tr class="dataHeader">
-				<th>Room Id</th>
-				<th>Room Number</th>
-				<th>Room Type</th>
-				<th>Floor</th>
-				<th>Housekeeping Status</th>
-				<th colspan="2">Options</th>
-			</tr>
-			<c:forEach var="room" items="${roomList}">
-				<tr class="dataRows">
-					<td>${room.roomId}</td>
-					<td>${room.roomNumber}</td>
-					<td>${room.roomType}</td>
-					<td>${room.floor}</td>
-					<td>${room.housekeepingStatus}</td>
-					<td><a
-						href="${pageContext.request.contextPath}/editRoom/?id=${room.roomId}">Edit</a></td>
-					<td><a
-						href="${pageContext.request.contextPath}/deleteRoom/?id=${room.roomId}">Delete</a></td>
-				</tr>
-			</c:forEach>
-
-		</table>
 
 		<h3>Create Room</h3>
 
@@ -116,6 +79,46 @@
 			</div>
 
 		</form:form>
+
+		<hr />
+		<div class="form-group searchBar form-horizontal">
+			<label for="fName" class="col-md-3 control-label">Search
+				Entries:</label>
+			<div class="col-md-9">
+				<input class="form-control searchInput" id="searchInput"
+					required="required" value="" />
+			</div>
+		</div>
+
+
+		<c:if test="${ message != null }">
+			<div class="alert alert-success" role="alert">${message}</div>
+		</c:if>
+		<table class="table table-striped table-bordered">
+
+			<tr class="dataHeader">
+				<th>Room Id</th>
+				<th>Room Number</th>
+				<th>Room Type</th>
+				<th>Floor</th>
+				<th>Housekeeping Status</th>
+				<th colspan="2">Options</th>
+			</tr>
+			<c:forEach var="room" items="${roomList}">
+				<tr class="dataRows">
+					<td>${room.roomId}</td>
+					<td>${room.roomNumber}</td>
+					<td>${room.roomType}</td>
+					<td>${room.floor}</td>
+					<td>${room.housekeepingStatus}</td>
+					<td><a
+						href="${pageContext.request.contextPath}/editRoom/?id=${room.roomId}">Edit</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/deleteRoom/?id=${room.roomId}">Delete</a></td>
+				</tr>
+			</c:forEach>
+
+		</table>
 
 	</div>
 </body>

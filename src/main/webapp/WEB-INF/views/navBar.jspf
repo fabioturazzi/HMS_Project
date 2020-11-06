@@ -31,7 +31,7 @@
 
 
 			<c:if test="${sessionScope.userType=='Customer'}">
-				<li class="nav5"><a>My Reservations</a></li>
+				<li class="nav5"><a href="${pageContext.request.contextPath}/seeBookingCustomer">My Bookings</a></li>
 			</c:if>
 
 			<c:if test="${sessionScope.userType=='Staff'}">

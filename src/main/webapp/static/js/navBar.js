@@ -17,6 +17,9 @@ $(function() {
 	else if (title === "Room Search") {
 		$(".nav4").addClass("active");
 	}
+	else if (title === "My Bookings") {
+		$(".nav5").addClass("active");
+	}
 	else if (title === "Manage Customers" || title === "Edit Customer" || title === "Manage Staff" || title === "Edit Staff") {
 		$(".nav6").addClass("active");
 		$(".userNav1").addClass("userNavActive");
@@ -37,6 +40,10 @@ $(function() {
 	else if (title === "Manage Room Types" || title === "Edit Room Type") {
 		$(".nav6").addClass("active");
 		$(".roomNav2").addClass("subNavActive");
+	}
+	else if (title === "Manage Bookings" || title === "Edit Booking") {
+		$(".nav6").addClass("active");
+		$(".roomNav3").addClass("subNavActive");
 	}
 
 });
