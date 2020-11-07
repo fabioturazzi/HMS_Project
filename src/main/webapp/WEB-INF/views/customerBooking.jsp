@@ -175,6 +175,13 @@
 							</div>
 						</div>
 						<div class="col form-group" hidden>
+							<label for="status">Status</label>
+							<div>
+								<form:input path="status"
+									class="form-control" />
+							</div>
+						</div>
+						<div class="col form-group" hidden>
 							<label for="bookingDateStart">bookingDateStart</label>
 							<div>
 								<form:input type="date" path="bookingDateStart"
