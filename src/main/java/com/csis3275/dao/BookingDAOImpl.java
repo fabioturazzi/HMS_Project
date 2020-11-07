@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.csis3275.model.BookingMapper;
+import com.csis3275.model.CustomerMapper;
 import com.csis3275.model.RoomMapper;
 import com.csis3275.model.Booking;
 
@@ -28,7 +29,7 @@ public class BookingDAOImpl {
 	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set roomNumber = ?, customerUsername = ?, numbOfPeople  = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
 //	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND (bookingDateStart BETWEEN ? AND  ?) OR (bookindDateEnd BETWEEN ? AND ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?)";
 	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND ((bookingDateStart >= ? AND bookingDateStart <= ?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?))";
-	
+
 	/*
 	 * @author: Fernando Casaloti Silva
 	 * Queries to get list of bookings by username

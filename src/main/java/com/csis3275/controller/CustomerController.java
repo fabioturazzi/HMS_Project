@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.csis3275.dao.BookingDAOImpl;
 import com.csis3275.dao.CustomerDAOImpl;
 import com.csis3275.dao.StaffDAOImpl;
+import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Staff;
 import com.csis3275.model.User;
@@ -26,6 +28,9 @@ public class CustomerController {
 
 	@Autowired
 	StaffDAOImpl staffDAOImp;
+	
+	@Autowired
+	BookingDAOImpl bookingDAOImpl;
 
 	@ModelAttribute("customer")
 	public Customer setupAddForm() {
@@ -205,6 +210,8 @@ public class CustomerController {
 			
 			String username = session.getAttribute("username").toString();
 		
+			List<Booking> userBookings = bookingDAOImpl.getBookingByUsername(username);
+			model.addAttribute("numOfBookings", userBookings.size());
 			// Get our customer and show his profile
 			List<Customer> customerData = customerDAOImp.getCustomer(username);
 	
