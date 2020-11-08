@@ -8,12 +8,18 @@ import org.junit.Test;
 /**
  * @author Hackermen
  * Hotel Management System
+ * @description Unit testing for Room Model Class
  */
 
 public class RoomTest {
 	
 	Room newRoom;
 	
+	/**
+	 * Set up
+	 * @params roomNumber, roomType, floor, housekeepingStatus, roomId
+	 */
+
 	@Before
 	public void setUp() throws Exception {
 		newRoom = new Room(501, "Premium", 2, "clean", 1);

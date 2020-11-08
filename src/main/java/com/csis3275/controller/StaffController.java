@@ -15,6 +15,11 @@ import com.csis3275.dao.StaffDAOImpl;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Staff;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Controller
 public class StaffController {
 

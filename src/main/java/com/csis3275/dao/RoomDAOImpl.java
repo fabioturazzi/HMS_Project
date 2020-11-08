@@ -14,6 +14,11 @@ import com.csis3275.model.RoomMapper;
 import com.csis3275.model.RoomType;
 import com.csis3275.model.RoomTypeMapper;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Component
 public class RoomDAOImpl {
 
@@ -66,6 +71,9 @@ public class RoomDAOImpl {
 
 //	private final String SQL_CHECK_BOOKING_DATES = "SELECT roomType.roomTypeId, roomType.roomType, roomType.photos, roomType.dailyPrice, roomType.amenities, roomType.capacity FROM bookings WHERE roomNumber = ? AND (bookingDateStart >= ? AND bookingDateStart <=?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?)";
 
+	/**
+	 * DAO Methods
+	 */
 
 	@Autowired
 	public RoomDAOImpl(DataSource dataSource) {

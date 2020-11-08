@@ -17,6 +17,15 @@ public class RoomType {
 	private String endDateFormControl;
 	
 
+	/**
+	 * Customized Constructor
+	 * @param roomType
+	 * @param photos
+	 * @param dailyPrice
+	 * @param amenities
+	 * @param roomTypeId
+	 * @param capacity
+	 */
 	public RoomType(String roomType, String[] photos, double dailyPrice, String[] amenities, int roomTypeId, int capacity) {
 		super();
 		this.roomType = roomType;
@@ -27,10 +36,16 @@ public class RoomType {
 		this.capacity = capacity;
 	}
 
+	/**
+	 * Default Constructor
+	 */
 	public RoomType() {
 		
 	}
 	
+	/**
+	 * Getters and Setters
+	 */
 	public int getCapacity() {
 		return capacity;
 	}

@@ -17,9 +17,9 @@ import com.csis3275.model.Staff;
 
 import com.csis3275.model.User;
 
-/*
- * @author: Hackermen
- * This Controller is responsible to deal requests and responses regarding Login tasks.
+/**
+ * @author Hackermen
+ * Hotel Management System
  */
 
 @Controller

@@ -8,7 +8,6 @@ import java.util.Date;
  * Hotel Management System
  */
 
-
 public class Booking {
 
 	private int bookingId;
@@ -26,10 +25,16 @@ public class Booking {
 	private double totalCost;
 	private String roomType;
 	
+	/**
+	 * Default Constructor
+	 */
 	public Booking() {
 		
 	}
 	
+	/**
+	 * Customized Constructor
+	 */
 	public Booking(int bid, int rnum, String cun, String stat, boolean p, String bdatestart, String bdateend, String chindate, 
 			String choutdate, String pdate, String doc, double tcost, String rtype) {
 		this.bookingId = bid;
@@ -47,32 +52,44 @@ public class Booking {
 		this.roomType = rtype;		
 	}
 	
+	/**
+	 * setTodaysDate
+	 * @return formatted
+	 */
 	public String setTodaysDate() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = df.format(new Date());
 		return formatted;
 	}
 	
+	/**
+	 * Getters and Setters
+	 */
 	public int getBookingId() {
 		return bookingId;
 	}
+
 
 	public void setBookingId(int bookingId) {
 		this.bookingId = bookingId;
 	}
 
+
 	public int getRoomNumber() {
 		return roomNumber;
 	}
+
 
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
 
+
 	public String getCustomerUsername() {
 		return customerUsername;
 	}
 
+	
 	public void setCustomerUsername(String customerUsername) {
 		this.customerUsername = customerUsername;
 	}	

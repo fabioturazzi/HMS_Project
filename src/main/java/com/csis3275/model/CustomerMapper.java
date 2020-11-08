@@ -12,6 +12,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class CustomerMapper implements RowMapper<Customer> {
 
+	/**
+	 *Customer mapRow Method
+	 *@return customer
+	 */
 	public Customer mapRow(ResultSet resultSet, int i) throws SQLException {
 
 		Customer customer = new Customer();

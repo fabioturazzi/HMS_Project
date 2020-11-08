@@ -20,6 +20,11 @@ import com.csis3275.model.Customer;
 import com.csis3275.model.Staff;
 import com.csis3275.model.User;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Controller
 public class CustomerController {
 

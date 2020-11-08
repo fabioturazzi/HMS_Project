@@ -12,7 +12,19 @@ public class Customer extends User {
 	private String address;
 	private String email;
 
-	
+	/**
+	 * Customized Constructor
+	 * @param username
+	 * @param password
+	 * @param fName
+	 * @param lName
+	 * @param userType
+	 * @param phoneNumber
+	 * @param address
+	 * @param email
+	 * @param passQuestion
+	 * @param passAnswer
+	 */
 	public Customer(String username, String password, String fName, String lName, String userType, String phoneNumber, String address, String email, String passQuestion, String passAnswer) {
 		super(username, password, fName, lName, "Customer", passQuestion, passAnswer);
 		this.phoneNumber = phoneNumber;
@@ -21,11 +33,18 @@ public class Customer extends User {
 
 	}
 	
+	/**
+	 * Default Constructor
+	 */
+	
 	public Customer() {
 		super("Customer");
 	}
 
-
+	/**
+	 * Getters and Setters
+	 */
+	
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}

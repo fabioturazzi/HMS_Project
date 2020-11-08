@@ -14,6 +14,11 @@ import com.csis3275.model.CustomerMapper;
 import com.csis3275.model.RoomMapper;
 import com.csis3275.model.Booking;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Component
 public class BookingDAOImpl {
 	
@@ -29,13 +34,12 @@ public class BookingDAOImpl {
 	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set roomNumber = ?, customerUsername = ?, numbOfPeople  = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
 //	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND (bookingDateStart BETWEEN ? AND  ?) OR (bookindDateEnd BETWEEN ? AND ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?)";
 	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND ((bookingDateStart >= ? AND bookingDateStart <= ?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?))";
-
-	/*
-	 * @author: Fernando Casaloti Silva
-	 * Queries to get list of bookings by username
-	 */
 	private final String SQL_FIND_BOOKING_BY_USERNAME = "SELECT * FROM bookings WHERE customerUsername = ?";
 
+	/**
+	 * DAO Methods
+	 * 
+	 */
 	
 	@Autowired
 	public BookingDAOImpl (DataSource dataSource)	{
@@ -66,10 +70,6 @@ public class BookingDAOImpl {
 		return jdbcTemplate.update(SQL_DELETE_BOOKING, idToDelete) > 0;
 	}
 	
-	/*
-	 * @author: Fernando Casaloti Silva
-	 * Methods to get list of bookings by username
-	 */
 	public List<Booking> getBookingByUsername(String customerUsername)	{
 		return jdbcTemplate.query(SQL_FIND_BOOKING_BY_USERNAME, new BookingMapper(), customerUsername);	
 	}

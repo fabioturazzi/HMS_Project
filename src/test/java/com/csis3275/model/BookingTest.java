@@ -1,9 +1,12 @@
 package com.csis3275.model;
 
+
 /**
- * @author Daniil Volovik (300313470)
+ * @author Hackermen
+ * Hotel Management System
  * @description Unit testing for Booking object
  */
+
 import static org.junit.Assert.*;
 
 import org.junit.After;

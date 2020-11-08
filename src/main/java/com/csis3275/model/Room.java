@@ -14,7 +14,14 @@ public class Room {
 	private int floor;
 	private String housekeepingStatus;
 	
-
+	/**
+	 * Customized Constructor
+	 * @param roomNumber
+	 * @param roomType
+	 * @param floor
+	 * @param housekeepingStatus
+	 * @param roomId
+	 */
 	public Room(int roomNumber, String roomType, int floor, String housekeepingStatus, int roomId) {
 		super();
 		this.roomNumber = roomNumber;
@@ -24,10 +31,16 @@ public class Room {
 		this.roomId = roomId;
 	}
 	
+	/**
+	 * Default Constructor
+	 */
 	public Room() {
 
 	}
 	
+	/**
+	 * Getters and Setters
+	 */
 	public int getRoomId() {
 		return roomId;
 	}

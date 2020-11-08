@@ -12,6 +12,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class RoomTypeMapper implements RowMapper<RoomType> {
 
+	/**
+	 *RoomType mapRow Method
+	 *@return roomType
+	 */
 	public RoomType mapRow(ResultSet resultSet, int i) throws SQLException {
 
 		RoomType roomType = new RoomType();
