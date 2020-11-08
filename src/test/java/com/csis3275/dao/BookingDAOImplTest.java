@@ -1,6 +1,5 @@
 package com.csis3275.dao;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
 
 import java.text.ParsePosition;
@@ -13,17 +12,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.csis3275.model.Booking;
-import com.csis3275.model.BookingMapper;
 import com.csis3275.model.Room;
 import com.csis3275.model.User;
 
@@ -39,11 +34,8 @@ public class BookingDAOImplTest {
 	@Mock
 	BookingDAOImpl bookingDAOImp;
 
-	// List<BookingType> allBookingTypes = new ArrayList<>();
-
 	@Before
 	public void setUp() throws Exception {
-
 		MockitoAnnotations.openMocks(this);
 	}
 
@@ -213,7 +205,4 @@ public class BookingDAOImplTest {
 		verify(bookingDAOImp).getBookingByUsername("pedroUser");
 		assertEquals(result.size(), listBooking.size());
 	}
-
-
-	
 }
