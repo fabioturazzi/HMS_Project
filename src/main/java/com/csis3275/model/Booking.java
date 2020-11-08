@@ -30,6 +30,26 @@ public class Booking {
 		
 	}
 	
+	public Booking(int bookingId, int roomNumber, String customerUsername, int numbOfPeople, String status,
+			boolean paid, String bookingDateStart, String bookindDateEnd, String checkinDate, String checkoutDate,
+			String paymentDate, String dateOfCreation, double totalCost, String roomType) {
+		super();
+		this.bookingId = bookingId;
+		this.roomNumber = roomNumber;
+		this.customerUsername = customerUsername;
+		this.numbOfPeople = numbOfPeople;
+		this.status = status;
+		this.paid = paid;
+		this.bookingDateStart = bookingDateStart;
+		this.bookindDateEnd = bookindDateEnd;
+		this.checkinDate = checkinDate;
+		this.checkoutDate = checkoutDate;
+		this.paymentDate = paymentDate;
+		this.dateOfCreation = dateOfCreation;
+		this.totalCost = totalCost;
+		this.roomType = roomType;
+	}
+
 	public String setTodaysDate() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String formatted = df.format(new Date());
