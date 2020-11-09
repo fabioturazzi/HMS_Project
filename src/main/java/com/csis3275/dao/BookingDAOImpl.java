@@ -14,6 +14,11 @@ import com.csis3275.model.CustomerMapper;
 import com.csis3275.model.RoomMapper;
 import com.csis3275.model.Booking;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Component
 public class BookingDAOImpl {
 	
@@ -30,6 +35,10 @@ public class BookingDAOImpl {
 	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND ((bookingDateStart >= ? AND bookingDateStart <= ?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?))";
 	private final String SQL_FIND_BOOKING_BY_USERNAME = "SELECT * FROM bookings WHERE customerUsername = ?";
 
+	/**
+	 * DAO Methods
+	 * 
+	 */
 	@Autowired
 	public BookingDAOImpl (DataSource dataSource)	{
 		jdbcTemplate = new JdbcTemplate(dataSource);

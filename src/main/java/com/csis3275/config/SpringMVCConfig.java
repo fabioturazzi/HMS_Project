@@ -23,7 +23,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-//SpringMVC configuration to resolve views and establish communication between controller model and view
+/**
+ * @author Hackermen
+ * Hotel Management System
+ * SpringMVC configuration to resolve views and establish communication between controller model and view
+ */
+
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.csis3275")

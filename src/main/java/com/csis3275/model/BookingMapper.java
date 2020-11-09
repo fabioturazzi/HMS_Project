@@ -12,6 +12,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class BookingMapper implements RowMapper<Booking>{
 	
+	/**
+	 *Booking MapRow Method
+	 *@return booking
+	 */
 	public Booking mapRow(ResultSet resultSet, int i) throws SQLException {
 		
 		Booking booking = new Booking();

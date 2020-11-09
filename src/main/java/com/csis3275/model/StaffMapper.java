@@ -12,6 +12,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class StaffMapper implements RowMapper<Staff>{
 
+	/**
+	 *Staff mapRow Method
+	 *@return staff
+	 */
 	public Staff mapRow(ResultSet resultSet, int i) throws SQLException	{
 		
 		Staff staff = new Staff();

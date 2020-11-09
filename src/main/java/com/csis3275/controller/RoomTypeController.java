@@ -25,6 +25,11 @@ import com.csis3275.dao.RoomDAOImpl;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Controller
 public class RoomTypeController {
 
