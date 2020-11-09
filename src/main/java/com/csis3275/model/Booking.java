@@ -54,6 +54,22 @@ public class Booking {
 		this.roomType = roomType;
 	}
 
+	public Booking(int bid, int rnum, String cun, String stat, boolean p, String bdatestart, String bdateend, String chindate, 
+			String choutdate, String pdate, String doc, double tcost, String rtype) {
+		this.bookingId = bid;
+		this.roomNumber = rnum;
+		this.customerUsername = cun;
+		this.status = stat;
+		this.paid = p;
+		this.bookingDateStart = bdatestart;
+		this.bookindDateEnd = bdateend;
+		this.checkinDate = chindate;
+		this.checkoutDate = choutdate;
+		this.paymentDate = pdate;
+		this.dateOfCreation = doc;
+		this.totalCost = tcost;
+		this.roomType = rtype;		
+	}
 	
 	/**
 	 * setTodaysDate
