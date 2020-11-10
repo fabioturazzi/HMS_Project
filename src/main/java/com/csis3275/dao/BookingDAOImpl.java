@@ -32,7 +32,7 @@ public class BookingDAOImpl {
 	private final String SQL_DELETE_BOOKING = "DELETE FROM bookings WHERE bookingId = ?";
 	private final String SQL_FIND_BOOKING = "SELECT * FROM bookings WHERE bookingId = ?";
 	private final String SQL_UPDATE_BOOKING = "UPDATE bookings set roomNumber = ?, customerUsername = ?, numbOfPeople  = ?, status = ?, paid = ?, bookingDateStart = ?, bookindDateEnd = ?, checkinDate = ?, checkoutDate = ?, paymentDate = ?, dateOfCreation = ?, totalCost = ?, roomType = ? WHERE bookingId = ?";
-	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND ((bookingDateStart >= ? AND bookingDateStart <= ?) OR (bookindDateEnd >= ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?))";
+	private final String SQL_CHECK_BOOKING_DATES = "SELECT * FROM bookings WHERE roomNumber = ? AND ((bookingDateStart >= ? AND bookingDateStart < ?) OR (bookindDateEnd > ? AND bookindDateEnd <= ?) OR (bookingDateStart <= ? AND bookindDateEnd >= ?))";
 	private final String SQL_FIND_BOOKING_BY_USERNAME = "SELECT * FROM bookings WHERE customerUsername = ?";
 
 	/**
