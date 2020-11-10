@@ -7,3 +7,11 @@
 * Created Manage Customers Feature
 * Created Manage Staff Feature
 * Created View and Edit Customer Profile Feature
+
+### 0.2-RELEASE
+* Included Room, Room Type and Booking Models and DAO
+* Included Search Rooms feature
+* Included Booking Rooms and Cancelling Bookings features
+* Included features to manage Room, Room Type and Booking
+* Included File System connection to upload photos for Room Types
+* Added controls for Check-in, Check-out, and Register payment on Manage Bookings feature
