@@ -205,4 +205,75 @@ public class BookingDAOImplTest {
 		verify(bookingDAOImp).getBookingByUsername("pedroUser");
 		assertEquals(result.size(), listBooking.size());
 	}
+	
+	// This test will check the complete workflow of Bookings, checking how the complete system behaves when placing a booking
+	//The test checks the system for previous bookings on conflicting dates, then attempts to book a room in a date that is already busy, and lastly books a room for a new date that is free.
+	@Test
+	public void sysTestingBookingWorkflow() {
+
+		List<Booking> listBooking = new ArrayList<>();
+
+		Booking previousBooking1 = new Booking(0, 201, "pedroUser", 2, "Booked", false, "2020-10-10", "2020-10-15", null, null, null, null, 1500, "Regular");
+		Booking previousBooking2 = new Booking(1, 201, "pedroUser", 2, "Booked", false, "2020-10-16", "2020-10-25", null, null, null, null, 1500, "Regular");
+
+		//To perform BOUNDARIES TESTING, dates on the verge of conflict will be used
+		Booking newBooking = new Booking(1, 201, "pedroUser", 2, "Booked", false, "2020-10-24", "2020-10-27", null, null, null, null, 1500, "Regular");
+
+		Date startDate;
+		Date endDate;
+		Date startDateCheck  = new SimpleDateFormat("yyyy-MM-dd").parse(newBooking.getBookingDateStart(), new ParsePosition(0));
+		Date endDateCheck = new SimpleDateFormat("yyyy-MM-dd").parse(newBooking.getBookindDateEnd(), new ParsePosition(0));
+		
+		listBooking.add(previousBooking1);
+		listBooking.add(previousBooking2);
+		
+		for(Booking booking:listBooking) {
+			startDate  = new SimpleDateFormat("yyyy-MM-dd").parse(booking.getBookingDateStart(), new ParsePosition(0));
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(booking.getBookingDateStart(), new ParsePosition(0));
+			if(!(booking.getRoomNumber() == newBooking.getRoomNumber() && (((startDateCheck.compareTo(startDate)>=0) && (endDateCheck.compareTo(startDate) <=0)) || ((startDateCheck.compareTo(endDate) >=0 && endDateCheck.compareTo(endDate) <=0) ||  ((startDateCheck.compareTo(startDate)>=0 && endDateCheck.compareTo(endDate) <=0)))))) {
+				listBooking.remove(booking);
+			}
+				
+		}
+
+		// MOCK ALERT: return mocked result set on find
+		when(bookingDAOImp.checkBookingConflict(newBooking.getRoomNumber(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd())).thenReturn(listBooking);
+
+		// call the main method you want to test
+		List<Booking> result = bookingDAOImp.checkBookingConflict(newBooking.getRoomNumber(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd());
+
+		// MOCK ALERT: verify the method was called
+		verify(bookingDAOImp).checkBookingConflict(newBooking.getRoomNumber(), newBooking.getBookingDateStart(), newBooking.getBookindDateEnd());
+		assertEquals(result.size(), listBooking.size());
+		
+		User user = new User("pedroUser", "Pass", "Pedro", "Silva", "Customer", "Question?", "Answer");
+		Room testRoom = new Room(202,"Regular", 2, "Clean", 0);
+		
+		Booking testConflictingBooking = new Booking(0, testRoom.getRoomNumber(), user.getUsername(), 2, "Booked", false, "2020-10-10", "2020-10-15", null, null, null, null, 1500, testRoom.getRoomType());
+	
+		// MOCK ALERT: return mocked result set on find
+		when(bookingDAOImp.createBooking(testConflictingBooking)).thenReturn(false);
+
+		// call the main method you want to test
+		bookingDAOImp.createBooking(testConflictingBooking);
+
+		// MOCK ALERT: verify the method was called
+		verify(bookingDAOImp).createBooking(testConflictingBooking);
+		
+		assertFalse(bookingDAOImp.createBooking(testConflictingBooking));
+		
+		Booking testNewBooking = new Booking(0, testRoom.getRoomNumber(), user.getUsername(), 2, "Booked", false, "2020-12-10", "2020-12-15", null, null, null, null, 1500, testRoom.getRoomType());
+		
+		// MOCK ALERT: return mocked result set on find
+		when(bookingDAOImp.createBooking(testNewBooking)).thenReturn(true);
+
+		// call the main method you want to test
+		bookingDAOImp.createBooking(testNewBooking);
+
+		// MOCK ALERT: verify the method was called
+		verify(bookingDAOImp).createBooking(testNewBooking);
+		
+		assertTrue(bookingDAOImp.createBooking(testNewBooking));
+	}
+	
 }
