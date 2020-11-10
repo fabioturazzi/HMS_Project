@@ -8,6 +8,10 @@ import java.util.Base64;
 
 import java.util.Base64;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
 
 public class User {
 	private int id;
@@ -23,6 +27,16 @@ public class User {
 	private String passQuestion;
 	private String passAnswer;
 	
+	/**
+	 * Customized Constructor
+	 * @param username
+	 * @param password
+	 * @param fName
+	 * @param lName
+	 * @param userType
+	 * @param passQuestion
+	 * @param passAnswer
+	 */
 	public User(String username, String password, String fName, String lName, String userType, String passQuestion, String passAnswer) {
 
 		this.username = username;

@@ -22,48 +22,6 @@
 	<div class="container">
 		<h1 id="pageTitle">Manage Staff</h1>
 		<hr />
-		<div class="form-group searchBar form-horizontal">
-			<label for="fName" class="col-md-3 control-label">Search
-				Entries:</label>
-			<div class="col-md-9">
-				<input class="form-control searchInput" id="searchInput"
-					required="required" value="" />
-			</div>
-		</div>
-
-		<c:if test="${ message != null }">
-			<div class="alert alert-success" role="alert">${message}</div>
-		</c:if>
-		<table class="table table-striped table-bordered">
-
-			<tr class="dataHeader">
-				<td>Staff Id</td>
-				<td>First Name</td>
-				<td>Last Name</td>
-				<td>Username</td>
-				<td>Position</td>
-				<td>Recovery Question</td>
-				<td>Recovery Answer</td>
-				<td></td>
-				<td></td>
-			</tr>
-			<c:forEach var="staff" items="${staffList}">
-				<tr class="dataRows">
-					<td>${staff.id}</td>
-					<td>${staff.fName}</td>
-					<td>${staff.lName}</td>
-					<td>${staff.username}</td>
-					<td>${staff.position}</td>
-					<td>${staff.passQuestion}</td>
-					<td>${staff.passAnswer}</td>
-					<td><a
-						href="${pageContext.request.contextPath}/editStaff/?id=${staff.id}">Edit</a></td>
-					<td><a
-						href="${pageContext.request.contextPath}/deleteStaff/?id=${staff.id}">Delete</a></td>
-				</tr>
-			</c:forEach>
-
-		</table>
 
 		<h3>Create Staff</h3>
 
@@ -137,6 +95,50 @@
 			</div>
 
 		</form:form>
+				<hr />
+		<div class="form-group searchBar form-horizontal">
+			<label for="fName" class="col-md-3 control-label">Search
+				Entries:</label>
+			<div class="col-md-9">
+				<input class="form-control searchInput" id="searchInput"
+					required="required" value="" />
+			</div>
+		</div>
+
+		<c:if test="${ message != null }">
+			<div class="alert alert-success" role="alert">${message}</div>
+		</c:if>
+		<table class="table table-striped table-bordered">
+
+			<tr class="dataHeader">
+				<th>Staff Id</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Username</th>
+				<th>Position</th>
+				<th>Recovery Question</th>
+				<th>Recovery Answer</th>
+				<th colspan="2">Options</th>
+			</tr>
+			<c:forEach var="staff" items="${staffList}">
+				<tr class="dataRows">
+					<td>${staff.id}</td>
+					<td>${staff.fName}</td>
+					<td>${staff.lName}</td>
+					<td>${staff.username}</td>
+					<td>${staff.position}</td>
+					<td>${staff.passQuestion}</td>
+					<td>${staff.passAnswer}</td>
+					<td><a
+						href="${pageContext.request.contextPath}/editStaff/?id=${staff.id}">Edit</a></td>
+					<td><a
+						href="${pageContext.request.contextPath}/deleteStaff/?id=${staff.id}">Delete</a></td>
+				</tr>
+			</c:forEach>
+
+		</table>
+
+
 
 	</div>
 </body>

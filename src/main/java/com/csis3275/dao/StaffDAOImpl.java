@@ -12,6 +12,11 @@ import com.csis3275.model.Staff;
 import com.csis3275.model.StaffMapper;
 import com.csis3275.model.User;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Component
 public class StaffDAOImpl {
 
@@ -26,12 +31,12 @@ public class StaffDAOImpl {
 	private final String SQL_FIND_STAFF = "SELECT * FROM staffs WHERE id = ?";
 	private final String SQL_FIND_PASSQUESTION = "SELECT * FROM staffs WHERE username = ? AND passQuestion = ? AND passAnswer = ?";
 	private final String SQL_UPDATE_PASSWORD = "UPDATE staffs set password = ? WHERE username = ? AND passQuestion = ? AND passAnswer = ?";
-
-	/*
-	 * SQL to check username and password on Database
-	 */
 	private final String SQL_GET_USERNAME_AND_PASSWORD = "SELECT * FROM staffs WHERE username = ?";
 
+	/**
+	 * 
+	 * DAO Methods
+	 */
 	@Autowired
 	public StaffDAOImpl(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -79,9 +84,6 @@ public class StaffDAOImpl {
 		return jdbcTemplate.queryForObject(SQL_FIND_STAFF, new Object[] { id }, new StaffMapper());
 	}
 
-	/*
-	 * Check username and password on Database
-	 */
 	public List<Staff> getUsernamePassword(String username) {
 		return jdbcTemplate.query(SQL_GET_USERNAME_AND_PASSWORD, new StaffMapper(), username);
 	}

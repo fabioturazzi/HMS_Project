@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.csis3275.dao.CustomerDAOImpl;
 import com.csis3275.dao.StaffDAOImpl;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Staff;
+
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
 
 @Controller
 public class StaffController {
@@ -65,6 +68,7 @@ public class StaffController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
+		//check username to avoid conflict
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(createStaff.getUsername());
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(createStaff.getUsername());
 		
@@ -130,6 +134,7 @@ public class StaffController {
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
 
+		//Check usernames to avoid conflict
 		List<Staff> usernameCheckStaff = staffDAOImp.getStaff(updatedStaff.getUsername(), updatedStaff.getId());
 		
 		List<Customer> usernameCheckCustomer = customerDAOImp.getCustomer(updatedStaff.getUsername());
@@ -141,6 +146,7 @@ public class StaffController {
 			return "staffManagementEdit";
 		}
 		else {
+			//Update staff if no conflict is found
 			staffDAOImp.updateStaff(updatedStaff);
 			
 			List<Staff> staffs = staffDAOImp.getAllStaffs();

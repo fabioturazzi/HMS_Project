@@ -25,7 +25,7 @@
 			cssClass="form-horizontal" method="post" modelAttribute="customer">
 
 			<div class="form-group">
-				<label for="id" class="col-md-3 control-label">Id</label>
+				<label for="id" class="col-md-3 control-label">Booking ID</label>
 				<div class="col-md-9">
 					<form:input path="id" value="${customer.id}"
 						cssClass="form-control" readonly="true" />

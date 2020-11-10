@@ -12,11 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.csis3275.dao.BookingDAOImpl;
 import com.csis3275.dao.CustomerDAOImpl;
 import com.csis3275.dao.StaffDAOImpl;
+import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Staff;
 import com.csis3275.model.User;
+
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
 
 @Controller
 public class CustomerController {
@@ -26,6 +33,9 @@ public class CustomerController {
 
 	@Autowired
 	StaffDAOImpl staffDAOImp;
+	
+	@Autowired
+	BookingDAOImpl bookingDAOImpl;
 
 	@ModelAttribute("customer")
 	public Customer setupAddForm() {
@@ -41,7 +51,8 @@ public class CustomerController {
 		return "registration";
 	}
 
-	// Handle Form Post
+	/** Handle Post Form for registration
+	 */
 	@PostMapping("/registration")
 	public String registerCustomer(@ModelAttribute("customer") Customer createCustomer, Model model, HttpSession session) {
 
@@ -73,7 +84,8 @@ public class CustomerController {
 
 	}
 
-	// Get the customer and display the form
+	/** Get the customer and display the form
+	 */
 	@GetMapping("/deleteCustomer")
 	public String deleteCustomer(@RequestParam(required = true) int id, HttpSession session, Model model) {
 
@@ -203,6 +215,8 @@ public class CustomerController {
 			
 			String username = session.getAttribute("username").toString();
 		
+			List<Booking> userBookings = bookingDAOImpl.getBookingByUsername(username);
+			model.addAttribute("numOfBookings", userBookings.size());
 			// Get our customer and show his profile
 			List<Customer> customerData = customerDAOImp.getCustomer(username);
 	

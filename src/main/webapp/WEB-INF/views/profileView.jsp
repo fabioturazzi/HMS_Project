@@ -45,8 +45,8 @@
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Updated
 					</strong></span> ${ user.profileUpdated }</li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong><a
-							href='${pageContext.request.contextPath}/seebooking/?id=${user.id}'
-							style="text-decoration: underline;">Your Bookings</a> </strong></span>0</li>
+							href='${pageContext.request.contextPath}/seeBookingCustomer'
+							style="text-decoration: underline;">Your Bookings</a> </strong></span>${numOfBookings}</li>
 			</ul>
 
 			<h5>Profile Information</h5>

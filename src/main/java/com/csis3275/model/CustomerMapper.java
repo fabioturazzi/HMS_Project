@@ -5,8 +5,17 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 public class CustomerMapper implements RowMapper<Customer> {
 
+	/**
+	 *Customer mapRow Method
+	 *@return customer
+	 */
 	public Customer mapRow(ResultSet resultSet, int i) throws SQLException {
 
 		Customer customer = new Customer();

@@ -12,6 +12,11 @@ import com.csis3275.model.CustomerMapper;
 import com.csis3275.model.User;
 import com.csis3275.model.Customer;
 
+/**
+ * @author Hackermen
+ * Hotel Management System
+ */
+
 @Component
 public class CustomerDAOImpl {
 
@@ -29,14 +34,12 @@ public class CustomerDAOImpl {
 	private final String SQL_UPDATE_PASSWORD = "UPDATE customers set password = ? WHERE username = ? AND passQuestion = ? AND passAnswer = ?";
 	private final String SQL_UPDATE_PASSWORDNOQ = "UPDATE customers set password = ? WHERE username = ?";
 	private final String SQL_GET_USERWITHPASS = "SELECT * FROM customers WHERE username = ? AND password = ?";
-	
-	
-	/*
-	 * SQL to check username and password on Database
-	 */
 	private final String SQL_GET_USERNAME_AND_PASSWORD = "SELECT * FROM customers WHERE username = ?";
 	
-	
+	/**
+	 * DAO Methods
+	 * 
+	 */
 	@Autowired
 	public CustomerDAOImpl(DataSource dataSource)	{
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -88,9 +91,6 @@ public class CustomerDAOImpl {
 		return jdbcTemplate.queryForObject(SQL_FIND_CUSTOMER, new Object[] { id }, new CustomerMapper());
 	}
 	
-	/*
-	 * Check username and password on Database
-	 */
 	public List<Customer> getUsernamePassword(String username)	{
 		return jdbcTemplate.query(SQL_GET_USERNAME_AND_PASSWORD, new CustomerMapper(), username);	
 	}

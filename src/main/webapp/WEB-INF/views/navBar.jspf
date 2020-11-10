@@ -4,15 +4,18 @@
 
 <img src="<c:url value="/static/images/HMS Logo.png" />"
 	alt="HMS Hackermen logo" class="hmsLogo" id="hmsLogo" />
+
 <div class="navBarDiv">
 	<nav class="navbar navbar-default">
 		<ul class="nav navbar-nav">
 
 			<c:if test="${sessionScope.userType==null}">
-				<li class="nav1"><a href="${pageContext.request.contextPath}/">Sign In</a></li>
+				<li class="nav1"><a href="${pageContext.request.contextPath}/">Sign
+						In</a></li>
 			</c:if>
 			<c:if test="${sessionScope.userType==null}">
-				<li class="nav2"><a href="${pageContext.request.contextPath}/registration">Sign Up</a></li>
+				<li class="nav2"><a
+					href="${pageContext.request.contextPath}/registration">Sign Up</a></li>
 			</c:if>
 
 			<c:if test="${sessionScope.userType=='Customer'}">
@@ -20,13 +23,15 @@
 					href="${pageContext.request.contextPath}/profile">My Profile</a></li>
 			</c:if>
 
-			<li class="nav4"><a
-				href="${pageContext.request.contextPath}/roomSearch">Room Search
-					(under development)</a></li>
+			<c:if test="${sessionScope.userType=='Customer'}">
+				<li class="nav4"><a
+					href="${pageContext.request.contextPath}/roomSearch">Room
+						Search</a></li>
+			</c:if>
+
 
 			<c:if test="${sessionScope.userType=='Customer'}">
-				<li class="nav5"><a>My Reservations (under
-						development)</a></li>
+				<li class="nav5"><a href="${pageContext.request.contextPath}/seeBookingCustomer">My Bookings</a></li>
 			</c:if>
 
 			<c:if test="${sessionScope.userType=='Staff'}">
@@ -38,7 +43,7 @@
 				<li class="nav7" id="logoutNav"><a
 					href="${pageContext.request.contextPath}/">Logout</a></li>
 			</c:if>
-	
+
 		</ul>
 
 	</nav>
