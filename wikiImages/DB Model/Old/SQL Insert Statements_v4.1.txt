@@ -1,0 +1,125 @@
+doeJohn - passJohnDoe
+admin - admin
+
+
+DROP TABLE customers IF EXISTS;
+DROP TABLE staffs IF EXISTS;
+DROP TABLE roomTypes IF EXISTS;
+DROP TABLE rooms IF EXISTS;
+DROP TABLE bookings IF EXISTS;
+
+CREATE TABLE customers(
+ id INTEGER PRIMARY KEY AUTO_INCREMENT,
+ fName VARCHAR(30),
+ lName VARCHAR(30),
+ email VARCHAR(50),
+ address VARCHAR(50),
+ password VARCHAR(50),
+ phoneNumber VARCHAR(40),
+ username VARCHAR(50),
+ userType VARCHAR(30),
+ registrationDate DATE,
+ profileUpdated DATE,
+ passQuestion VARCHAR(50),
+ passAnswer VARCHAR(50)
+ );
+
+INSERT INTO customers(fName, lName, email, address, password, phoneNumber, username, userType, registrationDate, profileUpdated, passQuestion, passAnswer) 
+VALUES ('John', 'Doe', 'jdoe@email', 'Sample Street 106', 'cGFzc0pvaG5Eb2U=', '12345678', 'doeJohn', 'Customer', '2020-10-17', '2020-10-17', 'question?', 'answer');
+INSERT INTO customers(fName, lName, email, address, password, phoneNumber, username, userType, registrationDate, profileUpdated, passQuestion, passAnswer) 
+VALUES ('Peter', 'Parker', 'notspiderman@email', 'Sample Av 2000', 'cGFzc0pvaG5Eb2U=', '012444123', 'notSpiderMan', 'Customer', '2020-10-17', '2020-10-17', 'My job?', 'swing webs');
+INSERT INTO customers(fName, lName, email, address, password, phoneNumber, username, userType, registrationDate, profileUpdated, passQuestion, passAnswer) 
+VALUES ('Tonald', 'Drump', 'tonald@email', 'Whitest House', 'cGFzc0pvaG5Eb2U=', '012444444', 'ih8mexicans', 'Customer', '2020-10-17', '2020-10-17', 'Sq root of 4?', 'No idea');
+
+
+
+CREATE TABLE staffs(
+ id INTEGER PRIMARY KEY AUTO_INCREMENT,
+ fName VARCHAR(30),
+ lName VARCHAR(30),
+ password VARCHAR(50),
+ username VARCHAR(50),
+ userType VARCHAR(30),
+ position VARCHAR(40),
+ passQuestion VARCHAR(50),
+ passAnswer VARCHAR(50)
+ );
+
+INSERT INTO staffs(fName, lName, password, username, userType, position, passQuestion, passAnswer)
+VALUES ('Admin', 'Admin', 'YWRtaW4=', 'admin', 'Staff', 'System Administrator', 'question?', 'answer');
+
+
+CREATE TABLE roomTypes (
+ roomTypeId INTEGER PRIMARY KEY AUTO_INCREMENT,
+ roomType VARCHAR(30),
+ photos VARCHAR(60),
+ dailyPrice DOUBLE,
+ amenities VARCHAR(100),
+ capacity INTEGER,
+ startDateFormControl DATE,
+ endDateFormControl DATE
+ );
+
+INSERT INTO roomTypes(roomType, photos, dailyPrice, amenities, capacity)
+VALUES ('Premium', '[photo1,photo2,photo3]', 150, '[Air Conditioner, Room Service, Bath Tub]', 4);
+
+INSERT INTO roomTypes(roomType, photos, dailyPrice, amenities, capacity)
+VALUES ('Regular', '[photo4,photo5,photo6]', 100, '[Air Conditioner, Room Service]', 2);
+
+
+CREATE TABLE rooms (
+ roomId INTEGER PRIMARY KEY AUTO_INCREMENT,
+ roomNumber INTEGER,
+ roomType VARCHAR(30) REFERENCES roomTypes(roomType) ON UPDATE CASCADE,
+ floor INTEGER,
+ housekeepingStatus VARCHAR(50)
+ );
+
+
+INSERT INTO rooms(roomNumber, roomType, floor, houseKeepingStatus)
+VALUES (101, 'Regular', 1, 'Clean');
+
+INSERT INTO rooms(roomNumber, roomType, floor, houseKeepingStatus)
+VALUES (102, 'Regular', 1, 'Not Clean');
+
+INSERT INTO rooms(roomNumber, roomType, floor, houseKeepingStatus)
+VALUES (201, 'Premium', 2, 'Clean');
+
+INSERT INTO rooms(roomNumber, roomType, floor, houseKeepingStatus)
+VALUES (301, 'Premium', 3, 'Not Clean');
+
+CREATE TABLE bookings (
+  bookingId INTEGER PRIMARY KEY AUTO_INCREMENT,
+  roomNumber INTEGER REFERENCES rooms(roomNumber) ON DELETE CASCADE ON UPDATE CASCADE,
+  customerUsername VARCHAR(50) REFERENCES customers(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  numbOfPeople INTEGER,
+  status VARCHAR(15),
+  paid BOOLEAN,
+  bookingDateStart DATE,
+  bookindDateEnd DATE,
+  checkinDate DATE,
+  checkoutDate DATE,
+  paymentDate DATE,
+  dateOfCreation DATE,
+  totalCost DOUBLE,
+  roomType VARCHAR(30)
+);
+
+INSERT INTO bookings(roomNumber, customerUsername, numbOfPeople, status, paid, bookingDateStart, bookindDateEnd, checkinDate,
+checkoutDate, paymentDate, dateOfCreation, totalCost, roomType)
+VALUES (301, 'doeJohn', 2, 'checked-out', true, '2020-10-17', '2020-10-25', '2020-10-17', '2020-10-25', '2020-10-17', 
+'2020-09-12', 230.0, 'Premium');
+
+INSERT INTO bookings(roomNumber, customerUsername, numbOfPeople, status, paid, bookingDateStart, bookindDateEnd, checkinDate,
+checkoutDate, paymentDate, dateOfCreation, totalCost, roomType)
+VALUES (101, 'ih8mexicans', 4, 'booked', false, '2020-11-30', '2020-12-12', NULL, NULL, NULL, 
+'2020-10-12', 330.0, 'Regular');	
+
+
+SELECT * FROM CUSTOMERS;
+SELECT * FROM STAFFS;
+SELECT * FROM ROOMS;
+SELECT * FROM ROOMTYPES;
+SELECT * FROM BOOKINGS;
+SELECT BOOKINGID,  ROOMNUMBER, customerUsername, customers.FNAME, customers.LNAME, customers.EMAIL,  customers.PHONENUMBER, STATUS, PAID, BOOKINGDATESTART,  	BOOKINDDATEEND, CHECKINDATE,  CHECKOUTDATE, PAYMENTDATE, DATEOFCREATION, TOTALCOST, ROOMTYPE FROM bookings
+JOIN customers ON bookings.customerUsername = customers.username;
