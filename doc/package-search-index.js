@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.csis3275.config"},{"l":"com.csis3275.controller"},{"l":"com.csis3275.dao"},{"l":"com.csis3275.model"}]
