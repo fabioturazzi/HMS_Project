@@ -1,0 +1,127 @@
+.hmsLogo {
+	width: 110px;
+	height: 110px;
+	display: inline-block;
+	float: left;
+	position: relative;
+	border: 5px solid rgb(231, 231, 231);
+	background-color: rgb(231, 231, 231);
+}
+
+.navBarDiv {
+	overflow: auto;
+}
+
+.nav {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.dataManagement {
+	background-color: rgb(250, 250, 250);
+}
+
+.subNavActive {
+	box-shadow: inset 0px 0px 0px 1px rgb(214, 225, 242);
+}
+
+.navbar-default {
+	margin-bottom: 0px;
+}
+
+.searchBar {
+	margin-bottom: 70px;
+}
+
+#logoutNav {
+	position: absolute;
+	color: red;
+	right: 30px;
+	width: 10%;
+	text-align: center;
+	background-color: rgb(232, 238, 248);
+}
+
+.registerForm {
+	width: 70%;
+	border-radius: 10px;
+	align-items: center;
+	border: solid 1px rgb(231, 231, 231);
+	align-items: center;
+	border: solid 1px rgb(231, 231, 231);
+	padding: 2% 5%;
+}
+
+.checkboxItems {
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+.checkboxGroup {
+	display: flex;
+	overflow: auto;
+	float: clear;
+	vertical-align: center;
+}
+
+input[type="checkbox"] {
+	margin-right: 5px;
+}
+
+td {
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle !important;
+	min-width: 60px;
+
+}
+
+.availRooms {
+	color: dodgerblue;
+	font-size: 18px;
+}
+
+.bookRooms {
+	color: dodgerblue;
+	font-size: 18px;
+}
+
+#roomType>div.form-group.searchButtons {
+	text-align: center;
+	width: 70%;
+	margin-right: 10px !important;
+	margin-left: 10px !important;
+}
+
+.searchButtons {
+	display: flex;
+	overflow: auto;
+	text-align: center;
+}
+
+.roomPhoto {
+	width: 400px;
+}
+
+th {
+	font-weight: bold;
+	text-align: center;
+	background-color: rgb(232, 238, 248);
+	display: table-cell;
+	vertical-align: middle !important;
+}
+
+#photosCell {
+	width: 400px;
+}
+
+.booking-form {
+	background-color: rgb(250, 250, 250);
+	border: solid 1px rgb(231, 231, 231);
+	margin: 5px;
+	padding: 30px;
+}
+
+.room-confirmation {
+	float: right;
+}
