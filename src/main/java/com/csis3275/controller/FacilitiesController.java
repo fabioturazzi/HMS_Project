@@ -85,7 +85,7 @@ public class FacilitiesController {
 		// Check if user is logged in and if it is a Customer
 		if (!user.hasValidSession(session))
 			return "denied";
-		else if (!session.getAttribute("userType").equals("Customer"))
+		else if (!session.getAttribute("userType").equals("Staff"))
 			return "denied";
 
 		//Calling to check if name already exist
@@ -210,7 +210,7 @@ public class FacilitiesController {
 		// Check if user is logged in and if it is a Customer
 		if (!user.hasValidSession(session))
 			return "denied";
-		else if (!session.getAttribute("userType").equals("Customer"))
+		else if (!session.getAttribute("userType").equals("Staff"))
 			return "denied";
 
 		// Posting the updated Facility
