@@ -93,7 +93,7 @@ public class FacilitiesController {
 		if (hasFacilityNameAlready(facilityName)) {
 			
 			// Set attribute on the session
-			session.setAttribute("message", "Facility name already exist. Please choose a different one");
+			session.setAttribute("message", "Facility name already exists. Please choose a different one");
 		
 		} else {
 			
@@ -101,7 +101,7 @@ public class FacilitiesController {
 			facilityDAOimp.createFacility(newFacility);
 			
 			// Set attribute on the session
-			session.setAttribute("message", "Facility created successfull");
+			session.setAttribute("message", "Facility created successfully");
 		}
 
 		// Get all Facilities entries and store them in a list
@@ -154,7 +154,7 @@ public class FacilitiesController {
 		model.addAttribute("facilitiesList", facilitiesList);
 
 		// Add attributes to session
-		session.setAttribute("message", "Deleted booking successfull");
+		session.setAttribute("message", "Facility deleted successfully");
 
 		return "facilitiesManagement";
 
@@ -223,7 +223,7 @@ public class FacilitiesController {
 		model.addAttribute("facilitiesList", facilitiesList);
 
 		// Set attribute on the session
-		session.setAttribute("message", "Facility updated successfull");
+		session.setAttribute("message", "Facility updated successfully");
 
 		return "facilitiesManagement";
 	}
