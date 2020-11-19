@@ -49,19 +49,16 @@
 			<c:if test="${ errorMessage !=null }">
 				<div class="alert alert-danger">${errorMessage}</div>
 			</c:if>
+			
 			<div class="form-group">
-				<label for="customerUsername" class="col-md-3 control-label">Customer</label>
+				<label for="correspBookingId" class="col-md-3 control-label">Customer/Booking</label>
 				<div class="col-md-9">
-					<form:input path="customerUsername" cssClass="form-control"
-						required="required" value="" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="correspBookingId" class="col-md-3 control-label">Corresp. Booking
-					Id</label>
-				<div class="col-md-9">
-					<form:input path="correspBookingId" cssClass="form-control"
-						required="required" value="" />
+					<select name="correspBookingId">
+						<c:forEach items="${bookingList}" var="booking">
+							<option value="${booking.bookingId}">${booking.bookingId}
+								Customer: ${booking.customerUsername} (${booking.bookingDateStart} - ${booking.bookindDateEnd})</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
@@ -75,14 +72,14 @@
 				<label for="timeStart" class="col-md-3 control-label">Start
 					Time</label>
 				<div class="col-md-9">
-					<form:input path="timeStart" type="time" cssClass="form-control"
+					<form:input path="timeStart" type="time" min='09:00' max='23:00' step='3600' cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="timeEnd" class="col-md-3 control-label">End Time</label>
 				<div class="col-md-9">
-					<form:input path="timeEnd" type="time" cssClass="form-control"
+					<form:input path="timeEnd" type="time" min='09:00' max='23:00' step='00:30:00' cssClass="form-control"
 						required="required" value="" />
 				</div>
 			</div>

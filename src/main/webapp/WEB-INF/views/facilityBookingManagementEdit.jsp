@@ -28,10 +28,11 @@
 			modelAttribute="facilityBooking">
 
 			<div class="form-group">
-				<label for="facilityBookingId" class="col-md-3 control-label">Facility Booking Id</label>
+				<label for="facilityBookingId" class="col-md-3 control-label">Facility
+					Booking Id</label>
 				<div class="col-md-9">
 					<form:input path="facilityBookingId" cssClass="form-control"
-						required="required" value="" readonly="true"/>
+						required="required" value="" readonly="true" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -56,8 +57,10 @@
 			<div class="form-group">
 				<label for="customerUsername" class="col-md-3 control-label">Customer</label>
 				<div class="col-md-9">
-					<form:input path="customerUsername" cssClass="form-control"
-						required="required" value="" />
+					<form:select path="customerUsername" cssClass="form-control"
+						required="required" value="">
+						<form:options items="${customerListItems}"></form:options>
+					</form:select>
 				</div>
 			</div>
 			<div class="form-group">
