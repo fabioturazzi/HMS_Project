@@ -81,14 +81,13 @@ public class FacilitiesController {
 	 */
 	@PostMapping("/createFacility")
 	public String createFacility(@ModelAttribute("facility") Facilities newFacility, HttpSession session, Model model) {
-
-		//COMMENTED TO ALLOW CHECKING WITH JUNIT
-//		// Check if user is logged in and if it is a Customer
-//		if (!user.hasValidSession(session))
-//			return "denied";
-//		else if (!session.getAttribute("userType").equals("Staff"))
-//			return "denied";
 		
+		// Check if user is logged in and if it is a Customer
+		if (!user.hasValidSession(session))
+			return "denied";
+		else if (!session.getAttribute("userType").equals("Customer"))
+			return "denied";
+
 		//Calling to check if name already exist
 		String facilityName = newFacility.getFacilityName();
 		if (hasFacilityNameAlready(facilityName)) {
@@ -207,11 +206,11 @@ public class FacilitiesController {
 	@PostMapping("/updateFacility")
 	public String updateFacility(@ModelAttribute("facility") Facilities updatedFacility, HttpSession session,
 			Model model) {
-
+		
 		// Check if user is logged in and if it is a Customer
 		if (!user.hasValidSession(session))
 			return "denied";
-		else if (!session.getAttribute("userType").equals("Staff"))
+		else if (!session.getAttribute("userType").equals("Customer"))
 			return "denied";
 
 		// Posting the updated Facility

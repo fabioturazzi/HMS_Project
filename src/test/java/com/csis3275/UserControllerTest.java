@@ -42,4 +42,18 @@ public class UserControllerTest {
 
 	}
 	
+	/**
+	 * Testing Customer Login
+	 * @throws Exception
+	 */
+	@Test
+	void testCustomerLogin() throws Exception {
+		this.mockMvc.perform(post("/")
+				.param("usernameForm", "doeJohn")
+				.param("passwordForm", "passJohnDoe"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("login"));
+
+	}
+	
 }
