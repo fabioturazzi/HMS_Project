@@ -29,7 +29,7 @@ public class StaffFacilitiesBlackBoxTest {
     driver.quit();
   }
   @Test
-  public void loginStaffFacilities() {
+  public void facilitiesBlackboxTesting() {
     driver.get("http://localhost:8080/");
     driver.manage().window().setSize(new Dimension(1050, 660));
     driver.findElement(By.id("usernameForm")).click();
