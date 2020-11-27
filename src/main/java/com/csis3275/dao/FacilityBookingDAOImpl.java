@@ -24,11 +24,14 @@ public class FacilityBookingDAOImpl {
 
 	private final String SQL_GET_ALL = "SELECT * FROM facilityBookings";
 	private final String SQL_GET_FAC_BOOKINGS_USER = "SELECT * FROM facilityBookings WHERE customerUsername = ?";
-	private final String SQL_CREATE_FACILITYBOOKING = "INSERT INTO facilityBookings (facilityName, numberOfPeople, date, timeStart, timeEnd, customerUsername, correspBookingId) VALUES (?, ?, ?,to_date(?, 'hh:mm'), to_date(?, 'hh:mm'), ?, ?);";
+	private final String SQL_GET_FAC_BOOKINGS_FAC_NAME_DATE = "SELECT * FROM facilityBookings WHERE facilityName = ? AND date = ?";
+	private final String SQL_CREATE_FACILITYBOOKING = "INSERT INTO facilityBookings (facilityName, numberOfPeople, date, timeStart, timeEnd, customerUsername, correspBookingId) VALUES (?, ?, ?,?, ?, ?, ?);";
 	private final String SQL_DELETE_FACILITYBOOKING = "DELETE FROM facilityBookings WHERE facilityBookingId = ?";
-	private final String SQL_UPDATE_FACILITYBOOKING = "UPDATE facilityBookings set facilityName = ?, numberOfPeople = ?, date = ?, timeStart = to_date(?, 'hh:mm'), timeEnd = to_date(?, 'hh:mm'), customerUsername = ?, correspBookingId = ? WHERE facilityBookingId = ?";
+	private final String SQL_UPDATE_FACILITYBOOKING = "UPDATE facilityBookings set facilityName = ?, numberOfPeople = ?, date = ?, timeStart = ?, timeEnd = ?, customerUsername = ?, correspBookingId = ? WHERE facilityBookingId = ?";
 	private final String SQL_FIND_FACILITYBOOKING = "SELECT * FROM facilityBookings WHERE facilityBookingId = ?";
 
+
+	
 	/**
 	 * DAO Methods
 	 */
@@ -45,7 +48,11 @@ public class FacilityBookingDAOImpl {
 	public List<FacilityBooking> getFacilityBookingFromUser(String username) {
 		return jdbcTemplate.query(SQL_GET_FAC_BOOKINGS_USER, new FacilityBookingMapper(), username);
 	}
-
+	
+	public List<FacilityBooking> getFacBookingFromFacility(FacilityBooking facBooking) {
+		return jdbcTemplate.query(SQL_GET_FAC_BOOKINGS_FAC_NAME_DATE, new FacilityBookingMapper(), facBooking.getFacilityName(), facBooking.getDate());
+	}
+	
 	public boolean createFacilityBooking(FacilityBooking newFacilityBooking) {
 		return jdbcTemplate.update(SQL_CREATE_FACILITYBOOKING, newFacilityBooking.getFacilityName(), newFacilityBooking.getNumberOfPeople(),
 				newFacilityBooking.getDate(), newFacilityBooking.getTimeStart(), newFacilityBooking.getTimeEnd(), newFacilityBooking.getCustomerUsername(),

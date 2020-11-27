@@ -17,10 +17,10 @@
 			<li class="roomNav3"><a
 				href="${pageContext.request.contextPath}/bookingManagement/bookings">Manage
 					Bookings</a></li>
-			<li class="roomNav4"><a
+			<li class="facilityNav1"><a
 				href="${pageContext.request.contextPath}/facilitiesManagement">Manage
 					Facilities</a></li>
-			<li class="roomNav5"><a href="${pageContext.request.contextPath}/facilityBookingManagement">Manage Facility Bookings</a></li> 
+			<li class="facilityNav2"><a href="${pageContext.request.contextPath}/facilityBookingManagement">Manage Facility Bookings</a></li> 
 
 		</ul>
 	</nav>

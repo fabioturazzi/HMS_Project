@@ -45,5 +45,13 @@ $(function() {
 		$(".nav6").addClass("active");
 		$(".roomNav3").addClass("subNavActive");
 	}
+	else if (title === "Manage Facilities") {
+		$(".nav6").addClass("active");
+		$(".facilityNav1").addClass("subNavActive");
+	}
+	else if (title === "Manage Facility Bookings" || title === "Edit Facility Booking") {
+		$(".nav6").addClass("active");
+		$(".facilityNav2").addClass("subNavActive");
+	}
 
 });
