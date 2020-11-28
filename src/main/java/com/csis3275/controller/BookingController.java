@@ -366,6 +366,14 @@ public class BookingController {
 		}
 
 	}
+	
+	@GetMapping("/generateInvoice")
+	public String createInvoice(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
+			Model model) {
+		
+			
+			return "generateInvoice";
+	}
 
 	// set dropdown lists for customers, rooms, and booking status
 	public void setDropdownLists(Model model) {

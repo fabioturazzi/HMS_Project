@@ -194,6 +194,14 @@
 						Changes</button>
 				</div>
 			</div>
+			<div class="form-group">
+				<!-- Button -->
+				<div class="col-md-offset-3 col-md-9">
+					<a href="${pageContext.request.contextPath}/generateInvoice/?id=${booking.bookingId}">
+					<label class="btn btn-info">Generate Invoice</label></a>
+				</div>
+			</div>
+			
 
 		</form:form>
 
