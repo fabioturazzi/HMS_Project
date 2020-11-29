@@ -72,6 +72,12 @@ public class BookingController {
 	// Create object for the UserController
 	UserController user = new UserController();
 
+	/**
+	 * Get method to Show all bookings
+	 * @param session
+	 * @param model
+	 * @return booking management page (list of all bookings)
+	 */
 	@GetMapping("/bookingManagement/bookings")
 	public String showBookings(HttpSession session, Model model) {
 
@@ -89,6 +95,14 @@ public class BookingController {
 
 		return "bookingManagement";
 	}
+	
+	/**
+	 * Get method to Delete booking
+	 * @param id
+	 * @param session
+	 * @param model
+	 * @return booking management page (list of all bookings)
+	 */
 
 	@GetMapping("/deleteBooking")
 	public String deleteBooking(@RequestParam(required = true) int id, HttpSession session, Model model) {
@@ -112,6 +126,14 @@ public class BookingController {
 		return "bookingManagement";
 	}
 
+	/**
+	 * Post Method to create a new booking
+	 * @param createBooking
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return booking management page (list of all bookings)
+	 */
 	@PostMapping("/createBooking")
 	public String createRoom(@ModelAttribute("room") Booking createBooking, HttpServletRequest request,
 			HttpSession session, Model model) {
@@ -215,6 +237,14 @@ public class BookingController {
 		}
 	}
 
+	/**
+	 * Get method to display booking to edit
+	 * @param id
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @return edit booking page
+	 */
 	@GetMapping("/editBooking")
 	public String editBooking(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
 			Model model) {
@@ -275,6 +305,14 @@ public class BookingController {
 		return "bookingManagementEdit";
 	}
 
+	/**
+	 * Post method to update booking
+	 * @param updatedBooking
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return list of all bookings
+	 */
 	@PostMapping("/editBooking")
 	public String updateBooking(@ModelAttribute("booking") Booking updatedBooking, HttpServletRequest request,
 			HttpSession session, Model model) {
@@ -382,6 +420,14 @@ public class BookingController {
 
 	}
 
+	/**
+	 * Get method to generate invoice
+	 * @param id
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/generateInvoice")
 	public String createInvoice(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
 			Model model) {
@@ -405,12 +451,12 @@ public class BookingController {
 			
 			Font headerFont = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
 			Font textFont = FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK);
-//			Font boldTextFont = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
 			
 			document.add(new Paragraph("Hackermen Hotel Management System", headerFont));
-			document.add(new Paragraph("Invoice HHMS #" + id + "-" + d.get(Calendar.YEAR) +
-					d.get(Calendar.MONTH) + d.get(Calendar.DAY_OF_MONTH), headerFont));
+			document.add(new Paragraph(" ", textFont));
 			
+			document.add(new Paragraph("Invoice HHMS #" + id + "/" + bookingToPrint.getDateOfCreation(), headerFont));
+			document.add(new Paragraph(" ", textFont));
 			document.add(new Paragraph("Customer Information", textFont));
 			
 			PdfPTable table = new PdfPTable(2);
@@ -456,6 +502,19 @@ public class BookingController {
 			bookingTable.addCell("End Date: ");
 			bookingTable.addCell(bookingToPrint.getBookindDateEnd());
 			
+			bookingTable.addCell("Paid: ");
+			String status;
+			
+			if (bookingToPrint.isPaid()) {
+				status = "YES";
+				bookingTable.addCell(status);
+				bookingTable.addCell("Payment Date: ");
+				bookingTable.addCell(bookingToPrint.getPaymentDate());
+			} else {
+				status = "NO";
+				bookingTable.addCell(status);
+			}
+			
 			document.add(bookingTable);
 			
 			document.add(new Paragraph("Total Cost", textFont));
@@ -486,18 +545,22 @@ public class BookingController {
 			
 			costTable.addCell("" + noOfDaysBetween);
 			costTable.addCell("$" + totalCost);
-			costTable.addCell("$" + totalCost * (1 + tax));
+			costTable.addCell("$" + Math.round(totalCost * (1 + tax)*100.0)/100.0);
  
 			document.add(costTable);
 			
 			Paragraph date = new Paragraph("Date: " + d.get(Calendar.YEAR) + "-" +
 					d.get(Calendar.MONTH) + "-" + d.get(Calendar.DAY_OF_MONTH), textFont);
 			
-			Chunk sign = new Chunk(customer.getfName() + " " + customer.getlName(), textFont);
+			Paragraph managSign = new Paragraph("Manager", textFont);
+			Paragraph custSign = new Paragraph(customer.getfName() + " " + customer.getlName(), textFont);
+			
 			Chunk signField = new Chunk("  X ____________________");
 			
 			document.add(date);
-			document.add(sign);
+			document.add(managSign);
+			document.add(signField);
+			document.add(custSign);
 			document.add(signField);
 			
 			document.close();
@@ -505,11 +568,18 @@ public class BookingController {
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-
-		return "bookingManagement";
+		
+		model.addAttribute("message", "Created Invoice for Booking #" + bookingToPrint.getBookingId());
+		setDropdownLists(model);
+		List<Booking> bookings = bookingDAOImp.getAllBookings();
+		model.addAttribute("bookings", bookings);
+		return "/bookingManagement";
 	}
 
-	// set dropdown lists for customers, rooms, and booking status
+	/**
+	 * Sets dropdown lists for customers, rooms, and booking status
+	 * @param model
+	 */
 	public void setDropdownLists(Model model) {
 
 		List<Customer> custormersList = customerDAOImp.getAllCustomers();

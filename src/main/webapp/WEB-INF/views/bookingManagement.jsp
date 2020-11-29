@@ -131,6 +131,7 @@
 				<th>Total Costs</th>
 				<th></th>
 				<th></th>
+				<th></th>
 			</tr>
 			<c:forEach var="booking" items="${bookings}">
 				<tr class="dataRows">
@@ -152,6 +153,8 @@
 						href="${pageContext.request.contextPath}/editBooking/?id=${booking.bookingId}">Edit</a></td>
 					<td><a
 						href="${pageContext.request.contextPath}/deleteBooking/?id=${booking.bookingId}">Delete</a></td>
+					<td><a href="${pageContext.request.contextPath}/generateInvoice/?id=${booking.bookingId}">
+					<label class="btn btn-info">Generate Invoice</label></a></td>
 				</tr>
 			</c:forEach>
 
