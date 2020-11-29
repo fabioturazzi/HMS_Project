@@ -1,10 +1,13 @@
 package com.csis3275.controller;
 
+import java.io.FileOutputStream;
+import java.text.NumberFormat.Style;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +28,22 @@ import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.element.Text;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * @author Hackermen
- * Hotel Management System
+ * @author Hackermen Hotel Management System
  */
 
 @Controller
@@ -366,13 +381,132 @@ public class BookingController {
 		}
 
 	}
-	
+
 	@GetMapping("/generateInvoice")
 	public String createInvoice(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
 			Model model) {
-		
+
+		// Get the Booking
+		Booking bookingToPrint = bookingDAOImp.getBooking(id);
+		// Get the customer
+		Customer customer = customerDAOImp.getCustomer(bookingToPrint.getCustomerUsername()).get(0);
+
+		try {
+
+			List<RoomType> roomTypes = roomDAOImpl.getRoomType(bookingToPrint.getRoomType());
 			
-			return "generateInvoice";
+			Document document = new Document();
+			PdfWriter.getInstance(document, new FileOutputStream("invoice_booking_" + id + ".pdf"));
+
+			Calendar d = Calendar.getInstance();
+			d.get(Calendar.YEAR);
+			
+			document.open();
+			
+			Font headerFont = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+			Font textFont = FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK);
+//			Font boldTextFont = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
+			
+			document.add(new Paragraph("Hackermen Hotel Management System", headerFont));
+			document.add(new Paragraph("Invoice HHMS #" + id + "-" + d.get(Calendar.YEAR) +
+					d.get(Calendar.MONTH) + d.get(Calendar.DAY_OF_MONTH), headerFont));
+			
+			document.add(new Paragraph("Customer Information", textFont));
+			
+			PdfPTable table = new PdfPTable(2);
+
+			table.setWidthPercentage(100);
+			table.setSpacingBefore(15f);
+			table.setSpacingAfter(10f);
+			
+		    table.addCell("Name: ");
+			table.addCell(customer.getfName() + " " + customer.getlName());
+
+		    table.addCell("Address: ");
+			table.addCell(customer.getAddress());
+			
+			table.addCell("Email: ");
+			table.addCell(customer.getEmail());
+			
+			table.addCell("Phone: ");
+			table.addCell(customer.getPhoneNumber());
+			
+			document.add(table);
+			
+			document.add(new Paragraph("Booking Information", textFont));
+			
+			PdfPTable bookingTable = new PdfPTable(2);
+
+			bookingTable.setWidthPercentage(100);
+			bookingTable.setSpacingBefore(10f);
+			bookingTable.setSpacingAfter(10f);
+			
+			bookingTable.addCell("ID: ");
+			bookingTable.addCell("#" + bookingToPrint.getBookingId());
+			
+			bookingTable.addCell("Booking Room Type: ");
+			bookingTable.addCell(bookingToPrint.getRoomType());
+			
+			bookingTable.addCell("Room Number: ");
+			bookingTable.addCell("" + bookingToPrint.getRoomNumber());
+			
+			bookingTable.addCell("Start Date: ");
+			bookingTable.addCell(bookingToPrint.getBookingDateStart());
+			
+			bookingTable.addCell("End Date: ");
+			bookingTable.addCell(bookingToPrint.getBookindDateEnd());
+			
+			document.add(bookingTable);
+			
+			document.add(new Paragraph("Total Cost", textFont));
+			
+			PdfPTable costTable = new PdfPTable(4);
+
+			costTable.setWidthPercentage(100);
+			costTable.setSpacingBefore(10f);
+			costTable.setSpacingAfter(20f);
+
+			costTable.addCell(new Paragraph("Price per Night", textFont));
+			costTable.addCell(new Paragraph("Total Days", textFont));
+			costTable.addCell(new Paragraph("Price", textFont));
+			costTable.addCell(new Paragraph("Total Cost", textFont));
+			
+
+			costTable.addCell("" + roomTypes.get(0).getDailyPrice());
+			
+			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(bookingToPrint.getBookingDateStart()), 
+					LocalDate.parse(bookingToPrint.getBookindDateEnd()));
+
+			if (noOfDaysBetween == 0) {
+				noOfDaysBetween = 1;
+			}
+
+			double totalCost = noOfDaysBetween * roomTypes.get(0).getDailyPrice();
+			double tax = 0.12;
+			
+			costTable.addCell("" + noOfDaysBetween);
+			costTable.addCell("$" + totalCost);
+			costTable.addCell("$" + totalCost * (1 + tax));
+ 
+			document.add(costTable);
+			
+			Paragraph date = new Paragraph("Date: " + d.get(Calendar.YEAR) + "-" +
+					d.get(Calendar.MONTH) + "-" + d.get(Calendar.DAY_OF_MONTH), textFont);
+			
+			Chunk sign = new Chunk(customer.getfName() + " " + customer.getlName(), textFont);
+			Chunk signField = new Chunk("  X ____________________");
+			
+			document.add(date);
+			document.add(sign);
+			document.add(signField);
+			
+			document.close();
+
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+
+		return "bookingManagement";
 	}
 
 	// set dropdown lists for customers, rooms, and booking status
