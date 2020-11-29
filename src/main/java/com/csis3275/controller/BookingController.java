@@ -1,7 +1,6 @@
 package com.csis3275.controller;
 
 import java.io.FileOutputStream;
-import java.text.NumberFormat.Style;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -28,17 +27,12 @@ import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import com.itextpdf.layout.element.Text;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -421,14 +415,14 @@ public class BookingController {
 	}
 
 	/**
-	 * Get method to generate invoice
+	 * Post method to generate invoice
 	 * @param id
 	 * @param session
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/generateInvoice")
+	@PostMapping("/generateInvoice")
 	public String createInvoice(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
 			Model model) {
 
@@ -518,8 +512,9 @@ public class BookingController {
 			document.add(bookingTable);
 			
 			document.add(new Paragraph("Total Cost", textFont));
+			double tax = Double.parseDouble(request.getParameter("tax"));
 			
-			PdfPTable costTable = new PdfPTable(4);
+			PdfPTable costTable = new PdfPTable(5);
 
 			costTable.setWidthPercentage(100);
 			costTable.setSpacingBefore(10f);
@@ -528,10 +523,11 @@ public class BookingController {
 			costTable.addCell(new Paragraph("Price per Night", textFont));
 			costTable.addCell(new Paragraph("Total Days", textFont));
 			costTable.addCell(new Paragraph("Price", textFont));
+			costTable.addCell(new Paragraph("Tax " + (tax * 100) + "%", textFont));
 			costTable.addCell(new Paragraph("Total Cost", textFont));
 			
 
-			costTable.addCell("" + roomTypes.get(0).getDailyPrice());
+			costTable.addCell("$" + roomTypes.get(0).getDailyPrice());
 			
 			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(bookingToPrint.getBookingDateStart()), 
 					LocalDate.parse(bookingToPrint.getBookindDateEnd()));
@@ -541,10 +537,10 @@ public class BookingController {
 			}
 
 			double totalCost = noOfDaysBetween * roomTypes.get(0).getDailyPrice();
-			double tax = 0.12;
 			
 			costTable.addCell("" + noOfDaysBetween);
 			costTable.addCell("$" + totalCost);
+			costTable.addCell("$" + Math.round(totalCost * tax * 100.0)/100.0);
 			costTable.addCell("$" + Math.round(totalCost * (1 + tax)*100.0)/100.0);
  
 			document.add(costTable);
@@ -555,7 +551,7 @@ public class BookingController {
 			Paragraph managSign = new Paragraph("Manager", textFont);
 			Paragraph custSign = new Paragraph(customer.getfName() + " " + customer.getlName(), textFont);
 			
-			Chunk signField = new Chunk("  X ____________________");
+			Chunk signField = new Chunk("  X  ____________________");
 			
 			document.add(date);
 			document.add(managSign);
@@ -590,7 +586,11 @@ public class BookingController {
 
 		List<String> roomStatus = Arrays.asList("booked", "paid", "checked-in", "checked-out");
 		model.addAttribute("roomStatus", roomStatus);
-
+		
+		String[][] arr = {{"AB", "0.05"},{"BC", "0.12"},{"MB", "0.12"},{"NB", "0.15"},{"NL", "0.15"},{"NT", "0.05"},
+								{"NS", "0.15"},{"NU", "0.05"},{"ON", "0.13"},{"PE", "0.15"},{"QC", "0.14975"},
+								{"SK", "0.11"},{"YT", "0.05"}};
+		model.addAttribute("taxesList", arr);
 	}
 
 }

@@ -196,6 +196,35 @@
 			</div>
 
 		</form:form>
+		
+		<form:form
+			action="${pageContext.request.contextPath}/generateInvoice/?id=${booking.bookingId}"
+			cssClass="form-horizontal" method="post" modelAttribute="booking">
+			<div class="form-group">
+				<!-- Button -->
+				<div class="col-md-offset-3 col-md-9">
+					Tax Region <select name="tax">
+						<c:forEach items="${taxesList}" var="tax">
+							<c:choose>
+								<c:when test="${tax[0] == 'BC'}">
+									<option value="${tax[1]}" selected>${tax[0]}</option>
+								</c:when>
+								<c:otherwise>
+									<<option value="${tax[1]}">${tax[0]}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<!-- Button -->
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn btn-info">Generate
+						Invoice</button>
+				</div>
+			</div>
+		</form:form>
 
 		<h3>Customer Information</h3>
 		<hr />
