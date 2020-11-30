@@ -71,7 +71,7 @@
 			<div class="form-group">
 				<label for="room" class="col-md-3 control-label">Room</label>
 				<div class="col-md-9">
-					<select name="room">
+					<select name="room" class="form-control">
 						<c:forEach items="${roomList}" var="room">
 							<c:choose>
 								<c:when test="${room.roomNumber == booking.roomNumber}">
@@ -202,8 +202,8 @@
 			cssClass="form-horizontal" method="post" modelAttribute="booking">
 			<div class="form-group">
 				<!-- Button -->
-				<div class="col-md-offset-3 col-md-9">
-					Tax Region <select name="tax">
+				<div class="col-md-offset-3 col-md-9"><h4>
+					Tax Region</h4><select name="tax" class="form-control">
 						<c:forEach items="${taxesList}" var="tax">
 							<c:choose>
 								<c:when test="${tax[0] == 'BC'}">

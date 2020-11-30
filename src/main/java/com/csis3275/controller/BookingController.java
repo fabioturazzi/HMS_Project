@@ -118,7 +118,7 @@ public class BookingController {
 		// set dropdown lists
 		setDropdownLists(model);
 
-		model.addAttribute("message", "Deleted Booking: " + id);
+		model.addAttribute("warning", "Deleted Booking: " + id);
 
 		return "bookingManagement";
 	}
