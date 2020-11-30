@@ -439,7 +439,7 @@ public class BookingController {
 			List<RoomType> roomTypes = roomDAOImpl.getRoomType(bookingToPrint.getRoomType());
 			
 			Document document = new Document();
-			PdfWriter.getInstance(document, new FileOutputStream("invoices/invoice_booking_" + id + ".pdf"));
+			PdfWriter writing = PdfWriter.getInstance(document, new FileOutputStream("invoices/invoice_booking_" + id + ".pdf"));
 
 			Calendar d = Calendar.getInstance();
 			d.get(Calendar.YEAR);
@@ -563,12 +563,13 @@ public class BookingController {
 			document.add(signField);
 			
 			document.close();
-
+			writing.close();
+			
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
 		
-		model.addAttribute("message", "Created Invoice for Booking #" + bookingToPrint.getBookingId());
+		model.addAttribute("message", "Created Invoice for Booking #" + bookingToPrint.getBookingId() + " and added to 'Invoice' folder.");
 		setDropdownLists(model);
 		List<Booking> bookings = bookingDAOImp.getAllBookings();
 		model.addAttribute("bookings", bookings);
