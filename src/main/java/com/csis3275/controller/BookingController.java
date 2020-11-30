@@ -1,6 +1,9 @@
 package com.csis3275.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -436,7 +439,7 @@ public class BookingController {
 			List<RoomType> roomTypes = roomDAOImpl.getRoomType(bookingToPrint.getRoomType());
 			
 			Document document = new Document();
-			PdfWriter.getInstance(document, new FileOutputStream("invoice_booking_" + id + ".pdf"));
+			PdfWriter.getInstance(document, new FileOutputStream("invoices/invoice_booking_" + id + ".pdf"));
 
 			Calendar d = Calendar.getInstance();
 			d.get(Calendar.YEAR);
