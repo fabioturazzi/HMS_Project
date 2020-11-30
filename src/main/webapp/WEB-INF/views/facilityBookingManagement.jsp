@@ -55,7 +55,7 @@
 			<div class="form-group">
 				<label for="correspBookingId" class="col-md-3 control-label">Customer/Booking</label>
 				<div class="col-md-9">
-					<select name="correspBookingId">
+					<select name="correspBookingId" class="form-control">
 						<c:forEach items="${bookingList}" var="booking">
 							<option value="${booking.bookingId}">${booking.bookingId}
 								Customer: ${booking.customerUsername}
@@ -114,6 +114,11 @@
 		<c:if test="${ message != null }">
 			<div class="alert alert-success" role="alert">${message}</div>
 		</c:if>
+
+		<c:if test="${ warning != null }">
+			<div class="alert alert-warning" role="alert">${ warning }</div>
+		</c:if>
+
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">

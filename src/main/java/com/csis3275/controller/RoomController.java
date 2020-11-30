@@ -49,7 +49,7 @@ public class RoomController {
 		List<Room> rooms = roomDAOImp.getAllRooms();
 		model.addAttribute("roomList", rooms);
 
-		model.addAttribute("message", "Deleted Room: " + id);
+		model.addAttribute("warning", "Deleted Room: " + id);
 
 		return "roomManagement";
 	}

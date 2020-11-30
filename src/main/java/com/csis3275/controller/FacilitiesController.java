@@ -154,7 +154,7 @@ public class FacilitiesController {
 		model.addAttribute("facilitiesList", facilitiesList);
 
 		// Add attributes to session
-		session.setAttribute("message", "Facility deleted successfully");
+		session.setAttribute("warning", "Facility deleted successfully");
 
 		return "facilitiesManagement";
 

@@ -95,7 +95,7 @@
 			</div>
 
 		</form:form>
-				<hr />
+		<hr />
 		<div class="form-group searchBar form-horizontal">
 			<label for="fName" class="col-md-3 control-label">Search
 				Entries:</label>
@@ -107,6 +107,9 @@
 
 		<c:if test="${ message != null }">
 			<div class="alert alert-success" role="alert">${message}</div>
+		</c:if>
+		<c:if test="${ warning != null }">
+			<div class="alert alert-warning" role="alert">${warning}</div>
 		</c:if>
 		<table class="table table-striped table-bordered">
 

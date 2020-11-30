@@ -66,7 +66,7 @@ public class FacilityBookingController {
 		List<FacilityBooking> facilityBookings = facilityBookingDAOImp.getAllFacilityBookings();
 		model.addAttribute("facilityBookingList", facilityBookings);
 
-		model.addAttribute("message", "Deleted FacilityBooking: " + id);
+		model.addAttribute("warning", "Deleted FacilityBooking: " + id);
 
 		return "facilityBookingManagement";
 	}

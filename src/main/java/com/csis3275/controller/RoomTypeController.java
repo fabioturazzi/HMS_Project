@@ -63,7 +63,7 @@ public class RoomTypeController {
 			// Delete the roomType
 			roomDAOImp.deleteRoomType(id);
 
-			session.setAttribute("message", "Deleted RoomType: " + id);
+			session.setAttribute("warning", "Deleted RoomType: " + id);
 		}
 
 		return "redirect:/roomTypeManagement";
@@ -104,6 +104,8 @@ public class RoomTypeController {
 		session.removeAttribute("message");
 		model.addAttribute("errorMessage", session.getAttribute("errorMessage"));
 		session.removeAttribute("errorMessage");
+		model.addAttribute("warning", session.getAttribute("warning"));
+		session.removeAttribute("warning");
 		
 		model.addAttribute("amenitiesList", getAmenities());
 
