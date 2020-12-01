@@ -60,7 +60,7 @@
 			<div class="form-group">
 				<label for="correspBookingId" class="col-md-3 control-label">Customer/Booking</label>
 				<div class="col-md-9">
-					<select name="correspBookingId">
+					<select name="correspBookingId" class="form-control">
 						<c:forEach items="${bookingList}" var="booking">
 							<option value="${booking.bookingId}">${booking.bookingId}
 								Customer: ${booking.customerUsername}
