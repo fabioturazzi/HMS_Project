@@ -1,4 +1,4 @@
-package com.csis3275;
+package com.csis3275.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -75,12 +75,14 @@
 						cssClass="form-control" required="required" />
 				</div>
 			</div>
-			
+
 			<div class="form-group">
-				<label for="numbOfPeople" class="col-md-3 control-label">Number of People</label>
+				<label for="numbOfPeople" class="col-md-3 control-label">Number
+					of People</label>
 				<div class="col-md-9">
-					<form:input type="number" min="1" max="10" name="numbOfPeople" path="numbOfPeople"
-						cssClass="form-control" required="required" value="1"/>
+					<form:input type="number" min="1" max="10" name="numbOfPeople"
+						path="numbOfPeople" cssClass="form-control" required="required"
+						value="1" />
 				</div>
 			</div>
 
@@ -92,9 +94,8 @@
 			</div>
 
 		</form:form>
-		
-		<br />
-		<br />
+
+		<br /> <br />
 
 		<h3>Search Bookings</h3>
 		<hr />
@@ -112,6 +113,7 @@
 		<c:if test="${ message != null }">
 			<div class="alert alert-success" role="alert">${message}</div>
 		</c:if>
+
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">
@@ -154,10 +156,7 @@
 						href="${pageContext.request.contextPath}/deleteBooking/?id=${booking.bookingId}">Delete</a></td>
 				</tr>
 			</c:forEach>
-
 		</table>
-
-
 	</div>
 </body>
 </html>

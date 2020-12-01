@@ -1,10 +1,15 @@
 package com.csis3275.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +30,17 @@ import com.csis3275.model.Booking;
 import com.csis3275.model.Customer;
 import com.csis3275.model.Room;
 import com.csis3275.model.RoomType;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * @author Hackermen
- * Hotel Management System
+ * @author Hackermen Hotel Management System
  */
 
 @Controller
@@ -57,6 +69,12 @@ public class BookingController {
 	// Create object for the UserController
 	UserController user = new UserController();
 
+	/**
+	 * Get method to Show all bookings
+	 * @param session
+	 * @param model
+	 * @return booking management page (list of all bookings)
+	 */
 	@GetMapping("/bookingManagement/bookings")
 	public String showBookings(HttpSession session, Model model) {
 
@@ -74,6 +92,14 @@ public class BookingController {
 
 		return "bookingManagement";
 	}
+	
+	/**
+	 * Get method to Delete booking
+	 * @param id
+	 * @param session
+	 * @param model
+	 * @return booking management page (list of all bookings)
+	 */
 
 	@GetMapping("/deleteBooking")
 	public String deleteBooking(@RequestParam(required = true) int id, HttpSession session, Model model) {
@@ -97,6 +123,14 @@ public class BookingController {
 		return "bookingManagement";
 	}
 
+	/**
+	 * Post Method to create a new booking
+	 * @param createBooking
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return booking management page (list of all bookings)
+	 */
 	@PostMapping("/createBooking")
 	public String createRoom(@ModelAttribute("room") Booking createBooking, HttpServletRequest request,
 			HttpSession session, Model model) {
@@ -200,6 +234,14 @@ public class BookingController {
 		}
 	}
 
+	/**
+	 * Get method to display booking to edit
+	 * @param id
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @return edit booking page
+	 */
 	@GetMapping("/editBooking")
 	public String editBooking(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
 			Model model) {
@@ -260,6 +302,14 @@ public class BookingController {
 		return "bookingManagementEdit";
 	}
 
+	/**
+	 * Post method to update booking
+	 * @param updatedBooking
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return list of all bookings
+	 */
 	@PostMapping("/editBooking")
 	public String updateBooking(@ModelAttribute("booking") Booking updatedBooking, HttpServletRequest request,
 			HttpSession session, Model model) {
@@ -367,7 +417,169 @@ public class BookingController {
 
 	}
 
-	// set dropdown lists for customers, rooms, and booking status
+	/**
+	 * Post method to generate invoice
+	 * @param id
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/generateInvoice")
+	public String createInvoice(@RequestParam(required = true) int id, HttpSession session, HttpServletRequest request,
+			Model model) {
+
+		// Get the Booking
+		Booking bookingToPrint = bookingDAOImp.getBooking(id);
+		// Get the customer
+		Customer customer = customerDAOImp.getCustomer(bookingToPrint.getCustomerUsername()).get(0);
+
+		try {
+
+			List<RoomType> roomTypes = roomDAOImpl.getRoomType(bookingToPrint.getRoomType());
+			
+			Document document = new Document();
+			PdfWriter writing = PdfWriter.getInstance(document, new FileOutputStream("invoices/invoice_booking_" + id + ".pdf"));
+
+			Calendar d = Calendar.getInstance();
+			d.get(Calendar.YEAR);
+			
+			document.open();
+			
+			Font headerFont = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+			Font textFont = FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK);
+			
+			document.add(new Paragraph("Hackermen Hotel Management System", headerFont));
+			document.add(new Paragraph(" ", textFont));
+			
+			document.add(new Paragraph("Invoice HHMS #" + id + "/" + bookingToPrint.getDateOfCreation(), headerFont));
+			document.add(new Paragraph(" ", textFont));
+			document.add(new Paragraph("Customer Information", textFont));
+			
+			PdfPTable table = new PdfPTable(2);
+
+			table.setWidthPercentage(100);
+			table.setSpacingBefore(15f);
+			table.setSpacingAfter(10f);
+			
+		    table.addCell("Name: ");
+			table.addCell(customer.getfName() + " " + customer.getlName());
+
+		    table.addCell("Address: ");
+			table.addCell(customer.getAddress());
+			
+			table.addCell("Email: ");
+			table.addCell(customer.getEmail());
+			
+			table.addCell("Phone: ");
+			table.addCell(customer.getPhoneNumber());
+			
+			document.add(table);
+			
+			document.add(new Paragraph("Booking Information", textFont));
+			
+			PdfPTable bookingTable = new PdfPTable(2);
+
+			bookingTable.setWidthPercentage(100);
+			bookingTable.setSpacingBefore(10f);
+			bookingTable.setSpacingAfter(10f);
+			
+			bookingTable.addCell("ID: ");
+			bookingTable.addCell("#" + bookingToPrint.getBookingId());
+			
+			bookingTable.addCell("Booking Room Type: ");
+			bookingTable.addCell(bookingToPrint.getRoomType());
+			
+			bookingTable.addCell("Room Number: ");
+			bookingTable.addCell("" + bookingToPrint.getRoomNumber());
+			
+			bookingTable.addCell("Start Date: ");
+			bookingTable.addCell(bookingToPrint.getBookingDateStart());
+			
+			bookingTable.addCell("End Date: ");
+			bookingTable.addCell(bookingToPrint.getBookindDateEnd());
+			
+			bookingTable.addCell("Paid: ");
+			String status;
+			
+			if (bookingToPrint.isPaid()) {
+				status = "YES";
+				bookingTable.addCell(status);
+				bookingTable.addCell("Payment Date: ");
+				bookingTable.addCell(bookingToPrint.getPaymentDate());
+			} else {
+				status = "NO";
+				bookingTable.addCell(status);
+			}
+			
+			document.add(bookingTable);
+			
+			document.add(new Paragraph("Total Cost", textFont));
+			double tax = Double.parseDouble(request.getParameter("tax"));
+			
+			PdfPTable costTable = new PdfPTable(5);
+
+			costTable.setWidthPercentage(100);
+			costTable.setSpacingBefore(10f);
+			costTable.setSpacingAfter(20f);
+
+			costTable.addCell(new Paragraph("Price per Night", textFont));
+			costTable.addCell(new Paragraph("Total Days", textFont));
+			costTable.addCell(new Paragraph("Price", textFont));
+			costTable.addCell(new Paragraph("Tax " + (tax * 100) + "%", textFont));
+			costTable.addCell(new Paragraph("Total Cost", textFont));
+			
+
+			costTable.addCell("$" + roomTypes.get(0).getDailyPrice());
+			
+			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(bookingToPrint.getBookingDateStart()), 
+					LocalDate.parse(bookingToPrint.getBookindDateEnd()));
+
+			if (noOfDaysBetween == 0) {
+				noOfDaysBetween = 1;
+			}
+
+			double totalCost = noOfDaysBetween * roomTypes.get(0).getDailyPrice();
+			
+			costTable.addCell("" + noOfDaysBetween);
+			costTable.addCell("$" + totalCost);
+			costTable.addCell("$" + Math.round(totalCost * tax * 100.0)/100.0);
+			costTable.addCell("$" + Math.round(totalCost * (1 + tax)*100.0)/100.0);
+ 
+			document.add(costTable);
+			
+			Paragraph date = new Paragraph("Date: " + d.get(Calendar.YEAR) + "-" +
+					d.get(Calendar.MONTH) + "-" + d.get(Calendar.DAY_OF_MONTH), textFont);
+			
+			Paragraph managSign = new Paragraph("Manager", textFont);
+			Paragraph custSign = new Paragraph(customer.getfName() + " " + customer.getlName(), textFont);
+			
+			Chunk signField = new Chunk("  X  ____________________");
+			
+			document.add(date);
+			document.add(managSign);
+			document.add(signField);
+			document.add(custSign);
+			document.add(signField);
+			
+			document.close();
+			writing.close();
+			
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+		
+		model.addAttribute("message", "Created Invoice for Booking #" + bookingToPrint.getBookingId() + " and added to 'Invoice' folder.");
+		setDropdownLists(model);
+		List<Booking> bookings = bookingDAOImp.getAllBookings();
+		model.addAttribute("bookings", bookings);
+		return "/bookingManagement";
+	}
+
+	/**
+	 * Sets dropdown lists for customers, rooms, and booking status
+	 * @param model
+	 */
 	public void setDropdownLists(Model model) {
 
 		List<Customer> custormersList = customerDAOImp.getAllCustomers();
@@ -378,7 +590,11 @@ public class BookingController {
 
 		List<String> roomStatus = Arrays.asList("booked", "paid", "checked-in", "checked-out");
 		model.addAttribute("roomStatus", roomStatus);
-
+		
+		String[][] arr = {{"AB", "0.05"},{"BC", "0.12"},{"MB", "0.12"},{"NB", "0.15"},{"NL", "0.15"},{"NT", "0.05"},
+								{"NS", "0.15"},{"NU", "0.05"},{"ON", "0.13"},{"PE", "0.15"},{"QC", "0.14975"},
+								{"SK", "0.11"},{"YT", "0.05"}};
+		model.addAttribute("taxesList", arr);
 	}
 
 }

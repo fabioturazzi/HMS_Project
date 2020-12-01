@@ -228,7 +228,7 @@ public class RoomSearchBookingController {
 		} else {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 
-			session.setAttribute("message", "Search filters applied for " + searchedRoomType.getCapacity() + " guest(s) on dates: " + searchedRoomType.getStartDateFormControl() + " to " + searchedRoomType.getEndDateFormControl());
+			session.setAttribute("message", "Search filters applied for " + searchedRoomType.getCapacity() + " people on dates: " + searchedRoomType.getStartDateFormControl() + " to " + searchedRoomType.getEndDateFormControl());
 		}
 
 		/*
