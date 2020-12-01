@@ -52,7 +52,7 @@ public class StaffController {
 		List<Staff> staffs = staffDAOImp.getAllStaffs();
 		model.addAttribute("staffList", staffs);
 
-		model.addAttribute("message", "Deleted Staff: " + id);
+		model.addAttribute("warning", "Deleted Staff: " + id);
 
 		return "staffManagement";
 	}

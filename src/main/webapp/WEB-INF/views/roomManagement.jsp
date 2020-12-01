@@ -94,6 +94,9 @@
 		<c:if test="${ message != null }">
 			<div class="alert alert-success" role="alert">${message}</div>
 		</c:if>
+		<c:if test="${ warning != null }">
+			<div class="alert alert-warning" role="alert">${warning}</div>
+		</c:if>
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">

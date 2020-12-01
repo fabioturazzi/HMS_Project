@@ -1,4 +1,4 @@
-package com.csis3275;
+package com.csis3275.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 

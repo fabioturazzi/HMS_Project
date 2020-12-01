@@ -100,7 +100,7 @@ public class CustomerController {
 		List<Customer> customers = customerDAOImp.getAllCustomers();
 		model.addAttribute("customerList", customers);
 
-		model.addAttribute("message", "Deleted Customer: " + id);
+		model.addAttribute("warning", "Deleted Customer: " + id);
 
 		return "customerManagement";
 	}
