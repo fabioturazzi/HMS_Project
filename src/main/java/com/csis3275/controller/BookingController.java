@@ -1,8 +1,10 @@
 package com.csis3275.controller;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -71,6 +73,7 @@ public class BookingController {
 
 	/**
 	 * Get method to Show all bookings
+	 * 
 	 * @param session
 	 * @param model
 	 * @return booking management page (list of all bookings)
@@ -92,9 +95,10 @@ public class BookingController {
 
 		return "bookingManagement";
 	}
-	
+
 	/**
 	 * Get method to Delete booking
+	 * 
 	 * @param id
 	 * @param session
 	 * @param model
@@ -125,6 +129,7 @@ public class BookingController {
 
 	/**
 	 * Post Method to create a new booking
+	 * 
 	 * @param createBooking
 	 * @param request
 	 * @param session
@@ -236,6 +241,7 @@ public class BookingController {
 
 	/**
 	 * Get method to display booking to edit
+	 * 
 	 * @param id
 	 * @param session
 	 * @param request
@@ -249,32 +255,6 @@ public class BookingController {
 		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
-
-//		if (request.getQueryString().toString() != null) {
-//
-//			String[] linkParts = request.getQueryString().toString().split("=");
-//
-//			if (linkParts.length > 1) {
-//				String msgPart = linkParts[linkParts.length - 1].toString();
-//
-//				try {
-//					
-//				String[] msgParts = msgPart.split("+");
-//				for (int i = 1; i <= msgParts.length - 1; i++) {
-//					System.out.println(msgParts[i]);
-//				}
-//				} catch (Exception ex) {
-//					System.out.println(ex.getMessage());
-//				}
-//
-//			}
-//
-//		}
-//
-//		if (model.getAttribute("errorMessage") != null) {
-//			System.out.println(request.getRequestURI());
-//			System.out.println(session.getAttribute("errorMessage") + model.getAttribute("errorMessage").toString());
-//		}
 
 		Booking bookingToUpdate = bookingDAOImp.getBooking(id);
 		model.addAttribute("booking", bookingToUpdate);
@@ -304,6 +284,7 @@ public class BookingController {
 
 	/**
 	 * Post method to update booking
+	 * 
 	 * @param updatedBooking
 	 * @param request
 	 * @param session
@@ -337,8 +318,6 @@ public class BookingController {
 
 		} else {
 
-			System.out.println("Here");
-
 			updatedBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
 
 			// getting the booked room
@@ -351,7 +330,6 @@ public class BookingController {
 
 			// Checking status and Putting dates if necessary
 			String status = request.getParameter("status");
-			System.out.println(status);
 
 			if (status.equals("paid")) {
 
@@ -419,6 +397,7 @@ public class BookingController {
 
 	/**
 	 * Post method to generate invoice
+	 * 
 	 * @param id
 	 * @param session
 	 * @param request
@@ -437,71 +416,72 @@ public class BookingController {
 		try {
 
 			List<RoomType> roomTypes = roomDAOImpl.getRoomType(bookingToPrint.getRoomType());
-			
+
 			Document document = new Document();
-			PdfWriter writing = PdfWriter.getInstance(document, new FileOutputStream("invoices/invoice_booking_" + id + ".pdf"));
+			PdfWriter writing = PdfWriter.getInstance(document,
+					new FileOutputStream("invoices/invoice_booking_" + id + ".pdf"));
 
 			Calendar d = Calendar.getInstance();
 			d.get(Calendar.YEAR);
-			
+
 			document.open();
-			
+
 			Font headerFont = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
 			Font textFont = FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK);
-			
+
 			document.add(new Paragraph("Hackermen Hotel Management System", headerFont));
 			document.add(new Paragraph(" ", textFont));
-			
+
 			document.add(new Paragraph("Invoice HHMS #" + id + "/" + bookingToPrint.getDateOfCreation(), headerFont));
 			document.add(new Paragraph(" ", textFont));
 			document.add(new Paragraph("Customer Information", textFont));
-			
+
 			PdfPTable table = new PdfPTable(2);
 
 			table.setWidthPercentage(100);
 			table.setSpacingBefore(15f);
 			table.setSpacingAfter(10f);
-			
-		    table.addCell("Name: ");
+
+			table.addCell("Name: ");
 			table.addCell(customer.getfName() + " " + customer.getlName());
 
-		    table.addCell("Address: ");
+			table.addCell("Address: ");
 			table.addCell(customer.getAddress());
-			
+
 			table.addCell("Email: ");
 			table.addCell(customer.getEmail());
-			
+
 			table.addCell("Phone: ");
 			table.addCell(customer.getPhoneNumber());
-			
+
 			document.add(table);
-			
+
 			document.add(new Paragraph("Booking Information", textFont));
-			
+
 			PdfPTable bookingTable = new PdfPTable(2);
 
 			bookingTable.setWidthPercentage(100);
 			bookingTable.setSpacingBefore(10f);
 			bookingTable.setSpacingAfter(10f);
-			
+
 			bookingTable.addCell("ID: ");
 			bookingTable.addCell("#" + bookingToPrint.getBookingId());
-			
+
 			bookingTable.addCell("Booking Room Type: ");
 			bookingTable.addCell(bookingToPrint.getRoomType());
-			
+
 			bookingTable.addCell("Room Number: ");
 			bookingTable.addCell("" + bookingToPrint.getRoomNumber());
-			
+
 			bookingTable.addCell("Start Date: ");
 			bookingTable.addCell(bookingToPrint.getBookingDateStart());
-			
+
 			bookingTable.addCell("End Date: ");
 			bookingTable.addCell(bookingToPrint.getBookindDateEnd());
-			
+
 			bookingTable.addCell("Paid: ");
 			String status;
-			
+
 			if (bookingToPrint.isPaid()) {
 				status = "YES";
 				bookingTable.addCell(status);
@@ -511,12 +491,12 @@ public class BookingController {
 				status = "NO";
 				bookingTable.addCell(status);
 			}
-			
+
 			document.add(bookingTable);
-			
+
 			document.add(new Paragraph("Total Cost", textFont));
 			double tax = Double.parseDouble(request.getParameter("tax"));
-			
+
 			PdfPTable costTable = new PdfPTable(5);
 
 			costTable.setWidthPercentage(100);
@@ -528,11 +508,10 @@ public class BookingController {
 			costTable.addCell(new Paragraph("Price", textFont));
 			costTable.addCell(new Paragraph("Tax " + (tax * 100) + "%", textFont));
 			costTable.addCell(new Paragraph("Total Cost", textFont));
-			
 
 			costTable.addCell("$" + roomTypes.get(0).getDailyPrice());
-			
-			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(bookingToPrint.getBookingDateStart()), 
+
+			long noOfDaysBetween = ChronoUnit.DAYS.between(LocalDate.parse(bookingToPrint.getBookingDateStart()),
 					LocalDate.parse(bookingToPrint.getBookindDateEnd()));
 
 			if (noOfDaysBetween == 0) {
@@ -540,36 +519,38 @@ public class BookingController {
 			}
 
 			double totalCost = noOfDaysBetween * roomTypes.get(0).getDailyPrice();
-			
+
 			costTable.addCell("" + noOfDaysBetween);
 			costTable.addCell("$" + totalCost);
-			costTable.addCell("$" + Math.round(totalCost * tax * 100.0)/100.0);
-			costTable.addCell("$" + Math.round(totalCost * (1 + tax)*100.0)/100.0);
- 
+			costTable.addCell("$" + Math.round(totalCost * tax * 100.0) / 100.0);
+			costTable.addCell("$" + Math.round(totalCost * (1 + tax) * 100.0) / 100.0);
+
 			document.add(costTable);
-			
-			Paragraph date = new Paragraph("Date: " + d.get(Calendar.YEAR) + "-" +
-					d.get(Calendar.MONTH) + "-" + d.get(Calendar.DAY_OF_MONTH), textFont);
-			
+
+			Paragraph date = new Paragraph(
+					"Date: " + d.get(Calendar.YEAR) + "-" + d.get(Calendar.MONTH) + "-" + d.get(Calendar.DAY_OF_MONTH),
+					textFont);
+
 			Paragraph managSign = new Paragraph("Manager", textFont);
 			Paragraph custSign = new Paragraph(customer.getfName() + " " + customer.getlName(), textFont);
-			
+
 			Chunk signField = new Chunk("  X  ____________________");
-			
+
 			document.add(date);
 			document.add(managSign);
 			document.add(signField);
 			document.add(custSign);
 			document.add(signField);
-			
+
 			document.close();
 			writing.close();
-			
+
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		
-		model.addAttribute("message", "Created Invoice for Booking #" + bookingToPrint.getBookingId() + " and added to 'Invoice' folder.");
+
+		model.addAttribute("message",
+				"Created Invoice for Booking #" + bookingToPrint.getBookingId() + " and added to 'Invoice' folder.");
 		setDropdownLists(model);
 		List<Booking> bookings = bookingDAOImp.getAllBookings();
 		model.addAttribute("bookings", bookings);
@@ -578,6 +559,7 @@ public class BookingController {
 
 	/**
 	 * Sets dropdown lists for customers, rooms, and booking status
+	 * 
 	 * @param model
 	 */
 	public void setDropdownLists(Model model) {
@@ -590,10 +572,10 @@ public class BookingController {
 
 		List<String> roomStatus = Arrays.asList("booked", "paid", "checked-in", "checked-out");
 		model.addAttribute("roomStatus", roomStatus);
-		
-		String[][] arr = {{"AB", "0.05"},{"BC", "0.12"},{"MB", "0.12"},{"NB", "0.15"},{"NL", "0.15"},{"NT", "0.05"},
-								{"NS", "0.15"},{"NU", "0.05"},{"ON", "0.13"},{"PE", "0.15"},{"QC", "0.14975"},
-								{"SK", "0.11"},{"YT", "0.05"}};
+
+		String[][] arr = { { "AB", "0.05" }, { "BC", "0.12" }, { "MB", "0.12" }, { "NB", "0.15" }, { "NL", "0.15" },
+				{ "NT", "0.05" }, { "NS", "0.15" }, { "NU", "0.05" }, { "ON", "0.13" }, { "PE", "0.15" },
+				{ "QC", "0.14975" }, { "SK", "0.11" }, { "YT", "0.05" } };
 		model.addAttribute("taxesList", arr);
 	}
 
