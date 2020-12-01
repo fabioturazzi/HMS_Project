@@ -367,7 +367,7 @@ public class RoomSearchBookingController {
 		// List all bookings of the user
 		List<Booking> myBookings = bookingDAOImp.getBookingByUsername(customerData.get(0).getUsername());
 
-		session.setAttribute("message", "Booking successfull");
+		session.setAttribute("message", "Booking created successfully");
 
 		return "redirect:/seeBookingCustomer";
 	}
@@ -395,11 +395,34 @@ public class RoomSearchBookingController {
 		List<Booking> myBookings = bookingDAOImp.getBookingByUsername(customerData.get(0).getUsername());
 
 		// Add attributes
-		session.setAttribute("message", "Delete booking successfull");
+		session.setAttribute("message", "Deleted booking successfully");
 
 		return "redirect:/seeBookingCustomer";
 
 	}
+	
+	/**
+	 * Delete booking Confirmation
+	 * @param bookingId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/deleteBookingConfirmation")
+	public String confirmationDeleteBooking(@RequestParam(required = true) int bookingId, HttpSession session, Model model) {
+		
+		// Check if user is logged in and if it is a Customer
+		if (!user.hasValidSession(session))
+			return "denied";
+		else if (!session.getAttribute("userType").equals("Customer"))
+			return "denied";
+		
+		Booking bookingToDelete = bookingDAOImp.getBooking(bookingId);
+		model.addAttribute("booking", bookingToDelete);
+		
+		return "deleteBooking";
+	}
+	
 
 	/*@param: booking, session and Model. GET to list all bookings of a user
 	 */

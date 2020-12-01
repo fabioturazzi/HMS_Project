@@ -22,7 +22,16 @@
 		<h1 id="pageTitle">My Bookings</h1>
 		<hr />
 		<c:if test="${ message != null }">
-			<div class="alert alert-success" role="alert">${message}</div>
+			<c:set var="str" value="${message}" />
+			<jsp:useBean id="str" type="java.lang.String" />
+			<c:if
+				test='<%=str.equalsIgnoreCase("Booking created successfully")%>'>
+				<div class="alert alert-success" role="alert">${message}</div>
+			</c:if>
+			<c:if
+				test='<%=str.equalsIgnoreCase("Deleted booking successfully")%>'>
+				<div class="alert alert-warning" role="alert">${message}</div>
+			</c:if>
 		</c:if>
 		<table class="table table-striped table-bordered">
 
@@ -40,6 +49,7 @@
 				<td hidden>Check-out Date</td>
 				<td hidden>Payment Date</td>
 				<td>Total Costs</td>
+				<td>Delete</td>
 			</tr>
 			<c:forEach var="booking" items="${bookings}">
 				<tr class="dataRows">
@@ -56,53 +66,13 @@
 					<td hidden>${booking.checkoutDate}</td>
 					<td hidden>${booking.paymentDate}</td>
 					<td>$${booking.totalCost}</td>
+					<td><a class="btn btn-primary submit-delete"
+						href="${pageContext.request.contextPath}/deleteBookingConfirmation/?bookingId=${booking.bookingId}">Delete</a></td>
+					<!-- <td><a class="btn btn-primary submit-delete"
+						href="${pageContext.request.contextPath}/deleteBookingCustomer/?bookingId=${booking.bookingId}">Delete</a></td> -->
 				</tr>
 			</c:forEach>
 		</table>
-
-		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary" data-toggle="modal"
-			data-target="#launchModal">Delete Booking</button>
-
-		<!-- Modal -->
-		<div class="modal fade" id="launchModal" tabindex="-1" role="dialog"
-			aria-labelledby="deleteModal" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title" id="exampleModalLabel">Do you want to delete your bookings?</h3>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<table class="table table-striped table-bordered">
-
-							<tr class="dataHeader">
-								<td>Booking Id</td>
-								<td>Start Date</td>
-								<td>End Date</td>
-								<td>Delete Booking</td>
-							</tr>
-							<c:forEach var="booking" items="${bookings}">
-								<tr class="dataRows">
-									<td>${booking.bookingId}</td>
-									<td>${booking.bookingDateStart}</td>
-									<td>${booking.bookindDateEnd}</td>
-									<td><a class="btn btn-primary submit-delete"
-										href="${pageContext.request.contextPath}/deleteBookingCustomer/?bookingId=${booking.bookingId}">Delete</a></td>
-								</tr>
-							</c:forEach>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary submit-delete"
-							data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </body>
 </html>
