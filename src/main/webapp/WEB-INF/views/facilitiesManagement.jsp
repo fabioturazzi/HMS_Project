@@ -74,8 +74,22 @@
 		</div>
 
 		<c:if test="${ message != null }">
-			<div class="alert alert-success" role="alert">${message}</div>
+			<c:set var="str" value="${message}" />
+			<jsp:useBean id="str" type="java.lang.String" />
+			<c:if
+				test='<%=str.equalsIgnoreCase("Facility created successfully")%>'>
+				<div class="alert alert-success" role="alert">${message}</div>
+			</c:if>
+			<c:if
+				test='<%=str.equalsIgnoreCase("Facility deleted successfully")%>'>
+				<div class="alert alert-warning" role="alert">${message}</div>
+			</c:if>
+			<c:if
+				test='<%=str.equalsIgnoreCase("Facility name already exists. Please choose a different one")%>'>
+				<div class="alert alert-danger" role="alert">${message}</div>
+			</c:if>
 		</c:if>
+
 		<table class="table table-striped table-bordered">
 
 			<tr class="dataHeader">
