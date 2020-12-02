@@ -33,7 +33,7 @@
 				<label for="roomNumber" class="col-md-3 control-label">Room
 					Number</label>
 				<div class="col-md-9">
-					<select name="room">
+					<select name="room" class="form-control">
 						<c:forEach items="${roomList}" var="room">
 							<option value="${room.roomNumber }">${room.roomNumber }
 								Type: ${room.roomType }</option>
@@ -46,7 +46,7 @@
 				<label for="customerId" class="col-md-3 control-label">Customer
 					Username</label>
 				<div class="col-md-9">
-					<select name="customer">
+					<select name="customer" class="form-control">
 						<c:forEach items="${custormersList}" var="customer">
 							<option value="${customer.username}">${customer.username}</option>
 						</c:forEach>
@@ -112,6 +112,10 @@
 
 		<c:if test="${ message != null }">
 			<div class="alert alert-success" role="alert">${message}</div>
+		</c:if>
+		
+		<c:if test="${ warning != null }">
+			<div class="alert alert-warning" role="alert">${warning}</div>
 		</c:if>
 
 		<table class="table table-striped table-bordered">

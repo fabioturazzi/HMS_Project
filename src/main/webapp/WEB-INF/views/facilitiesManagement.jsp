@@ -81,6 +81,10 @@
 				<div class="alert alert-success" role="alert">${message}</div>
 			</c:if>
 			<c:if
+				test='<%=str.equalsIgnoreCase("Facility updated successfully")%>'>
+				<div class="alert alert-success" role="alert">${message}</div>
+			</c:if>
+			<c:if
 				test='<%=str.equalsIgnoreCase("Facility deleted successfully")%>'>
 				<div class="alert alert-warning" role="alert">${message}</div>
 			</c:if>
