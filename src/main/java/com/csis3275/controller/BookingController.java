@@ -118,7 +118,7 @@ public class BookingController {
 		// set dropdown lists
 		setDropdownLists(model);
 
-		model.addAttribute("message", "Deleted Booking: " + id);
+		model.addAttribute("warning", "Deleted Booking: " + id);
 
 		return "bookingManagement";
 	}
@@ -249,32 +249,6 @@ public class BookingController {
 		// checking if user has a valid session hash and access
 		if (!user.hasValidSession(session) || session.getAttribute("manage").equals("no"))
 			return "denied";
-
-//		if (request.getQueryString().toString() != null) {
-//
-//			String[] linkParts = request.getQueryString().toString().split("=");
-//
-//			if (linkParts.length > 1) {
-//				String msgPart = linkParts[linkParts.length - 1].toString();
-//
-//				try {
-//					
-//				String[] msgParts = msgPart.split("+");
-//				for (int i = 1; i <= msgParts.length - 1; i++) {
-//					System.out.println(msgParts[i]);
-//				}
-//				} catch (Exception ex) {
-//					System.out.println(ex.getMessage());
-//				}
-//
-//			}
-//
-//		}
-//
-//		if (model.getAttribute("errorMessage") != null) {
-//			System.out.println(request.getRequestURI());
-//			System.out.println(session.getAttribute("errorMessage") + model.getAttribute("errorMessage").toString());
-//		}
 
 		Booking bookingToUpdate = bookingDAOImp.getBooking(id);
 		model.addAttribute("booking", bookingToUpdate);
