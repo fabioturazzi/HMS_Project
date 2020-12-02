@@ -47,9 +47,7 @@ public class StaffFacilitiesBlackBoxTest {
 		driver.findElement(By.id("passwordForm")).sendKeys("admin");
 		driver.findElement(By.cssSelector(".form-group:nth-child(5) > .col-md-offset-3")).click();
 		driver.findElement(By.cssSelector(".btn")).click();
-		driver.findElement(By.id("username")).sendKeys("doeJohn");
-		driver.findElement(By.id("password")).sendKeys("passJohnDoe");
-		driver.findElement(By.cssSelector(".roomNav4 > a")).click();
+		driver.findElement(By.cssSelector(".facilityNav1 > a")).click();
 		driver.findElement(By.id("facilityName")).click();
 		driver.findElement(By.id("facilityName")).sendKeys("TESTINGROOM");
 		driver.findElement(By.id("facilityType")).click();

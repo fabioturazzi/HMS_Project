@@ -52,9 +52,7 @@ public class FacilitiesController {
 
 		// Add attributes to the model
 		model.addAttribute("facilitiesList", facilitiesList);
-		
-		//Removing session attribute
-		session.removeAttribute("message");
+
 
 		return "facilitiesManagement";
 	}
@@ -93,7 +91,7 @@ public class FacilitiesController {
 		if (hasFacilityNameAlready(facilityName)) {
 			
 			// Set attribute on the session
-			session.setAttribute("message", "Facility name already exists. Please choose a different one");
+			model.addAttribute("message", "Facility name already exists. Please choose a different one");
 		
 		} else {
 			
@@ -101,7 +99,7 @@ public class FacilitiesController {
 			facilityDAOimp.createFacility(newFacility);
 			
 			// Set attribute on the session
-			session.setAttribute("message", "Facility created successfully");
+			model.addAttribute("message", "Facility created successfully");
 		}
 
 		// Get all Facilities entries and store them in a list
@@ -152,9 +150,7 @@ public class FacilitiesController {
 
 		// Add attributes to the model
 		model.addAttribute("facilitiesList", facilitiesList);
-
-		// Add attributes to session
-		session.setAttribute("warning", "Facility deleted successfully");
+		model.addAttribute("message", "Facility deleted successfully");
 
 		return "facilitiesManagement";
 
@@ -186,10 +182,7 @@ public class FacilitiesController {
 		// Add attributes to the model
 		model.addAttribute("facilitiesList", facilitiesList);
 		model.addAttribute("facility", facility);
-
-		// Managing sessions messages
-		session.setAttribute("update", "Updating '" + facility.getFacilityName() + "' facility resource");
-		session.removeAttribute("message");
+		model.addAttribute("update", "Updating '" + facility.getFacilityName() + "' facility resource");
 
 		return "facilitiesManagementEdit";
 
@@ -221,9 +214,7 @@ public class FacilitiesController {
 
 		// Add attributes to the model
 		model.addAttribute("facilitiesList", facilitiesList);
-
-		// Set attribute on the session
-		session.setAttribute("message", "Facility updated successfully");
+		model.addAttribute("message", "Facility updated successfully");
 
 		return "facilitiesManagement";
 	}

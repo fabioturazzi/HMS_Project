@@ -55,6 +55,7 @@ public class InvoiceGenerationTest {
 		driver.findElement(By.cssSelector(".btn")).click();
 		driver.findElement(By.cssSelector(".roomNav3 > a")).click();
 		driver.findElement(By.linkText("Edit")).click();
+		String id = driver.findElement(By.id("bid")).getAttribute("value");
 		driver.findElement(By.name("tax")).click();
 		{
 			WebElement dropdown = driver.findElement(By.name("tax"));
@@ -63,7 +64,8 @@ public class InvoiceGenerationTest {
 		driver.findElement(By.name("tax")).click();
 		driver.findElement(By.cssSelector(".btn-info")).click();
 		driver.findElement(By.xpath("//div[2]/div[2]")).click();
-		File file = new File("invoices\\invoice_booking_6.pdf");
+		File file = new File("invoices\\invoice_booking_" + id + ".pdf");
 		assertTrue(file.exists());
 	}
+
 }
