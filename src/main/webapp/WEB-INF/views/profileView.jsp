@@ -55,7 +55,7 @@
 				<h4 class="alert alert-success" role="alert">${changePassMessageProfile}</h4>
 			</c:if>
 
-			<button type="submit" class="btn btn-primary" name="action"
+			<button id="editBtn" type="submit" class="btn btn-primary" name="action"
 				value="edit" data-toggle="modal" data-target="#staticBackdrop"
 				onclick="">Edit</button>
 
@@ -233,7 +233,7 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary" name="action"
+							<button id="saveEdit" type="submit" class="btn btn-primary" name="action"
 								value="saveChanges">Save</button>
 						</div>
 					</div>
