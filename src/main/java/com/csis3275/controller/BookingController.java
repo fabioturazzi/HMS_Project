@@ -311,8 +311,6 @@ public class BookingController {
 
 		} else {
 
-			System.out.println("Here");
-
 			updatedBooking.setRoomNumber(Integer.parseInt(request.getParameter("room")));
 
 			// getting the booked room
@@ -325,7 +323,6 @@ public class BookingController {
 
 			// Checking status and Putting dates if necessary
 			String status = request.getParameter("status");
-			System.out.println(status);
 
 			if (status.equals("paid")) {
 
