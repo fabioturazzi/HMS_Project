@@ -80,8 +80,8 @@
 					<div class="form-group">
 						<div class="col-xs-6">
 							<h4>First name</h4>
-							<input type="text" class="form-control" value="${ user.fName }"
-								disabled>
+							<input type="text" id="profFName" class="form-control" value="${ user.fName }"
+								readonly>
 						</div>
 					</div>
 					<div class="form-group">
@@ -180,7 +180,8 @@
 							<div class="col-xs-6">
 								<h4>First name</h4>
 								<form:input path="fName" type="text" class="form-control"
-									id="firstName" value="${user.fName }" min="2" />
+									id="firstName" min="2" value="" />
+									<!--value="${user.fName }" -->
 							</div>
 						</div>
 

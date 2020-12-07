@@ -67,11 +67,12 @@ public class ViewEditProfileTest {
 		driver.findElement(By.cssSelector(".btn")).click();
 		driver.findElement(By.linkText("My Profile")).click();
 		driver.findElement(By.id("editBtn")).click();
-		driver.findElement(By.cssSelector(".modal-content")).findElement(By.name("fName")).sendKeys("Fuuuu");
-//		driver.findElement(By.name("fName"));
-//		driver.findElement(By.name("fName")).sendKeys("Johnny");
-//		driver.findElement(By.id("saveEdit")).click();
-//		driver.findElement(By.id("editBtn")).click();
-//		driver.findElement(By.name("fName")).click();
+		driver.findElement(By.id("firstName")).getAttribute("value");
+		driver.findElement(By.id("firstName")).click();
+		driver.findElement(By.id("firstName")).sendKeys("ny");
+		driver.findElement(By.id("firstName")).click();
+		driver.findElement(By.id("saveEdit")).click();
+		driver.findElement(By.id("profFName")).getAttribute("value"); 
+		assertEquals("Johnny", driver.findElement(By.id("profFName")).getAttribute("value"));
 	}
 }

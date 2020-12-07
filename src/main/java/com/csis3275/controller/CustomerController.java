@@ -241,6 +241,11 @@ public class CustomerController {
 		Customer customer = customerDAOImp.getCustomerById(updatedUser.getId());
 		model.addAttribute("user", customer);
 		session.setAttribute("username", customer.getUsername());
+		
+		String username = customer.getUsername().toString();
+		
+		List<Booking> userBookings = bookingDAOImpl.getBookingByUsername(username);
+		model.addAttribute("numOfBookings", userBookings.size());
 
 		return "profileView";
 	}
