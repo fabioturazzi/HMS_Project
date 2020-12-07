@@ -7,6 +7,8 @@ DROP TABLE staffs IF EXISTS;
 DROP TABLE roomTypes IF EXISTS;
 DROP TABLE rooms IF EXISTS;
 DROP TABLE bookings IF EXISTS;
+DROP TABLE facilityBookings IF EXISTS;
+DROP TABLE facilities IF EXISTS;
 
 CREATE TABLE customers(
  id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -29,7 +31,7 @@ VALUES ('John', 'Doe', 'jdoe@email', 'Sample Street 106', 'cGFzc0pvaG5Eb2U=', '1
 INSERT INTO customers(fName, lName, email, address, password, phoneNumber, username, userType, registrationDate, profileUpdated, passQuestion, passAnswer) 
 VALUES ('Peter', 'Parker', 'notspiderman@email', 'Sample Av 2000', 'cGFzc0pvaG5Eb2U=', '012444123', 'notSpiderMan', 'Customer', '2020-10-17', '2020-10-17', 'My job?', 'swing webs');
 INSERT INTO customers(fName, lName, email, address, password, phoneNumber, username, userType, registrationDate, profileUpdated, passQuestion, passAnswer) 
-VALUES ('Tonald', 'Drump', 'tonald@email', 'Whitest House', 'cGFzc0pvaG5Eb2U=', '012444444', 'ih8mexicans', 'Customer', '2020-10-17', '2020-10-17', 'Sq root of 4?', 'No idea');
+VALUES ('Tonald', 'Drump', 'tonald@email', 'Whitest House', 'cGFzc0pvaG5Eb2U=', '012444444', 'letsbuildawall', 'Customer', '2020-10-17', '2020-10-17', 'Sq root of 4?', 'No idea');
 
 
 
@@ -52,17 +54,19 @@ VALUES ('Admin', 'Admin', 'YWRtaW4=', 'admin', 'Staff', 'System Administrator', 
 CREATE TABLE roomTypes (
  roomTypeId INTEGER PRIMARY KEY AUTO_INCREMENT,
  roomType VARCHAR(30),
- photos VARCHAR(60),
+ photos VARCHAR(max),
  dailyPrice DOUBLE,
  amenities VARCHAR(100),
- capacity INTEGER
+ capacity INTEGER,
+ startDateFormControl DATE,
+ endDateFormControl DATE
  );
 
 INSERT INTO roomTypes(roomType, photos, dailyPrice, amenities, capacity)
-VALUES ('Premium', '[photo1,photo2,photo3]', 150, '[A/C, Room Service, Bath tub]', 4);
+VALUES ('Premium', '[images/Premium1.jpg, images/Premium2.jpg]', 150, '[Air Conditioner, Room Service, Bath Tub]', 4);
 
-INSERT INTO roomTypes(roomType, photos, dailyPrice, amenities)
-VALUES ('Regular', '[photo4,photo5,photo6]', 100, '[A/C, Room Service]', 2);
+INSERT INTO roomTypes(roomType, photos, dailyPrice, amenities, capacity)
+VALUES ('Regular', '[images/Regular1.jpg]', 100, '[Air Conditioner, Room Service]', 2);
 
 
 CREATE TABLE rooms (
@@ -110,14 +114,48 @@ VALUES (301, 'doeJohn', 2, 'checked-out', true, '2020-10-17', '2020-10-25', '202
 
 INSERT INTO bookings(roomNumber, customerUsername, numbOfPeople, status, paid, bookingDateStart, bookindDateEnd, checkinDate,
 checkoutDate, paymentDate, dateOfCreation, totalCost, roomType)
-VALUES (101, 'ih8mexicans', 4, 'booked', false, '2020-11-30', '2020-12-12', NULL, NULL, NULL, 
+VALUES (101, 'letsbuildawall', 4, 'booked', false, '2020-11-30', '2020-12-12', NULL, NULL, NULL, 
 '2020-10-12', 330.0, 'Regular');	
 
+CREATE TABLE facilityBookings (
+ facilityBookingId INTEGER PRIMARY KEY AUTO_INCREMENT,
+ facilityName VARCHAR(50),
+ numberOfPeople INTEGER,
+ date DATE,
+ timeStart VARCHAR(20),
+ timeEnd VARCHAR(20),
+ customerUsername VARCHAR(50),
+ correspBookingId INTEGER
+ );
+
+INSERT INTO facilityBookings(facilityName, numberOfPeople, date, timeStart, timeEnd, customerUsername, correspBookingId)
+VALUES ('LA CUISINE', 3, '2020-10-23','22:00', '23:00', 'doeJohn', 1);
+
+INSERT INTO facilityBookings(facilityName, numberOfPeople, date, timeStart, timeEnd, customerUsername, correspBookingId)
+VALUES ('LA CUISINE', 6, '2020-10-24','22:00', '23:00', 'doeJohn', 1);
+
+INSERT INTO facilityBookings(facilityName, numberOfPeople, date, timeStart, timeEnd, customerUsername, correspBookingId)
+VALUES ('PACIFIC ROOM', 4, '2020-10-23','12:00', '13:00', 'doeJohn', 1);
+
+CREATE TABLE facilities (
+ facilityId INTEGER PRIMARY KEY AUTO_INCREMENT,
+ facilityName VARCHAR(30),
+ facilityType VARCHAR(30),
+ capacity INTEGER
+ );
+
+INSERT INTO facilities (facilityName, facilityType, capacity) VALUES ('PACIFIC ROOM', 'Meeting Room', 15);
+INSERT INTO facilities (facilityName, facilityType, capacity) VALUES ('INDIAN ROOM', 'Meeting Room', 18);
+INSERT INTO facilities (facilityName, facilityType, capacity) VALUES ('ATLANTIC ROOM', 'Meeting Room', 10);
+INSERT INTO facilities (facilityName, facilityType, capacity) VALUES ('LA CUISINE', 'Restaurant', 20);
+INSERT INTO facilities (facilityName, facilityType, capacity) VALUES ('THE KITCHEN', 'Restaurant', 100);
 
 SELECT * FROM CUSTOMERS;
 SELECT * FROM STAFFS;
 SELECT * FROM ROOMS;
 SELECT * FROM ROOMTYPES;
 SELECT * FROM BOOKINGS;
+SELECT * FROM FACILITYBOOKINGS;
 SELECT BOOKINGID,  ROOMNUMBER, customerUsername, customers.FNAME, customers.LNAME, customers.EMAIL,  customers.PHONENUMBER, STATUS, PAID, BOOKINGDATESTART,  	BOOKINDDATEEND, CHECKINDATE,  CHECKOUTDATE, PAYMENTDATE, DATEOFCREATION, TOTALCOST, ROOMTYPE FROM bookings
 JOIN customers ON bookings.customerUsername = customers.username;
+SELECT * FROM FACILITIES;
