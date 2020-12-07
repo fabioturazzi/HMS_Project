@@ -35,7 +35,7 @@
 				<div class="col-md-9">
 					<select name="room" class="form-control">
 						<c:forEach items="${roomList}" var="room">
-							<option value="${room.roomNumber }">${room.roomNumber }
+							<option id="${room.roomNumber }" value="${room.roomNumber }">${room.roomNumber }
 								Type: ${room.roomType }</option>
 						</c:forEach>
 					</select>
@@ -111,7 +111,7 @@
 
 
 		<c:if test="${ message != null }">
-			<div class="alert alert-success" role="alert">${message}</div>
+			<div class="alert alert-success" role="alert" id="successMessage">${message}</div>
 		</c:if>
 		
 		<c:if test="${ warning != null }">
