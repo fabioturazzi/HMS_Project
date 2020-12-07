@@ -38,7 +38,6 @@ public class SearchRoomsTest {
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
 
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
   }
   @After
   public void tearDown() {
