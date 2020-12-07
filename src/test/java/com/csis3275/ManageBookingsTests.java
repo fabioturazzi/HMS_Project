@@ -42,7 +42,7 @@ public class ManageBookingsTests {
 	public void tearDown() {
 		driver.quit();
 	}
-
+	//Creates a booking and tests if it was created
 	@Test
 	public void createBookingTest() {
 		driver.get("http://localhost:8080/");
@@ -73,6 +73,7 @@ public class ManageBookingsTests {
 		assertEquals("Booking was successfully created!", driver.findElement(By.id("successMessage")).getText());
 	}
 
+	//Deletes a booking
 	@Test
 	public void deletebooking() {
 		driver.get("http://localhost:8080/");
@@ -89,6 +90,7 @@ public class ManageBookingsTests {
 		driver.findElement(By.cssSelector(".alert")).click();
 	}
 
+	//Edits a booking and verifies new information
 	@Test
 	public void editBookingTest() {
 		driver.get("http://localhost:8080/");

@@ -45,6 +45,8 @@ public class CustomerBookingBBTesting {
 		driver.quit();
 	}
 
+	
+	//This test submits a booking and deletes it
 	  @Test
 	  public void booking() {
 	    driver.get("http://localhost:8080/");

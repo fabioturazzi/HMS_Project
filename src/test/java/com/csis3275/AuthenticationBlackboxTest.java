@@ -43,6 +43,7 @@ public class AuthenticationBlackboxTest {
 		driver.quit();
 	}
 
+	//This test logs in with a customer account and attempts to click My Profile section (customers only)
 	@Test
 	public void customerLoginTest() {
 		driver.get("http://localhost:8080/");
@@ -56,7 +57,7 @@ public class AuthenticationBlackboxTest {
 		driver.findElement(By.linkText("My Profile")).click();
 		driver.findElement(By.linkText("Logout")).click();
 	}
-	
+	//This test logs in with a staff account
 	@Test
 	public void staffLoginTest() {
 		driver.get("http://localhost:8080/");

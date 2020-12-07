@@ -38,6 +38,8 @@ public class ResetPasswordTestTest {
   public void tearDown() {
     driver.quit();
   }
+  
+  //Resets a password and attempts to login with new password, asserts that login was succesfull
   @Test
   public void resetPasswordTest() {
     driver.get("http://localhost:8080/");

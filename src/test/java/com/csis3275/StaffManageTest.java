@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-//This test edits information from a staff and verifies if the new information was updated
+
 public class StaffManageTest {
   private WebDriver driver;
   private Map<String, Object> vars;
@@ -43,6 +43,8 @@ public class StaffManageTest {
   public void tearDown() {
     driver.quit();
   }
+  
+//This test edits information from a staff and verifies if the new information was updated
   @Test
   public void staffManage() {
     driver.get("http://localhost:8080/");

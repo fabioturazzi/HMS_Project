@@ -35,6 +35,7 @@ public class StaffFacilitiesBlackBoxTest {
 		driver.quit();
 	}
 
+	//This test adds a facility and checks if new entry was added
 	@Test
 	public void facilitiesBlackboxTesting() {
 		driver.get("http://localhost:8080/");

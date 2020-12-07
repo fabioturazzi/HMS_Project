@@ -43,6 +43,7 @@ public class ViewEditProfileTest {
 		driver.quit();
 	}
 
+	//Checks if user can access his profile
 	@Test
 	public void viewProfile() {
 		driver.get("http://localhost:8080/");
@@ -56,6 +57,7 @@ public class ViewEditProfileTest {
 		assertEquals("doeJohn", driver.findElement(By.xpath("//h2")).getText());
 	}
 
+	//Edits profile and verify that new information was saved
 	@Test
 	public void editProfile() {
 		driver.get("http://localhost:8080/");

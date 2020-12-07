@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-//This test edits information from a customer and verifies if the new information was updated
+
 
 public class CustomerManageTest {
 	private WebDriver driver;
@@ -48,6 +48,7 @@ public class CustomerManageTest {
 		driver.quit();
 	}
 
+	//This test edits information from a customer and verifies if the new information was updated
 	@Test
 	public void customerManage() {
 		driver.get("http://localhost:8080/");
