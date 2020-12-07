@@ -22,6 +22,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -43,7 +44,7 @@ public class ViewEditProfileTest {
 		driver.quit();
 	}
 
-	//Checks if user can access his profile
+//	Checks if user can access his profile
 	@Test
 	public void viewProfile() {
 		driver.get("http://localhost:8080/");
@@ -51,7 +52,7 @@ public class ViewEditProfileTest {
 		driver.findElement(By.id("usernameForm")).click();
 		driver.findElement(By.id("usernameForm")).sendKeys("doeJohn");
 		driver.findElement(By.id("passwordForm")).click();
-		driver.findElement(By.id("passwordForm")).sendKeys("11111111");
+		driver.findElement(By.id("passwordForm")).sendKeys("passJohnDoe");
 		driver.findElement(By.cssSelector(".btn")).click();
 		driver.findElement(By.linkText("My Profile")).click();
 		assertEquals("doeJohn", driver.findElement(By.xpath("//h2")).getText());
@@ -65,10 +66,11 @@ public class ViewEditProfileTest {
 		driver.findElement(By.id("usernameForm")).click();
 		driver.findElement(By.id("usernameForm")).sendKeys("doeJohn");
 		driver.findElement(By.id("passwordForm")).click();
-		driver.findElement(By.id("passwordForm")).sendKeys("11111111");
+		driver.findElement(By.id("passwordForm")).sendKeys("passJohnDoe");
 		driver.findElement(By.cssSelector(".btn")).click();
 		driver.findElement(By.linkText("My Profile")).click();
 		driver.findElement(By.id("editBtn")).click();
+		driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 		driver.findElement(By.id("firstName")).getAttribute("value");
 		driver.findElement(By.id("firstName")).click();
 		driver.findElement(By.id("firstName")).sendKeys("ny");

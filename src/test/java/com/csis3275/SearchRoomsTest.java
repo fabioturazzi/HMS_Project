@@ -58,8 +58,8 @@ public class SearchRoomsTest {
     ((JavascriptExecutor) driver).executeScript("document.getElementById('startDateFormControl').removeAttribute('readonly');");
     ((JavascriptExecutor) driver).executeScript("document.getElementById('endDateFormControl').removeAttribute('readonly');");
     
-    driver.findElement(By.id("startDateFormControl")).sendKeys("22-12-2020");
-    driver.findElement(By.id("endDateFormControl")).sendKeys("23-12-2020");
+    driver.findElement(By.id("startDateFormControl")).sendKeys("12-11-2020");
+    driver.findElement(By.id("endDateFormControl")).sendKeys("12-12-2020");
     
 //    
     driver.findElement(By.id("submitSearch")).click();

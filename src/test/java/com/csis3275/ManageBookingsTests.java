@@ -102,9 +102,11 @@ public class ManageBookingsTests {
 		driver.findElement(By.id("passwordForm")).sendKeys("admin");
 		driver.findElement(By.cssSelector(".btn")).click();
 		driver.findElement(By.cssSelector(".roomNav3 > a")).click();
-		driver.findElement(By.cssSelector(".dataRows:nth-child(3) > td:nth-child(15) > a")).click();
+		driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[2]/td[15]/a")).click();
+//		driver.findElement(By.cssSelector(".dataRows:nth-child(3) > td:nth-child(15) > a")).click();
 		driver.findElement(By.cssSelector("label:nth-child(2) > input")).click();
 		driver.findElement(By.cssSelector(".btn-primary")).click();
-		assertEquals("true", driver.findElement(By.cssSelector(".dataRows:nth-child(3) > td:nth-child(7)")).getText());
+//		assertEquals("true", driver.findElement(By.cssSelector(".dataRows:nth-child(3) > td:nth-child(7)")).getText());
+		assertEquals("true", driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[2]/td[7]")).getText());
 	}
 }

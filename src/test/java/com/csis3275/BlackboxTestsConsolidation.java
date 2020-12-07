@@ -243,8 +243,8 @@ public class BlackboxTestsConsolidation {
 		((JavascriptExecutor) driver)
 				.executeScript("document.getElementById('endDateFormControl').removeAttribute('readonly');");
 
-		driver.findElement(By.id("startDateFormControl")).sendKeys("22-12-2020");
-		driver.findElement(By.id("endDateFormControl")).sendKeys("23-12-2020");
+		driver.findElement(By.id("startDateFormControl")).sendKeys("12-11-2020");
+		driver.findElement(By.id("endDateFormControl")).sendKeys("12-12-2020");
 
 		//
 		driver.findElement(By.id("submitSearch")).click();
@@ -271,13 +271,13 @@ public class BlackboxTestsConsolidation {
 		driver.findElement(By.linkText("Edit")).click();
 		driver.findElement(By.id("fName")).click();
 		driver.findElement(By.id("fName")).clear();
-		driver.findElement(By.id("fName")).sendKeys("Administrator");
+		driver.findElement(By.id("fName")).sendKeys("Admin");
 		driver.findElement(By.id("fName")).sendKeys(Keys.ENTER);
 		driver.findElement(By.cssSelector(".dataRows")).click();
 
 		// Asserts that new name is updated
 		assertThat(driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[2]/td[2]")).getText(),
-				is("Administrator"));
+				is("Admin"));
 
 	}
 
@@ -425,10 +425,10 @@ public class BlackboxTestsConsolidation {
 		driver.findElement(By.id("passwordForm")).sendKeys("admin");
 		driver.findElement(By.cssSelector(".btn")).click();
 		driver.findElement(By.cssSelector(".roomNav3 > a")).click();
-		driver.findElement(By.cssSelector(".dataRows:nth-child(3) > td:nth-child(15) > a")).click();
+		driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[2]/td[15]/a")).click();
 		driver.findElement(By.cssSelector("label:nth-child(2) > input")).click();
 		driver.findElement(By.cssSelector(".btn-primary")).click();
-		assertEquals("true", driver.findElement(By.cssSelector(".dataRows:nth-child(3) > td:nth-child(7)")).getText());
+		assertEquals("true", driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[2]/td[7]")).getText());
 	}
 
 	// This test logs in with a customer account and attempts to click My Profile
@@ -536,12 +536,13 @@ public class BlackboxTestsConsolidation {
 		driver.findElement(By.cssSelector(".btn")).click();
 		driver.findElement(By.linkText("My Profile")).click();
 		driver.findElement(By.id("editBtn")).click();
+		driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 		driver.findElement(By.id("firstName")).getAttribute("value");
 		driver.findElement(By.id("firstName")).click();
 		driver.findElement(By.id("firstName")).sendKeys("ny");
 		driver.findElement(By.id("firstName")).click();
 		driver.findElement(By.id("saveEdit")).click();
-		driver.findElement(By.id("profFName")).getAttribute("value");
+		driver.findElement(By.id("profFName")).getAttribute("value"); 
 		assertEquals("Johnny", driver.findElement(By.id("profFName")).getAttribute("value"));
 	}
 }
